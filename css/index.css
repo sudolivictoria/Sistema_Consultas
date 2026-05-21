@@ -31,13 +31,13 @@
 }
 
 .icon-glow {
-    filter: drop-shadow(0 0 15px #018e66);
+    filter: drop-shadow(0 0 15px #01c18b);
 }
 
 .card-corner-accent {
     width: 120px;
     height: 120px;
-    background-color: #000829;
+    background-color: #000e4d;
     border-radius: 50%;
     position: absolute;
     transition: all 0.3s ease;
@@ -61,7 +61,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #1e3a8a;
+    background: #0c003f;
     border-radius: 10px;
     border: 2px solid #f1f5f9;
 }

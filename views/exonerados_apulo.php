@@ -19,7 +19,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary-azul": "#000829",
+                        "primary-azul": "#000e4d",
                         "primary-verde": "#002e21",
                         "accent-azul": "#007380",
                         "accent-verde": "#a7f3d0",
@@ -78,9 +78,9 @@
 
         <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
             <div class="overflow-x-auto custom-scrollbar">
-                <table id="tablaExonerados" class="w-full text-left border-collapse table-fixed">
+                <table id="tablaExonerados" class="w-full text-left border-collapse table-layout-fixed">
                     <thead class="bg-accent-verde-intenso/10">
-                        <tr class="text-primary-verde text-lg uppercase tracking-[0.25em] font-black">
+                        <tr class="text-primary-verde text-[16px] uppercase tracking-[0.25em] font-black">
                             <th class="w-[20%] px-10 py-6 border border-slate-200/50">DUI</th>
                             <th class="w-[50%] px-10 py-6 border border-slate-200/50">Nombre Completo</th>
                             <th class="w-[30%] px-10 py-6 border border-slate-200/50">Comunidad</th>
@@ -97,17 +97,17 @@
 
                                 //-------------------DUI-------------------
                                 echo '<td class="px-8 py-7 border border-slate-200/50">';
-                                echo '<span class="font-extrabold text-primary-azul text-lg tracking-tight block">' . htmlspecialchars($fila['dui']) . '</span>';
+                                echo '<span class="font-extrabold text-md tracking-tight block">' . htmlspecialchars($fila['dui']) . '</span>';
                                 echo '</td>';
 
                                 //-------------------NOMBRE-------------------
                                 echo '<td class="px-8 py-7 border border-slate-200/50">';
-                                echo '<span class="font-extrabold text-primary-azul text-lg tracking-tight block" title="' . htmlspecialchars($fila['nombre']) . '">' . htmlspecialchars($fila['nombre']) . '</span>';
+                                echo '<span class="font-extrabold text-md tracking-tight block" title="' . htmlspecialchars($fila['nombre']) . '">' . htmlspecialchars($fila['nombre']) . '</span>';
                                 echo '</td>';
 
                                 //-------------------COMUNIDAD-------------------
                                 echo '<td class="px-8 py-7 border border-slate-200/50">';
-                                echo '<span class="font-extrabold text-primary-azul text-lg tracking-tight block" title="' . htmlspecialchars($fila['comunidad']) . '">' . (!empty($fila['comunidad']) ? htmlspecialchars($fila['comunidad']) : 'No registrada') . '</span>';
+                                echo '<span class="font-extrabold text-md tracking-tight block" title="' . htmlspecialchars($fila['comunidad']) . '">' . (!empty($fila['comunidad']) ? htmlspecialchars($fila['comunidad']) : 'No registrada') . '</span>';
                                 echo '</td>';
 
                                 echo '</tr>';
