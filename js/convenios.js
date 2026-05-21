@@ -2,7 +2,7 @@ $(document).ready(function () {
   var table = $("#tablaConvenios").DataTable({
     ordering: true,
     info: true,
-    pageLength: 3,
+    pageLength: 5,
     language: {
       url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json",
       zeroRecords: `

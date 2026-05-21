@@ -46,11 +46,11 @@
         </div>
     </div>
 
-    <main class="relative z-10 pt-4 pb-4 px-4 max-w-[99vw] mx-auto w-full">
+    <main class="relative z-10 pt-16 pb-24 px-4 md:px-8 max-w-7xl mx-auto">
 
         <div class="mb-4 flex items-center justify-between gap-4 w-full">
             <div class="text-left">
-                <h1 class="text-3xl text-primary-azul font-black tracking-tight">
+                <h1 class="text-4xl text-primary-azul font-black tracking-tight">
                     Consulta de <span class="text-accent-verde-intenso">Convenios</span>
                 </h1>
             </div>
@@ -87,29 +87,29 @@
             </div>
         </div>
 
-        <div class="glass-card rounded-xl overflow-hidden shadow-lg w-full">
+        <div class="glass-card rounded-2xl overflow-hidden shadow-lg w-full">
             <div class="w-full">
-                <table id="tablaConvenios" class="w-full text-left border-collapse table-layout-fixed shadow-sm rounded-xl overflow-hidden border border-slate-200/60">
+                <table id="tablaConvenios" class="w-full text-left border-collapse table-layout-fixed shadow-sm rounded-2xl overflow-hidden border border-slate-200/60">
                     <thead>
                         <tr class="bg-accent-verde-intenso/10 text-primary-verde text-[13px] uppercase tracking-wider font-extrabold border-b border-slate-200">
-                            <th class="px-3 py-3.5 w-[5%] border-r border-slate-200/30 text-center">Referencia</th>
-                            <th class="px-4 py-3.5 w-[18%] border-r border-slate-200/30 text-left">Institución</th>
-                            <th class="px-2 py-3.5 w-[4%] border-r border-slate-200/30 text-center">Vigencia</th>
-                            <th class="px-4 py-3.5 w-[26%] border-r border-slate-200/30 text-left">Descripción</th>
-                            <th class="px-3 py-3.5 w-[7%] border-r border-slate-200/30 text-center">Suscripción</th>
-                            <th class="px-3 py-3.5 w-[7%] border-r border-slate-200/30 text-center">Vencimiento</th>
-                            <th class="px-3 py-3.5 w-[10%] border-r border-slate-200/30 text-center">Plazo</th>
+                            <th class="px-3 py-3.5 w-[7%] border-r border-slate-200/50text-center">Ref.</th>
+                            <th class="px-4 py-3.5 w-[18%] border-r border-slate-200/50 text-left">Institución</th>
+                            <th class="px-2 py-3.5 w-[4%] border-r border-slate-200/50 text-center">Vigencia</th>
+                            <th class="px-4 py-3.5 w-[24%] border-r border-slate-200/50 text-left">Descripción</th>
+                            <th class="px-3 py-3.5 w-[5%] border-r border-slate-200/50 text-center">Suscripción</th>
+                            <th class="px-3 py-3.5 w-[5%] border-r border-slate-200/50 text-center">Vencimiento</th>
+                            <th class="px-3 py-3.5 w-[14%] border-r border-slate-200/50 text-center">Plazo</th>
                             <th class="px-4 py-3.5 w-[23%] text-left">Comentario</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white/70 text-[12.5px] divide-y divide-slate-100">
+                    <tbody class="bg-white/70 text-[13px] divide-y divide-slate-100">
                         <?php
                         $sql = "SELECT referencia, institucion, vigencia, descripcion, suscripcion, plazo, vencimiento, comentario FROM convenios";
                         $resultado = $conexion->query($sql);
 
                         if ($resultado && $resultado->num_rows > 0) {
                             while ($fila = $resultado->fetch_assoc()) {
-                                echo '<tr class="hover:bg-accent-azul/5 transition-colors duration-150 group">';
+                                echo '<tr class="hover:bg-accent-azul/5 transition-colors duration-150 group text-[12.5px]">';
 
                                 //--referencia
                                 echo '<td class="px-3 py-3 text-primary-azul text-center leading-tight border-r border-b border-slate-200/50 font-extrabold bg-slate-50/40">' . htmlspecialchars($fila['referencia']) . '</td>';

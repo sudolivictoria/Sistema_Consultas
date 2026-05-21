@@ -54,7 +54,7 @@
                 <span class="inline-block bg-accent-azul/10 text-primary-azul px-5 py-1.5 rounded-full text-sm font-black tracking-widest uppercase mb-4 shadow-sm border border-primary-azul/10">
                     ISTU • APULO
                 </span>
-                <h1 class="text-4xl md:text-5xl text-[#05013B] font-black tracking-tight leading-tight">Consulta de <span class="text-accent-verde-intenso">Exonerados</span></h1>
+                <h1 class="text-4xl md:text-4xl text-[#05013B] font-black tracking-tight leading-tight">Consulta de <span class="text-accent-verde-intenso">Exonerados</span></h1>
             </div>
 
             <a href="../index.php" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-slate-600 bg-primary-verde text-white border border-slate-200 shadow-sm transition-all duration-300 hover:text-primary-verde hover:border-primary-verde/30 hover:bg-slate-50 hover:-translate-x-1 group">

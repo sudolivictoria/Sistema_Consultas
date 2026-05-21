@@ -23,7 +23,7 @@
                         "accent-azul": "#007380",
                         "surface": "#f9f9fc",
                         "on-surface": "#1a1c1e",
-                        "on-surface-variant": "#43474f",
+                        "on-surface-variant": "#0e131b",
                         "outline-variant": "#c3c6d1",
                         "surface-container": "#f0f2f5"
                     },
@@ -103,18 +103,18 @@
     <main class="w-full max-w-6xl mx-auto flex flex-col items-center">
         <!--Header Title-->
         <header class="mb-16 text-center">
-            <h1 class="font-headline-xl text-[40px] md:text-headline-xl hero-title mb-4 tracking-tight font-extrabold">
+            <h1 class="font-headline-2xl text-[40px] md:text-headline-xl hero-title mb-4 tracking-tight font-extrabold">
                 Sistema de Consultas ISTU
             </h1>
             <div class="h-1.5 w-24 bg-secondary mx-auto mb-6 rounded-full"></div>
-            <p class="font-body-lg text-body-md md:text-body-lg text-on-surface-variant max-w-xl mx-auto opacity-80">
+            <p class="font-body-lg text-body-md md:text-body-lg text-on-surface-variant max-w-xl mx-auto opacity-50">
                 Consulta y visualización de información institucional.
             </p>
         </header>
         <!-- Refined Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
             <!--Card Template-->
-            <a href="views/exonerados_apulo.php" class="group relative flex flex-col items-center p-10 min-h-[240px] bg-white rounded-2xl card-shadow border border-slate-200 transition-all duration-300 hover:border-secondary/50 hover:shadow-xl hover:-translate-y-2 overflow-hidden">
+            <a href="views/exonerados_apulo.php" class="group relative flex flex-col items-center p-10 min-h-[240px] bg-white rounded-2xl card-shadow border border-slate-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 overflow-hidden">
                 <!--Corners-->
                 <div class="card-corner-accent -top-10 -left-10"></div>
                 <div class="card-corner-accent -bottom-10 -right-10"></div>
@@ -125,7 +125,7 @@
                     <h2 class="font-headline-2xl text-2xl text-on-secondary mb-2 font-extrabold">EXONERADOS APULO</h2>
                 </div>
             </a>
-            <a href="views/convenios.php" class="group relative flex flex-col items-center p-10 min-h-[240px] bg-white rounded-2xl card-shadow border border-slate-200 transition-all duration-300 hover:border-secondary/50 hover:shadow-xl hover:-translate-y-2 overflow-hidden">
+            <a href="views/convenios.php" class="group relative flex flex-col items-center p-10 min-h-[240px] bg-white rounded-2xl card-shadow border border-slate-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 overflow-hidden">
                 <div class="card-corner-accent -top-10 -left-10"></div>
                 <div class="card-corner-accent -bottom-10 -right-10"></div>
                 <div class="mb-6 relative z-10">
