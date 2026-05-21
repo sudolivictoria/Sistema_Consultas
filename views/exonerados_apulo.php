@@ -97,17 +97,17 @@
 
                                 //-------------------DUI-------------------
                                 echo '<td class="px-8 py-7 border border-slate-200/50">';
-                                echo '<span class="font-extrabold text-primary-azul text-lg tracking-tight block truncate">' . htmlspecialchars($fila['dui']) . '</span>';
+                                echo '<span class="font-extrabold text-primary-azul text-lg tracking-tight block">' . htmlspecialchars($fila['dui']) . '</span>';
                                 echo '</td>';
 
                                 //-------------------NOMBRE-------------------
                                 echo '<td class="px-8 py-7 border border-slate-200/50">';
-                                echo '<span class="font-extrabold text-primary-azul text-lg tracking-tight block truncate" title="' . htmlspecialchars($fila['nombre']) . '">' . htmlspecialchars($fila['nombre']) . '</span>';
+                                echo '<span class="font-extrabold text-primary-azul text-lg tracking-tight block" title="' . htmlspecialchars($fila['nombre']) . '">' . htmlspecialchars($fila['nombre']) . '</span>';
                                 echo '</td>';
 
                                 //-------------------COMUNIDAD-------------------
                                 echo '<td class="px-8 py-7 border border-slate-200/50">';
-                                echo '<span class="font-extrabold text-primary-azul text-lg tracking-tight block truncate" title="' . htmlspecialchars($fila['comunidad']) . '">' . (!empty($fila['comunidad']) ? htmlspecialchars($fila['comunidad']) : 'No registrada') . '</span>';
+                                echo '<span class="font-extrabold text-primary-azul text-lg tracking-tight block" title="' . htmlspecialchars($fila['comunidad']) . '">' . (!empty($fila['comunidad']) ? htmlspecialchars($fila['comunidad']) : 'No registrada') . '</span>';
                                 echo '</td>';
 
                                 echo '</tr>';
