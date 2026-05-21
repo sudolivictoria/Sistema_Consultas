@@ -20,7 +20,7 @@
                     colors: {
                         "primary-azul": "#000e4d",
                         "primary-verde": "#002e21",
-                        "accent-azul": "#015760",
+                        "accent-azul": "#007380",
                         "accent-verde-intenso": "#047857"
                     },
                     fontFamily: {
@@ -105,7 +105,7 @@
 
                         if ($resultado && $resultado->num_rows > 0) {
                             while ($fila = $resultado->fetch_assoc()) {
-                                echo '<tr class="hover:bg-accent-azul/5 transition-colors duration-150 group text-[13.5px]">';
+                                echo '<tr class="hover:bg-accent-azul/5 transition-colors duration-300 group text-[13.5px]">';
 
                                 //--referencia
                                 echo '<td class="px-3 py-3 text-primary-azul text-center leading-tight border-r border-b border-slate-200/50 font-extrabold bg-slate-50/40">' . htmlspecialchars($fila['referencia']) . '</td>';
