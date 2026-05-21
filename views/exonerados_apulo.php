@@ -36,7 +36,7 @@
 
 <body class="font-body antialiased">
 
-<!---Preloader-->
+    <!---Preloader-->
     <div id="preloader"
         class="fixed inset-0 z-[9999] flex items-center justify-center bg-white transition-opacity duration-1000">
         <div class="flex flex-col items-center">
@@ -119,6 +119,10 @@
             </div>
         </div>
     </main>
+
+    <!-- Aesthetic Accents -->
+    <div class="fixed top-0 left-0 w-full h-1.5 bg-accent-verde-intenso z-50"></div>
+    <div class="fixed bottom-0 left-0 w-full h-1.5 bg-primary-azul z-50"></div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>

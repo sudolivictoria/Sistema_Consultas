@@ -158,6 +158,11 @@
         </div>
     </main>
 
+    <!-- Aesthetic Accents -->
+    <div class="fixed top-0 left-0 w-full h-1.5 bg-accent-verde-intenso z-50"></div>
+    <div class="fixed bottom-0 left-0 w-full h-1.5 bg-primary-azul z-50"></div>
+
+    <!-- Modal de Detalle -->
     <div id="modalDetalle" class="fixed inset-0 z-[10000] hidden flex items-center justify-center px-4 overflow-hidden">
         <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300" id="cerrarModalFondo"></div>
 
@@ -177,11 +182,13 @@
 
             <div class="p-6 overflow-y-auto space-y-5 text-slate-700 text-sm">
 
+                <!--institución u organismo-->
                 <div class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl">
                     <span class="text-[12px] font-black uppercase tracking-wider text-accent-azul block mb-1">Institución u Organismo</span>
                     <p id="m-inst" class="text-base font-black text-primary-azul leading-snug">---</p>
                 </div>
 
+                <!--vigencia, suscripción, vencimiento, plazo-->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <div class="border border-slate-100 p-3 rounded-xl bg-slate-50/50">
                         <span class="text-[12px] font-black uppercase text-accent-azul block mb-1">Estado</span>
@@ -201,6 +208,7 @@
                     </div>
                 </div>
 
+                <!--descripción del convenio y comentarios-->
                 <div class="space-y-1.5">
                     <span class="text-[12px] font-black uppercase tracking-wider text-accent-azul block">Descripción del Convenio u Objeto</span>
                     <div id="m-desc" class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[13.5px] max-h-40 overflow-y-auto whitespace-pre-line">
@@ -229,5 +237,4 @@
     <script src="../js/preloader.js"></script>
     <script src="../js/convenios.js"></script>
 </body>
-
 </html>
