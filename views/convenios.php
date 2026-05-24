@@ -211,14 +211,14 @@
                 <!--descripción del convenio y comentarios-->
                 <div class="space-y-1.5">
                     <span class="text-[12px] font-black uppercase tracking-wider text-accent-azul block">Descripción del Convenio u Objeto</span>
-                    <div id="m-desc" class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[14px] max-h-40 overflow-y-auto whitespace-pre-line">
+                    <div id="m-desc" class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[16px] max-h-40 overflow-y-auto whitespace-pre-line">
                         ---
                     </div>
                 </div>
 
                 <div class="space-y-1.5">
                     <span class="text-[12px] font-black uppercase tracking-wider text-accent-azul block">Comentarios y Aclaraciones Adicionales</span>
-                    <div id="m-com" class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[14px] whitespace-pre-line">
+                    <div id="m-com" class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[16px] whitespace-pre-line">
                         ---
                     </div>
                 </div>
