@@ -43,7 +43,7 @@
             <div class="h-16 w-16 animate-spin rounded-full border-4 border-slate-200 border-t-primary-azul"></div>
 
             <p class="mt-4 text-sm font-black uppercase tracking-widest text-accent-azul animate-pulse">
-                Cargando sistema...
+                Cargando...
             </p>
         </div>
     </div>
