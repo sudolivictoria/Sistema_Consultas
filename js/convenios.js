@@ -21,7 +21,8 @@ $(function () {
       infoEmpty: "0 registros",
       paginate: {
         next: '<span class="material-symbols-outlined text-[18px] leading-none">chevron_right</span>',
-        previous: '<span class="material-symbols-outlined text-[18px] leading-none">chevron_left</span>',
+        previous:
+          '<span class="material-symbols-outlined text-[18px] leading-none">chevron_left</span>',
       },
     },
     dom: 'rt<"flex flex-row items-center justify-between px-4 py-3 border-t border-slate-200 bg-slate-50 text-xs gap-4"ip>',
@@ -32,26 +33,37 @@ $(function () {
     table.search(this.value).draw();
   });
 
-  //----filtro de vigencia----------
-  $(".filtro-vigencia").on("click", function () {
-    var valorFiltro = $(this).data("filter");
-    
-    $(".filtro-vigencia")
+  $; //---- Filtros Globales (Vigencia, Exoneración, Promoción) ----------
+  $(".btn-filtro-global").on("click", function () {
+    var tipo = $(this).data("tipo"); // 'todos', 'vigencia', o 'exprom'
+
+    // 1. Limpiar colores de TODOS los botones
+    $(".btn-filtro-global")
       .removeClass("bg-primary-azul text-white shadow-sm")
-      .addClass("text-slate-900");
-      
+      .addClass("text-slate-600");
+
+    // 2. Pintar solo el botón clickeado
     $(this)
       .addClass("bg-primary-azul text-white shadow-sm")
-      .removeClass("text-slate-900");
+      .removeClass("text-slate-600");
 
-    if (valorFiltro === "TODOS") {
-      table.column(2).search("").draw();
-    } else {
-      table
-        .column(2)
-        .search("^" + valorFiltro + "$", true, false)
-        .draw();
+    // 3. Limpiar SIEMPRE las 3 columnas de filtro en DataTables por precaución
+    table.column(2).search(""); // Columna Vigencia
+    table.column(6).search(""); // Columna Exoneración
+    table.column(7).search(""); // Columna Promoción
+
+    // 4. Aplicar el filtro correspondiente según el botón
+    if (tipo === "vigencia") {
+      var valor = $(this).data("val");
+      table.column(2).search("^" + valor + "$", true, false);
+    } else if (tipo === "exprom") {
+      var columna = $(this).data("col");
+      table.column(columna).search("^SI$", true, false);
     }
+    // Si el tipo es "todos", no hacemos nada extra porque ya limpiamos arriba.
+
+    // 5. Redibujar la tabla con los nuevos datos
+    table.draw();
   });
 
   //------modal detalle convenio------
@@ -60,35 +72,39 @@ $(function () {
 
     //----data attributes-----
     $("#m-ref").text(button.data("ref"));
-    $("#m-inst").text(button.data("inst"));
-    $("#m-sus").text(button.data("sus"));
-    $("#m-ven").text(button.data("ven"));
-    $("#m-plazo").text(button.data("plazo"));
-    $("#m-desc").text(
-      button.data("desc") ? button.data("desc") : "No se ha registrado una descripción detallada."
-    );
 
-    //---comentarios vacios-----
-    if (button.data("com") && button.data("com").trim() !== "") {
-      $("#m-com")
-        .text(button.data("com"))
-        .removeClass("not-italic text-slate-400");
+
+     //---descripcion-----
+    const descText = button.data("desc");
+    if (descText && descText.trim() !== "") {
+        $("#m-desc").html(descText); // Usamos .html() por si decides meter formato luego
     } else {
-      $("#m-com")
-        .text("SIN COMENTARIOS O ACLARACIONES ADICIONALES.")
-        .addClass("not-italic text-slate-400");
+        $("#m-desc").html('<span class="inline-flex items-center gap-1.5 px-1 py-1 text-slate-500 font-bold text-xs"><span class="material-symbols-outlined !text-sm">block</span> No cuenta con descripción</span>');
     }
 
-    //-----vigencia con estilos adicionales-----
-    const vigencia = button.data("vig");
-    if (vigencia === "SI") {
-      $("#m-vig").html(
-        '<span class="inline-block px-2.5 py-0.5 text-xs font-black rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">VIGENTE</span>'
-      );
+
+    //---exoneracion-----
+    const exText = button.data("ex");
+    if (exText && exText.trim() !== "") {
+        $("#m-ex").html(exText); // Usamos .html() por si decides meter formato luego
     } else {
-      $("#m-vig").html(
-        '<span class="inline-block px-2.5 py-0.5 text-xs font-black rounded-md bg-rose-50 text-rose-700 border border-rose-200">NO VIGENTE</span>'
-      );
+        $("#m-ex").html('<span class="inline-flex items-center gap-1.5 px-1 py-1 text-slate-500 font-bold text-xs"><span class="material-symbols-outlined !text-sm">block</span> No cuenta con exoneración</span>');
+    }
+
+    //---promocion-----
+    const promText = button.data("prom");
+    if (promText && promText.trim() !== "") {
+        $("#m-prom").html(promText);
+    } else {
+        $("#m-prom").html('<span class="inline-flex items-center gap-1.5 px-1 py-1 text-slate-500 font-bold text-xs"><span class="material-symbols-outlined !text-sm">block</span> No cuenta con promoción</span>');
+    }
+
+    //---commetarios-----
+    const comText = button.data("com");
+    if (comText && comText.trim() !== "") {
+        $("#m-com").text(comText);
+    } else {
+         $("#m-com").html('<span class="inline-flex items-center gap-1.5 px-1 py-1 text-slate-500 font-bold text-xs"><span class="material-symbols-outlined !text-sm">block</span> No cuenta con comentarios</span>');
     }
 
     //----show modal-----
@@ -99,12 +115,17 @@ $(function () {
   //----close modal-----
   function cerrarModal() {
     $("#modalDetalle").addClass("hidden").removeClass("flex");
+    $("body").removeClass("overflow-hidden");
   }
 
   //---close modal buttons---
-  $(document).on("click", "#btnCerrarX, #btnCerrarFooter, #cerrarModalFondo", function () {
-    cerrarModal();
-  });
+  $(document).on(
+    "click",
+    "#btnCerrarX, #btnCerrarFooter, #cerrarModalFondo",
+    function () {
+      cerrarModal();
+    },
+  );
 
   //----close modal with Escape key---
   $(document).on("keydown", function (e) {

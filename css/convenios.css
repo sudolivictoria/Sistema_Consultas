@@ -89,3 +89,17 @@
  ::-webkit-scrollbar-thumb:hover {
      background: #047857;
  }
+
+ /*evitar desborde*/
+ <style>
+        /* Forzar a la tabla a no superar el 100% de su contenedor */
+        #tablaConvenios {
+            width: 100% !important;
+            table-layout: fixed !important;
+        }
+
+        /* Ocultar el scroll X en el wrapper de DataTables */
+        #tablaConvenios_wrapper {
+            overflow-x: hidden !important;
+        }
+    </style>
