@@ -104,7 +104,7 @@
         <!--Header Title-->
         <header class="mb-16 text-center">
             <h1 class="font-headline-2xl text-[40px] md:text-headline-xl hero-title mb-4 tracking-tight font-extrabold">
-                Sistema de Consultas ISTU
+                Plataforma de Consultas ISTU
             </h1>
             <div class="h-1.5 w-24 bg-secondary mx-auto mb-6 rounded-full"></div>
             <p class="font-body-lg text-body-md md:text-body-lg text-on-surface-variant max-w-xl mx-auto opacity-50">
