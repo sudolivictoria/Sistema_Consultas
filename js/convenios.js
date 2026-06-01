@@ -1,5 +1,5 @@
 $(function () {
-  //---configuracion datatable---
+  // ---configuracion datatable---
   var table = $("#tablaConvenios").DataTable({
     ordering: true,
     info: true,
@@ -28,29 +28,29 @@ $(function () {
     dom: 'rt<"flex flex-row items-center justify-between px-4 py-3 border-t border-slate-200 bg-slate-50 text-xs gap-4"ip>',
   });
 
-  //---buscador personalizado---
+  // ---buscador personalizado---
   $("#buscadorCustom").on("keyup", function () {
     table.search(this.value).draw();
   });
 
-  $; //---- Filtros Globales (Vigencia, Exoneración, Promoción) ----------
+  // ---- Filtros Globales (Vigencia, Exoneración, Promoción) ----------
   $(".btn-filtro-global").on("click", function () {
-    var tipo = $(this).data("tipo"); // 'todos', 'vigencia', o 'exprom'
+    var tipo = $(this).data("tipo");
 
-    // 1. Limpiar colores de TODOS los botones
+    // ----limpiar colores de TODOS los botones----
     $(".btn-filtro-global")
       .removeClass("bg-primary-azul text-white shadow-sm")
       .addClass("text-slate-600");
 
-    // 2. Pintar solo el botón clickeado
+    // ---pintar solo el botón clickeado----
     $(this)
       .addClass("bg-primary-azul text-white shadow-sm")
       .removeClass("text-slate-600");
 
-    // 3. Limpiar SIEMPRE las 3 columnas de filtro en DataTables por precaución
-    table.column(2).search(""); // Columna Vigencia
-    table.column(6).search(""); // Columna Exoneración
-    table.column(7).search(""); // Columna Promoción
+    // ---limpiar las 3 columnas de filtro en DataTables por precaución----
+    table.column(2).search(""); // ----Vigencia
+    table.column(6).search(""); // ---Columna Exoneración
+    table.column(7).search(""); // ----Columna Promoción
 
     // 4. Aplicar el filtro correspondiente según el botón
     if (tipo === "vigencia") {
@@ -60,77 +60,104 @@ $(function () {
       var columna = $(this).data("col");
       table.column(columna).search("^SI$", true, false);
     }
-    // Si el tipo es "todos", no hacemos nada extra porque ya limpiamos arriba.
-
-    // 5. Redibujar la tabla con los nuevos datos
+    // ----redibujar la tabla con los nuevos datos
     table.draw();
   });
 
-  //------modal detalle convenio------
+  // ==========================================================================
+  // -----------------verificar si el modal esta abierto--------------------
+  // ==========================================================================
+  const estadoModal = localStorage.getItem("modalDetalleEstado");
+  if (estadoModal === "abierto") {
+    const ref = localStorage.getItem("modal_ref");
+    const desc = localStorage.getItem("modal_desc");
+    const ex = localStorage.getItem("modal_ex");
+    const prom = localStorage.getItem("modal_prom");
+    const com = localStorage.getItem("modal_com");
+
+    $("#m-ref").text(ref || "---");
+    gestionarBloque("#padre-desc", "#m-desc", desc);
+    gestionarBloque("#padre-ex", "#m-ex", ex);
+    gestionarBloque("#padre-prom", "#m-prom", prom);
+    gestionarBloque("#padre-com", "#m-com", com);
+
+    //-------------forzar apertura del modal retenido----------------------------
+    $("#modalDetalle").removeClass("hidden").addClass("flex");
+    $("body").addClass("overflow-hidden");
+  }
+
+  // ----------------------------modal detalle convenio----------------------------------
   $(document).on("click", ".btn-detalle", function () {
     const button = $(this);
 
-    //----data attributes-----
-    $("#m-ref").text(button.data("ref"));
+    //************recolectar datos*****************/
+    const refText = button.data("ref") || "---";
+    const descText = button.data("desc") || "";
+    const exText = button.data("ex") || "";
+    const promText = button.data("prom") || "";
+    const comText = button.data("com") || "";
 
+    // ==========================================================================
+    // ----------guardar datos actuales en la memoria del navegador--------------
+    // ==========================================================================
+    localStorage.setItem("modalDetalleEstado", "abierto");
+    localStorage.setItem("modal_ref", refText);
+    localStorage.setItem("modal_desc", descText);
+    localStorage.setItem("modal_ex", exText);
+    localStorage.setItem("modal_prom", promText);
+    localStorage.setItem("modal_com", comText);
 
-     //---descripcion-----
-    const descText = button.data("desc");
-    if (descText && descText.trim() !== "") {
-        $("#m-desc").html(descText); // Usamos .html() por si decides meter formato luego
-    } else {
-        $("#m-desc").html('<span class="inline-flex items-center gap-1.5 px-1 py-1 text-slate-500 font-bold text-xs"><span class="material-symbols-outlined !text-sm">block</span> No cuenta con descripción</span>');
-    }
+    //----Inyectar datos en la vista usando la función optimizada-----
+    $("#m-ref").text(refText);
+    gestionarBloque("#padre-desc", "#m-desc", descText);
+    gestionarBloque("#padre-ex", "#m-ex", exText);
+    gestionarBloque("#padre-prom", "#m-prom", promText);
+    gestionarBloque("#padre-com", "#m-com", comText);
 
-
-    //---exoneracion-----
-    const exText = button.data("ex");
-    if (exText && exText.trim() !== "") {
-        $("#m-ex").html(exText); // Usamos .html() por si decides meter formato luego
-    } else {
-        $("#m-ex").html('<span class="inline-flex items-center gap-1.5 px-1 py-1 text-slate-500 font-bold text-xs"><span class="material-symbols-outlined !text-sm">block</span> No cuenta con exoneración</span>');
-    }
-
-    //---promocion-----
-    const promText = button.data("prom");
-    if (promText && promText.trim() !== "") {
-        $("#m-prom").html(promText);
-    } else {
-        $("#m-prom").html('<span class="inline-flex items-center gap-1.5 px-1 py-1 text-slate-500 font-bold text-xs"><span class="material-symbols-outlined !text-sm">block</span> No cuenta con promoción</span>');
-    }
-
-    //---commetarios-----
-    const comText = button.data("com");
-    if (comText && comText.trim() !== "") {
-        $("#m-com").text(comText);
-    } else {
-         $("#m-com").html('<span class="inline-flex items-center gap-1.5 px-1 py-1 text-slate-500 font-bold text-xs"><span class="material-symbols-outlined !text-sm">block</span> No cuenta con comentarios</span>');
-    }
-
-    //----show modal-----
+    // ----show modal-----
     $("#modalDetalle").removeClass("hidden").addClass("flex");
-    $("body").addClass("overflow-hidden"); //---evitar scroll del fondo al abrir el modal
+    $("body").addClass("overflow-hidden"); // ---evitar scroll del fondo
   });
+});
 
-  //----close modal-----
-  function cerrarModal() {
-    $("#modalDetalle").addClass("hidden").removeClass("flex");
-    $("body").removeClass("overflow-hidden");
+//----------FUNCION PARA MOSTRAR U OCULTAR UN BLOQUE------------
+function gestionarBloque(idPadre, idHijo, texto) {
+  if (texto && texto.trim() !== "") {
+    $(idHijo).html(texto);
+    $(idPadre).show();
+  } else {
+    $(idPadre).hide();
   }
+}
 
-  //---close modal buttons---
-  $(document).on(
-    "click",
-    "#btnCerrarX, #btnCerrarFooter, #cerrarModalFondo",
-    function () {
-      cerrarModal();
-    },
-  );
+// ----close modal-----
+function cerrarModal() {
+  $("#modalDetalle").addClass("hidden").removeClass("flex");
+  $("body").removeClass("overflow-hidden");
 
-  //----close modal with Escape key---
-  $(document).on("keydown", function (e) {
-    if (e.key === "Escape") {
-      cerrarModal();
-    }
-  });
+  // ==========================================================================
+  // ------------------limpiar memoria-----------------------------------------
+  // ==========================================================================
+  localStorage.removeItem("modalDetalleEstado");
+  localStorage.removeItem("modal_ref");
+  localStorage.removeItem("modal_desc");
+  localStorage.removeItem("modal_ex");
+  localStorage.removeItem("modal_prom");
+  localStorage.removeItem("modal_com");
+}
+
+// ---close modal buttons---
+$(document).on(
+  "click",
+  "#btnCerrarX, #btnCerrarFooter, #cerrarModalFondo",
+  function () {
+    cerrarModal();
+  }
+);
+
+// ----close modal with Escape key---
+$(document).on("keydown", function (e) {
+  if (e.key === "Escape") {
+    cerrarModal();
+  }
 });

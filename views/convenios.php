@@ -72,7 +72,7 @@
 
             <!--filtros-->
             <div class="glass-card p-1 rounded-xl flex flex-wrap items-center gap-1 border border-slate-200 shadow-sm bg-white">
-                <button data-tipo="todos" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold transition-all duration-200 bg-primary-azul text-white shadow-sm">
+                <button data-tipo="todos" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold transition-all duration-200 bg-primary-azul text-white shadow-sm hover:text-yellow-700 hover:bg-yellow-50 transition-all duration-200"">
                     Todos
                 </button>
                 <button data-tipo="vigencia" data-val="SI" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 transition-all duration-200">
@@ -194,42 +194,47 @@
 
             <div class="p-6 overflow-y-auto space-y-5 text-slate-700 text-sm">
 
-                <!--descripción del convenio-->
-                <div class="space-y-1.5">
-                    <span class="text-[14px] font-black uppercase tracking-wider text-accent-azul block">Descripción del Convenio</span>
-                    <div id="m-desc" class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[13px] max-h-40 overflow-y-auto whitespace-pre-line">
+                <!----descripcion---->
+                <div id="padre-desc" class="space-y-1.5">
+                    <span class="text-[14px] font-black uppercase tracking-wider text-accent-azul flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[18px] text-accent-azul">description</span>
+                        Descripción del Convenio
+                    </span>
+                    <div id="m-desc" class="bg-slate-50 border border-dashed border-slate-300 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[13px] max-h-40 overflow-y-auto whitespace-pre-line">
                         ---
                     </div>
                 </div>
 
-                <!--exoneracion del convenio y promocion-->
-                <div class="space-y-1.5">
-                    <span class="text-[14px] font-black uppercase tracking-wider text-accent-azul block">Exoneración</span>
-                    <div id="m-ex" class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[13px] max-h-40 overflow-y-auto whitespace-pre-line">
+                <!----exoneracion---->
+                <div id="padre-ex" class="space-y-1.5">
+                    <span class="text-[14px] font-black uppercase tracking-wider text-accent-azul flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[18px] text-accent-azul">money_off</span>
+                        Exoneración
+                    </span>
+                    <div id="m-ex" class="bg-slate-50 border border-dashed border-slate-300 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[13px] max-h-40 overflow-y-auto whitespace-pre-line">
                         ---
                     </div>
                 </div>
 
-                <div class="space-y-1.5">
-                    <span class="text-[14px] font-black uppercase tracking-wider text-accent-azul block">Promoción</span>
-                    <div id="m-prom" class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[13px] whitespace-pre-line">
+                <div id="padre-prom" class="space-y-1.5">
+                    <span class="text-[14px] font-black uppercase tracking-wider text-accent-azul flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[18px] text-accent-azul">campaign</span>
+                        Promoción
+                    </span>
+                    <div id="m-prom" class="bg-slate-50 border border-dashed border-slate-300 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[13px] whitespace-pre-line">
                         ---
                     </div>
                 </div>
 
-                <!--comentario-->
-                <div class="space-y-1.5">
-                    <span class="text-[14px] font-black uppercase tracking-wider text-accent-azul block">Comentarios y Aclaraciones Adicionales</span>
-                    <div id="m-com" class="bg-slate-50 border border-slate-200/60 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[13px] whitespace-pre-line">
+                <div id="padre-com" class="space-y-1.5">
+                    <span class="text-[14px] font-black uppercase tracking-wider text-accent-azul flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[18px] text-accent-azul">chat_bubble</span>
+                        Comentarios y Aclaraciones Adicionales
+                    </span>
+                    <div id="m-com" class="bg-slate-50 border border-dashed border-slate-300 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[13px] whitespace-pre-line">
                         ---
                     </div>
                 </div>
-            </div>
-
-            <div class="bg-slate-50 px-6 py-2 border-t border-slate-100 flex justify-end shrink-0">
-                <button id="btnCerrarFooter" class="px-5 py-2 text-sm font-bold bg-primary-verde hover:bg-accent-verde-intenso/70 text-white rounded-xl transition-all shadow-sm focus:outline-none">
-                    Cerrar Ventana
-                </button>
             </div>
         </div>
     </div>
