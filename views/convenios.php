@@ -48,7 +48,7 @@
 
         <div class="mb-4 flex items-center justify-between gap-4 w-full">
             <div class="text-left">
-                <h1 class="text-4xl text-primary-azul font-black tracking-tight">
+                <h1 class="text-3xl md:text-4xl text-primary-azul font-black tracking-tight">
                     Consulta de <span class="text-accent-verde-intenso">Convenios</span>
                 </h1>
             </div>
