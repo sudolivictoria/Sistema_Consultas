@@ -37,13 +37,6 @@
      display: none !important;
  }
 
-
- .dataTables_info {
-     color: #475569 !important;
-     font-size: 0.875rem !important;
-     font-weight: 500;
- }
-
  .dataTables_paginate .paginate_button {
      padding: 0.4rem 1.1rem !important;
      border-radius: 14px !important;
@@ -90,16 +83,24 @@
      background: #047857;
  }
 
- /*evitar desborde*/
- <style>
-        /* Forzar a la tabla a no superar el 100% de su contenedor */
-        #tablaConvenios {
-            width: 100% !important;
-            table-layout: fixed !important;
-        }
+ #tablaConvenios {
+     width: 100% !important;
+     table-layout: auto !important;
+ }
 
-        /* Ocultar el scroll X en el wrapper de DataTables */
-        #tablaConvenios_wrapper {
-            overflow-x: hidden !important;
-        }
-    </style>
+ #tablaConvenios_wrapper {
+     overflow-x: auto !important;
+ }
+
+ .dataTables_info {
+     display: none !important;
+ }
+
+ @media (min-width: 768px) {
+     .dataTables_info {
+         display: block !important;
+         color: #475569 !important;
+         font-size: 0.875rem !important;
+         font-weight: 500;
+     }
+ }

@@ -1,9 +1,9 @@
 $(function () {
-  // ---configuracion datatable---
   var table = $("#tablaConvenios").DataTable({
     ordering: true,
     info: true,
     pageLength: 5,
+    pagingType: "simple",
     language: {
       url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json",
       zeroRecords: `
@@ -152,7 +152,7 @@ $(document).on(
   "#btnCerrarX, #btnCerrarFooter, #cerrarModalFondo",
   function () {
     cerrarModal();
-  }
+  },
 );
 
 // ----close modal with Escape key---

@@ -1,6 +1,7 @@
 $(document).ready(function () {
   var table = $("#tablaExonerados").DataTable({
     ordering: false,
+    pagingType: "simple",
     language: {
       url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json",
       processing: "Procesando...",
@@ -18,9 +19,9 @@ $(document).ready(function () {
       infoFiltered: "(filtrado de un total de _MAX_ registros)",
       infoEmpty: "Mostrando 0 registros",
       paginate: {
-        next: '<span class="material-symbols-outlined text-[20px] leading-none">chevron_right</span>',
+        next: '<span class="material-symbols-outlined text-[18px] leading-none">chevron_right</span>',
         previous:
-          '<span class="material-symbols-outlined text-[20px] leading-none">chevron_left</span>',
+          '<span class="material-symbols-outlined text-[18px] leading-none">chevron_left</span>',
       },
     },
     dom: 'rt<"flex flex-col md:flex-row items-center justify-between px-10 py-8 gap-4"ip>',

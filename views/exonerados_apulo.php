@@ -78,8 +78,8 @@
         </div>
 
         <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
-            <div class="overflow-x-auto custom-scrollbar">
-                <table id="tablaExonerados" class="w-full text-left border-collapse table-layout-fixed">
+            <div class="w-full overflow-x-auto custom-scrollbar">
+                <table id="tablaExonerados" class="w-full min-w-[850px] text-left border-collapse">
                     <thead class="bg-accent-verde-intenso/10">
                         <tr class="text-primary-verde text-[16px] uppercase tracking-[0.25em] font-black">
                             <th class="w-[20%] px-10 py-6 border border-slate-200/50">DUI</th>

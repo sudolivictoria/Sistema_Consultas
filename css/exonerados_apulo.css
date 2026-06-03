@@ -32,11 +32,6 @@
       display: none !important;
   }
 
-  .dataTables_info {
-      color: #64748b !important;
-      font-size: 0.875rem !important;
-  }
-
   .dataTables_paginate .paginate_button {
       padding: 0.4rem 1.1rem !important;
       border-radius: 14px !important;
@@ -81,4 +76,18 @@
 
   ::-webkit-scrollbar-thumb:hover {
       background: #047857;
+  }
+
+  .dataTables_info {
+      display: none !important;
+  }
+
+  @media (min-width: 768px) {
+      .dataTables_info {
+          display: block !important;
+          color: #475569 !important;
+          font-size: 0.875rem !important;
+          font-weight: 500;
+          margin-top: 8px;
+      }
   }

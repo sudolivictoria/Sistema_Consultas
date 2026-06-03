@@ -92,8 +92,8 @@
         </div>
 
         <div class="glass-card rounded-2xl overflow-hidden shadow-lg w-full bg-white">
-            <div class="w-full overflow-x-auto">
-                <table id="tablaConvenios" class="w-full text-left border-collapse table-layout-fixed">
+            <div class="w-full overflow-x-auto custom-scrollbar">
+                <table id="tablaConvenios" class="w-full min-w-[850px] text-left border-collapse">
                     <thead>
                         <tr class="bg-accent-verde-intenso/10 text-primary-verde text-[13.5px] uppercase tracking-wider font-extrabold border-b border-slate-200">
                             <th class="px-3 py-3.5 w-[7%] border-r border-slate-200/50 text-center">Ref.</th>
