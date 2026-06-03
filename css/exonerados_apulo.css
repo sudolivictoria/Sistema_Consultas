@@ -78,16 +78,27 @@
       background: #047857;
   }
 
-  .dataTables_info {
-      display: none !important;
-  }
+.dataTables_info, 
+.dataTables_paginate {
+    float: none !important;
+    padding-top: 0 !important;
+    margin: 0 !important;
+}
 
-  @media (min-width: 768px) {
-      .dataTables_info {
-          display: block !important;
-          color: #475569 !important;
-          font-size: 0.875rem !important;
-          font-weight: 500;
-          margin-top: 8px;
-      }
-  }
+.dataTables_info {
+    display: none !important;
+}
+
+@media (min-width: 768px) {
+    .dataTables_info {
+        display: block !important;
+        color: #475569 !important;
+        font-size: 0.875rem !important;
+        font-weight: 500 !important;
+    }
+}
+
+.dataTables_paginate {
+    display: flex !important;
+    align-items: center !important;
+}
