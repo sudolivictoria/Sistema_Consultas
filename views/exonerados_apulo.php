@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="../css/exonerados_apulo.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="../images/logo.png" />
 
     <script id="tailwind-config">
         tailwind.config = {

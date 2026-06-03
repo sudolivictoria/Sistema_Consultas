@@ -5,11 +5,12 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Sistema de Consultas - Dashboard</title>
+    <title>- Dashboard Principal</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
     <link href="css/index.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="images/logo.png" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
