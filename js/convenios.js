@@ -5,7 +5,9 @@ $(function () {
     pageLength: 5,
     pagingType: "simple",
     language: {
-      url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json",
+      processing: "Procesando...",
+      lengthMenu: "Mostrar _MENU_ registros",
+      search: "Buscar:",
       zeroRecords: `
         <div class="flex flex-col items-center justify-center py-12">
             <span class="material-symbols-outlined text-5xl text-slate-300 mb-3">search_off</span>

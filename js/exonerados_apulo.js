@@ -3,7 +3,8 @@ $(document).ready(function () {
     ordering: false,
     pagingType: "simple",
     language: {
-      url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json",
+      lengthMenu: "Mostrar _MENU_ registros",
+      search: "Buscar:",
       processing: "Procesando...",
       zeroRecords: `
                     <div class="flex flex-col items-center justify-center py-10">
