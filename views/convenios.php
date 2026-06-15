@@ -76,7 +76,7 @@
                 <button data-tipo="todos" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold transition-all duration-200 bg-primary-azul text-white shadow-sm hover:text-yellow-700 hover:bg-yellow-50 transition-all duration-200"">
                     Todos
                 </button>
-                <button data-tipo="vigencia" data-val="SI" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 transition-all duration-200">
+                <button data-tipo=" vigencia" data-val="SI" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 transition-all duration-200">
                     Vigentes
                 </button>
                 <button data-tipo="vigencia" data-val="NO" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-rose-700 hover:bg-rose-50 transition-all duration-200">
@@ -95,7 +95,7 @@
             <div class="w-full overflow-x-auto custom-scrollbar">
                 <table id="tablaConvenios" class="w-full min-w-[850px] text-left border-collapse">
                     <thead>
-                        <tr class="bg-accent-verde-intenso/10 text-primary-verde text-[13.5px] uppercase tracking-wider font-extrabold border-b border-slate-200">
+                        <tr class="bg-accent-verde-intenso/5 text-primary-verde text-[13.5px] uppercase tracking-wider font-extrabold border-b border-slate-200">
                             <th class="px-3 py-3.5 w-[7%] border-r border-slate-200/50 text-center">Ref.</th>
                             <th class="px-4 py-3.5 w-[34%] border-r border-slate-200/50 text-left">Institución</th>
                             <th class="px-2 py-3.5 w-[9%] border-r border-slate-200/50 text-center">Vigencia</th>
@@ -151,7 +151,7 @@
                                 //--acción (data-attributes para el modal)
                                 echo '<td class="px-4 py-3 text-center border-b border-slate-200/50">';
                                 echo '  <button type="button" 
-                                            class="btn-detalle inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-accent-azul hover:bg-primary-azul transition-all duration-300 shadow-sm focus:outline-none"
+                                            class="btn-detalle inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-accent-verde-intenso hover:bg-primary-verde transition-all duration-300 shadow-sm focus:outline-none"
                                             data-ref="' . htmlspecialchars($fila['referencia']) . '"
                                             data-desc="' . htmlspecialchars($fila['descripcion']) . '"
                                             data-ex="' . htmlspecialchars($fila['exoneracion_desc']) . '"
@@ -193,49 +193,43 @@
                 </button>
             </div>
 
-            <div class="p-6 overflow-y-auto space-y-5 text-slate-700 text-sm">
-
-                <!----descripcion---->
-                <div id="padre-desc" class="space-y-1.5">
-                    <span class="text-[14px] font-black uppercase tracking-wider text-accent-azul flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-[18px] text-accent-azul">description</span>
+            <div class="p-6 overflow-y-auto space-y-8 text-slate-700">
+                <div id="padre-desc" class="space-y-2">
+                    <h3 class="text-sm font-bold text-primary-azul flex items-center gap-2">
+                        <span class="material-symbols-outlined text-lg text-primary-azul">description</span>
                         Descripción del Convenio
-                    </span>
-                    <div id="m-desc" class="bg-slate-50 border border-dashed border-slate-300 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[13px] max-h-40 overflow-y-auto whitespace-pre-line">
-                        ---
+                    </h3>
+                    <div id="m-desc" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-600 text-sm max-h-40 overflow-y-auto">
                     </div>
                 </div>
 
-                <!----exoneracion---->
-                <div id="padre-ex" class="space-y-1.5">
-                    <span class="text-[14px] font-black uppercase tracking-wider text-accent-azul flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-[18px] text-accent-azul">money_off</span>
+                <div id="padre-ex" class="space-y-2">
+                    <h3 class="text-sm font-bold text-primary-azul flex items-center gap-2">
+                        <span class="material-symbols-outlined text-lg text-primary-azul">money_off</span>
                         Exoneración
-                    </span>
-                    <div id="m-ex" class="bg-slate-50 border border-dashed border-slate-300 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[13px] max-h-40 overflow-y-auto whitespace-pre-line">
-                        ---
+                    </h3>
+                    <div id="m-ex" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-600 text-sm max-h-40 overflow-y-auto">
                     </div>
                 </div>
 
-                <div id="padre-prom" class="space-y-1.5">
-                    <span class="text-[14px] font-black uppercase tracking-wider text-accent-azul flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-[18px] text-accent-azul">campaign</span>
+                <div id="padre-prom" class="space-y-2">
+                    <h3 class="text-sm font-bold text-primary-azul flex items-center gap-2">
+                        <span class="material-symbols-outlined text-lg text-primary-azul">campaign</span>
                         Promoción
-                    </span>
-                    <div id="m-prom" class="bg-slate-50 border border-dashed border-slate-300 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[13px] whitespace-pre-line">
-                        ---
+                    </h3>
+                    <div id="m-prom" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-600 text-sm">
                     </div>
                 </div>
 
-                <div id="padre-com" class="space-y-1.5">
-                    <span class="text-[14px] font-black uppercase tracking-wider text-accent-azul flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-[18px] text-accent-azul">chat_bubble</span>
+                <div id="padre-com" class="space-y-2">
+                    <h3 class="text-sm font-bold text-primary-azul flex items-center gap-2">
+                        <span class="material-symbols-outlined text-lg text-primary-azul">chat_bubble</span>
                         Comentarios y Aclaraciones Adicionales
-                    </span>
-                    <div id="m-com" class="bg-slate-50 border border-dashed border-slate-300 p-4 rounded-xl leading-relaxed font-black text-slate-800 break-words text-[13px] whitespace-pre-line">
-                        ---
+                    </h3>
+                    <div id="m-com" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-600 text-sm">
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
