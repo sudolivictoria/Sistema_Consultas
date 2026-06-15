@@ -76,7 +76,7 @@
                 <button data-tipo="todos" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold transition-all duration-200 bg-primary-azul text-white shadow-sm hover:text-yellow-700 hover:bg-yellow-50 transition-all duration-200"">
                     Todos
                 </button>
-                <button data-tipo=" vigencia" data-val="SI" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 transition-all duration-200">
+                <button data-tipo="vigencia" data-val="SI" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 transition-all duration-200">
                     Vigentes
                 </button>
                 <button data-tipo="vigencia" data-val="NO" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-rose-700 hover:bg-rose-50 transition-all duration-200">
