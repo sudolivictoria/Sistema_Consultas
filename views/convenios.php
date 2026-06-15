@@ -199,7 +199,7 @@
                         <span class="material-symbols-outlined text-lg text-primary-azul">description</span>
                         Descripción del Convenio
                     </h3>
-                    <div id="m-desc" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-600 text-sm max-h-40 overflow-y-auto">
+                    <div id="m-desc" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-900 text-sm max-h-40 overflow-y-auto">
                     </div>
                 </div>
 
@@ -208,7 +208,7 @@
                         <span class="material-symbols-outlined text-lg text-primary-azul">money_off</span>
                         Exoneración
                     </h3>
-                    <div id="m-ex" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-600 text-sm max-h-40 overflow-y-auto">
+                    <div id="m-ex" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-900 text-sm max-h-40 overflow-y-auto">
                     </div>
                 </div>
 
@@ -217,7 +217,7 @@
                         <span class="material-symbols-outlined text-lg text-primary-azul">campaign</span>
                         Promoción
                     </h3>
-                    <div id="m-prom" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-600 text-sm">
+                    <div id="m-prom" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-900 text-sm">
                     </div>
                 </div>
 
@@ -226,7 +226,7 @@
                         <span class="material-symbols-outlined text-lg text-primary-azul">chat_bubble</span>
                         Comentarios y Aclaraciones Adicionales
                     </h3>
-                    <div id="m-com" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-600 text-sm">
+                    <div id="m-com" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-900 text-sm">
                     </div>
                 </div>
 
