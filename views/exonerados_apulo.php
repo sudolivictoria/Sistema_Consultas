@@ -108,7 +108,7 @@
 
                                 //-------------------COMUNIDAD-------------------
                                 echo '<td class="px-8 py-7 border border-slate-200/50">';
-                                echo '<span class="font-extrabold text-md tracking-tight block" title="' . htmlspecialchars($fila['comunidad']) . '">' . (!empty($fila['comunidad']) ? htmlspecialchars($fila['comunidad']) : 'SIN ESPECIFICAR') . '</span>';
+                                echo '<span class="font-extrabold text-md tracking-tight block" title="' . htmlspecialchars($fila['comunidad']) . '">' . (!empty($fila['comunidad']) ? htmlspecialchars($fila['comunidad']) : '') . '</span>';
                                 echo '</td>';
 
                                 echo '</tr>';
