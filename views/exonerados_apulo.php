@@ -89,7 +89,7 @@
                     </thead>
                     <tbody class="divide-y divide-white/40">
                         <?php
-                        $sql = "SELECT dui, nombre, comunidad FROM exonerados_apulo";
+                        $sql = "SELECT dui, nombre, comunidad FROM exonerados_apulo ORDER BY nombre COLLATE utf8mb4_unicode_ci ASC";
                         $resultado = $conexion->query($sql);
 
                         if ($resultado && $resultado->num_rows > 0) {

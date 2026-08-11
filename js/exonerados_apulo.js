@@ -4,7 +4,8 @@ $(document).ready(function () {
     pagingType: "simple",
     order: [[1, "asc"]],
     columnDefs: [
-      { targets: [0, 2], orderable: false }
+      { targets: [0, 2], orderable: false },
+      { targets: 1, type: "string" }
     ],
     language: {
       lengthMenu: "Mostrar _MENU_ registros",
