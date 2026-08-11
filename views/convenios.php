@@ -199,7 +199,7 @@
                         <span class="material-symbols-outlined text-lg text-primary-azul">description</span>
                         Descripción del Convenio
                     </h3>
-                    <div id="m-desc" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-900 text-sm max-h-40 overflow-y-auto">
+                    <div id="m-desc" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-900 text-sm max-h-80 overflow-y-auto">
                     </div>
                 </div>
 
