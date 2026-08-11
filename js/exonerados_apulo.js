@@ -1,7 +1,11 @@
 $(document).ready(function () {
   var table = $("#tablaExonerados").DataTable({
-    ordering: false,
+    ordering: true,
     pagingType: "simple",
+    order: [[1, "asc"]],
+    columnDefs: [
+      { targets: [0, 2], orderable: false }
+    ],
     language: {
       lengthMenu: "Mostrar _MENU_ registros",
       search: "Buscar:",
@@ -26,7 +30,6 @@ $(document).ready(function () {
       },
     },
     dom: 'rt<"flex flex-col md:flex-row items-center justify-between px-10 py-8 gap-4"ip>',
-    order: [[1, "asc"]],
     pageLength: 5,
   });
 
