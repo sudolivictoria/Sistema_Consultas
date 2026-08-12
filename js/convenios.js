@@ -122,10 +122,26 @@ $(function () {
   });
 });
 
+//----------FUNCION PARA CONVERTIR TEXTO EN MAYUSCULA A "Sentence case"------------
+function toSentenceCase(str) {
+  if (!str) return "";
+  let resultado = str
+    .toLowerCase()
+    .replace(/(^\s*\w|[.!?]\s*\w)/g, (c) => c.toUpperCase());
+
+  const siglas = ["ISTU", "MITUR", "MOP", "SV", "ISSS", "ONU"];
+  siglas.forEach((sigla) => {
+    const regex = new RegExp(`\\b${sigla}\\b`, "gi");
+    resultado = resultado.replace(regex, sigla);
+  });
+
+  return resultado;
+}
+
 //----------FUNCION PARA MOSTRAR U OCULTAR UN BLOQUE------------
 function gestionarBloque(idPadre, idHijo, texto) {
   if (texto && texto.trim() !== "") {
-    $(idHijo).html(texto);
+    $(idHijo).html(toSentenceCase(texto));
     $(idPadre).show();
   } else {
     $(idPadre).hide();

@@ -76,7 +76,7 @@
                 <button data-tipo="todos" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold transition-all duration-200 bg-primary-azul text-white shadow-sm hover:text-yellow-700 hover:bg-yellow-50 transition-all duration-200"">
                     Todos
                 </button>
-                <button data-tipo="vigencia" data-val="SI" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 transition-all duration-200">
+                <button data-tipo=" vigencia" data-val="SI" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 transition-all duration-200">
                     Vigentes
                 </button>
                 <button data-tipo="vigencia" data-val="NO" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-rose-700 hover:bg-rose-50 transition-all duration-200">
@@ -179,7 +179,7 @@
     <div id="modalDetalle" class="fixed inset-0 z-[10000] hidden flex items-center justify-center px-4 overflow-hidden">
         <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300" id="cerrarModalFondo"></div>
 
-        <div class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all scale-95 duration-300 max-h-[80vh] flex flex-col z-10">
+        <div class="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all scale-95 duration-300 max-h-[80vh] flex flex-col z-10">
 
             <div class="bg-gradient-to-r from-[#0c003f] to-[#047857] px-6 py-4 text-white flex items-center justify-between shadow-md shrink-0">
                 <div class="flex items-center gap-2">
@@ -188,48 +188,47 @@
                         <span id="m-ref" class="font-black text-white px-1.5 py-1 rounded text-lg tracking-tight leading-tight uppercase pb-1">---</span>
                     </div>
                 </div>
-                <button id="btnCerrarX" class="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-1.5 rounded-full transition-all focus:outline-none">
+                <button id="btnCerrarX" class="text-white bg-white/20 hover:bg-white/30 p-1.5 rounded-full transition-all focus:outline-none">
                     <span class="material-symbols-outlined !text-xl block">close</span>
                 </button>
             </div>
 
-            <div class="p-6 overflow-y-auto space-y-8 text-slate-700">
+            <div class="p-6 overflow-y-auto space-y-6 text-slate-700 modal-scroll">
                 <div id="padre-desc" class="space-y-2">
                     <h3 class="text-sm font-bold text-primary-azul flex items-center gap-2">
                         <span class="material-symbols-outlined text-lg text-primary-azul">description</span>
-                        Descripción del Convenio
+                        DESCRIPCIÓN DEL CONVENIO
                     </h3>
-                    <div id="m-desc" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-900 text-sm max-h-80 overflow-y-auto">
+                    <div id="m-desc" class="bg-white border border-slate-300 shadow-sm p-4 rounded-2xl leading-relaxed text-slate-900 text-sm max-h-80 overflow-y-auto">
                     </div>
                 </div>
 
                 <div id="padre-ex" class="space-y-2">
                     <h3 class="text-sm font-bold text-primary-azul flex items-center gap-2">
                         <span class="material-symbols-outlined text-lg text-primary-azul">money_off</span>
-                        Exoneración
+                        EXONERACIÓN
                     </h3>
-                    <div id="m-ex" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-900 text-sm max-h-40 overflow-y-auto">
+                    <div id="m-ex" class="bg-white border border-slate-300 shadow-sm p-4 rounded-2xl leading-relaxed text-slate-900 text-sm max-h-40 overflow-y-auto">
                     </div>
                 </div>
 
                 <div id="padre-prom" class="space-y-2">
                     <h3 class="text-sm font-bold text-primary-azul flex items-center gap-2">
                         <span class="material-symbols-outlined text-lg text-primary-azul">campaign</span>
-                        Promoción
+                        PROMOCIÓN
                     </h3>
-                    <div id="m-prom" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-900 text-sm">
+                    <div id="m-prom" class="bg-white border border-slate-300 shadow-sm p-4 rounded-2xl leading-relaxed text-slate-900 text-sm">
                     </div>
                 </div>
 
                 <div id="padre-com" class="space-y-2">
                     <h3 class="text-sm font-bold text-primary-azul flex items-center gap-2">
                         <span class="material-symbols-outlined text-lg text-primary-azul">chat_bubble</span>
-                        Comentarios y Aclaraciones Adicionales
+                        COMENTARIOS Y ACLARACIONES ADICIONALES
                     </h3>
-                    <div id="m-com" class="bg-white border border-slate-200 shadow-sm p-4 rounded-xl leading-relaxed text-slate-900 text-sm">
+                    <div id="m-com" class="bg-white border border-slate-300 shadow-sm p-4 rounded-2xl leading-relaxed text-slate-900 text-sm">
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
