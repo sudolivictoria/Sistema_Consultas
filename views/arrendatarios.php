@@ -89,7 +89,7 @@ $ordinales = [1 => 'primera', 'segunda', 'tercera', 'cuarta', 'quinta', 'sexta',
 </section>
 
 <!---------------VENTANA DE CLÁUSULAS-------------->
-<dialog id="modalClausulas" class="modal" aria-labelledby="titulo-clausulas">
+<dialog id="modalClausulas" class="modal modal-ancho" aria-labelledby="titulo-clausulas">
     <div class="modal-cabecera">
         <div class="icono-caja"><?= icono('documento', 22) ?></div>
         <div class="modal-titulos">
@@ -107,10 +107,10 @@ $ordinales = [1 => 'primera', 'segunda', 'tercera', 'cuarta', 'quinta', 'sexta',
             </div>
         <?php endif; ?>
 
-        <?php foreach ($clausulas as $i => $c): ?>
+        <?php foreach ($clausulas as $c): ?>
             <?php $numero = (int) $c['numero']; ?>
-            <!-- La primera cláusula aparece abierta -->
-            <details class="acordeon" <?= $i === 0 ? 'open' : '' ?>>
+            <!--Todas empiezan cerradas: clic en el título para abrir-->
+            <details class="acordeon">
                 <summary>
                     <span class="acordeon-numero"><?= $numero ?></span>
                     <span class="acordeon-titulos">
@@ -119,8 +119,8 @@ $ordinales = [1 => 'primera', 'segunda', 'tercera', 'cuarta', 'quinta', 'sexta',
                     </span>
                     <span class="acordeon-flecha"><?= icono('chevron-abajo', 18, 2.2) ?></span>
                 </summary>
-                <!-- nl2br respeta los saltos de línea que se escribieron en el admin -->
-                <div class="acordeon-texto"><?= nl2br(e($c['texto'])) ?></div>
+                <!--formatear_incisos() pone cada "a)", "b)"... en su propia línea (ver inc/funciones.php)-->
+                <div class="acordeon-texto"><?= formatear_incisos($c['texto']) ?></div>
             </details>
         <?php endforeach; ?>
     </div>

@@ -47,6 +47,33 @@ function lista_desde_comas($texto)
 }
 
 /*
+ * formatear_incisos(): hace legible el texto de una cláusula
+ * ----------------------------------------------------------
+ */
+function formatear_incisos($texto)
+{
+    $texto = trim($texto ?? '');
+    //----corta el texto justo antes de cada " a) ", " b) "... (una letra + paréntesis)
+    $partes = preg_split('/\s+(?=[a-zñ]\)\s)/u', $texto);
+    //----si el primer pedazo no empieza con "a)", es la introducción
+    $intro = preg_match('/^[a-zñ]\)\s/u', $partes[0]) ? '' : array_shift($partes);
+
+    $html = $intro !== '' ? '<p>' . nl2br(e($intro)) . '</p>' : '';
+
+    if ($partes) {
+        $html .= '<ul class="incisos">';
+        foreach ($partes as $inciso) {
+            $letra = mb_substr($inciso, 0, 2);         
+            $resto = trim(mb_substr($inciso, 2));       
+            $html .= '<li><strong>' . e($letra) . '</strong><span>' . nl2br(e($resto)) . '</span></li>';
+        }
+        $html .= '</ul>';
+    }
+
+    return $html;
+}
+
+/*
  * version(): evitar la caché del navegador
  * ----------------------------------------
  */
