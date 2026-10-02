@@ -34,7 +34,7 @@ function badge_vigencia($vigencia)
 {
     return si_no($vigencia) === 'SI'
         ? '<span class="estado estado-vigente">Vigente</span>'
-        : '<span class="estado estado-vencido">Vencido</span>';
+        : '<span class="estado estado-vencido">No vigente</span>';
 }
 
 //----función que convierte una cadena separada por comas en un arreglo.

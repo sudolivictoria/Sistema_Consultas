@@ -91,7 +91,7 @@ $(function () {
     //----------vigente o no vigente: cambia el texto y el color del círculo
     const vigente = d.vig === "SI";
     $("#m-estado")
-      .text(vigente ? "Vigente" : "No Vigente")
+      .text(vigente ? "Vigente" : "No vigente")
       .toggleClass("estado-vigente", vigente)
       .toggleClass("estado-vencido", !vigente);
 
