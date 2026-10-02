@@ -36,7 +36,7 @@ $resultado = $conexion->query("SELECT id, referencia, institucion, vigencia, sus
         <thead>
             <tr>
                 <th scope="col">Ref.</th>
-                <th scope="col">Institución</th>
+                <th scope="col" class="col-institucion">Institución</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Suscripción</th>
                 <th scope="col">Vencimiento</th>
@@ -56,7 +56,7 @@ $resultado = $conexion->query("SELECT id, referencia, institucion, vigencia, sus
                     <!--data-order: DataTables ordena por la fecha real-->
                     <td class="numeros" data-label="Suscripción" data-order="<?= e($f['suscripcion']) ?>"><?= fecha_mostrar($f['suscripcion']) ?></td>
                     <td class="numeros" data-label="Vencimiento" data-order="<?= e($f['vencimiento']) ?>"><?= fecha_mostrar($f['vencimiento']) ?></td>
-                    <td data-label="Plazo"><?= e($f['plazo'] ?: 'Indefinido') ?></td>
+                    <td data-label="Plazo" class="sin-cortar"><?= e($f['plazo'] ?: 'Indefinido') ?></td>
                     <td class="acciones" data-label="Acciones">
                         <!--Editar: un simple enlace con el id en la URL-->
                         <a href="form.php?id=<?= $f['id'] ?>" class="btn-icono btn-editar" aria-label="Editar <?= e($f['referencia']) ?>"><?= icono('editar', 16) ?></a>

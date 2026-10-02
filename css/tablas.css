@@ -55,6 +55,15 @@
 .tabla .tenue {
     color: var(--gris);
 }
+
+/*Convenios: la institución ocupa como máximo el 30% del ancho de la tabla, para que el resto de columnas tengan más espacio*/
+.tabla .col-institucion {
+    width: 30%;
+}
+
+.tabla .sin-cortar {
+    white-space: nowrap;
+}
 .tabla .arriba {
     vertical-align: top;
 }

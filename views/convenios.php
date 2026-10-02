@@ -44,7 +44,7 @@ $convenios = $conexion->query(
         <thead>
             <tr>
                 <th scope="col">Ref.</th>
-                <th scope="col">Institución</th>
+                <th scope="col" class="col-institucion">Institución</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Suscripción</th>
                 <th scope="col">Vencimiento</th>
@@ -86,7 +86,7 @@ $convenios = $conexion->query(
                     <!--data-order = la fecha real, para que se ordene bien-->
                     <td data-label="Suscripción" class="numeros" data-order="<?= e($c['suscripcion']) ?>"><?= fecha_mostrar($c['suscripcion']) ?></td>
                     <td data-label="Vencimiento" class="numeros<?= $vencimiento === 'Indefinido' ? ' tenue' : '' ?>" data-order="<?= e($c['vencimiento']) ?>"><?= $vencimiento ?></td>
-                    <td data-label="Plazo" class="tenue"><?= e($detalle['plazo']) ?></td>
+                    <td data-label="Plazo" class="tenue sin-cortar"><?= e($detalle['plazo']) ?></td>
                     <td><?= $exoneracion ?></td>
                     <td><?= $promocion ?></td>
                     <td data-label="Detalle" class="derecha">
