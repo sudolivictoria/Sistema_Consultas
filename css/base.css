@@ -1,0 +1,311 @@
+/* ==========================================================================
+   -------------------------------BASE---------------------------------------
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+      colores, estilos generales y botones
+   -------------------------------------------------------------------------- */
+:root {
+    --verde: #0F6B4F;
+    --verde-oscuro: #0A4A37;
+    --verde-texto: #0A5A40;
+    --verde-claro: #E6F4EE;
+    --verde-suave: #F4FAF7;
+    --verde-borde: #CFE7DB;
+    --verde-borde-2: #9FD3BC;
+    --verde-borde-3: #B9DCCB;
+    --vigente-fondo: #DDF3E8;
+
+    --azul: #0B1F3A;
+    --azul-hover: #1A3560;
+
+    --texto: #0B1F3A;
+    --texto-2: #33433E;
+    --gris: #52615C;
+    --placeholder: #6B7A75;
+
+    --borde: #DCE4E1;
+    --borde-input: #C9D4D0;
+    --borde-suave: #E7EDEB;
+    --borde-fila: #EEF2F0;
+    --fondo-th: #F1F8F4;
+    --fondo-pie: #FAFCFB;
+    --gris-claro: #EEF3F1;
+
+    --rojo: #B42318;
+    --rojo-claro: #FDE8E7;
+    --rojo-borde: #F3C6C2;
+
+    --sombra-modal: 0 24px 60px rgba(11, 31, 58, 0.28);
+}
+
+/* --------------------------------------------------------------------------
+   --------------------------------Base--------------------------------------
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    font-family: 'Public Sans', system-ui, sans-serif;
+    color: var(--texto);
+    background: #F3F8F6;
+}
+/*-----------------Fondo de cuadrícula de todas las páginas-----------------*/
+.fondo-cuadricula {
+    min-height: 100vh;
+    background-color: #F3F8F6;
+    background-image: linear-gradient(#E2ECE7 1px, transparent 1px), linear-gradient(90deg, #E2ECE7 1px, transparent 1px);
+    background-size: 32px 32px;
+}
+a {
+    color: var(--verde);
+}
+a:hover {
+    color: var(--verde-oscuro);
+}
+input::placeholder,
+textarea::placeholder {
+    color: var(--placeholder);
+}
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid var(--verde);
+    outline-offset: 1px;
+    border-color: var(--verde) !important;
+}
+button:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+    outline: 2px solid var(--verde);
+    outline-offset: 2px;
+}
+svg {
+    flex-shrink: 0;
+}
+
+/*-------------------Barra de desplazamiento con los colores del sitio--------------*/
+html {
+    scrollbar-color: var(--azul) #F1F5F9;
+}
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #F1F5F9;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--azul);
+    border-radius: 10px;
+    border: 2px solid #F1F5F9;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--verde);
+}
+
+/*-------------------Dentro de paneles y ventanas, una barra delgada y discreta (no la azul gruesa)-------------------*/
+.drawer-campos,
+.modal-cuerpo,
+.detalle-cuerpo {
+    scrollbar-width: thin;
+    scrollbar-color: var(--borde-input) transparent;
+}
+.drawer-campos::-webkit-scrollbar,
+.modal-cuerpo::-webkit-scrollbar,
+.detalle-cuerpo::-webkit-scrollbar {
+    width: 6px;
+}
+.drawer-campos::-webkit-scrollbar-track,
+.modal-cuerpo::-webkit-scrollbar-track,
+.detalle-cuerpo::-webkit-scrollbar-track {
+    background: transparent;
+}
+.drawer-campos::-webkit-scrollbar-thumb,
+.modal-cuerpo::-webkit-scrollbar-thumb,
+.detalle-cuerpo::-webkit-scrollbar-thumb {
+    background: var(--borde-input);
+    border: 0;
+}
+
+/*-------------------Texto solo para lectores de pantalla (invisible en pantalla)-------------------*/
+.solo-lectores {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+.barra-acento {
+    height: 4px;
+    background: var(--verde);
+}
+.barra-acento-gruesa {
+    height: 6px;
+    background: var(--verde);
+}
+
+/* --------------------------------------------------------------------------
+   --------------------------------Botones-----------------------------------
+   -------------------------------------------------------------------------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+.btn-primario {
+    background: var(--verde);
+    color: #FFFFFF;
+}
+.btn-primario:hover {
+    background: var(--verde-oscuro);
+    color: #FFFFFF;
+}
+.btn-oscuro {
+    background: var(--azul);
+    color: #FFFFFF;
+}
+.btn-oscuro:hover {
+    background: var(--azul-hover);
+    color: #FFFFFF;
+}
+.btn-fantasma {
+    background: #FFFFFF;
+    color: var(--texto-2);
+    border: 1px solid var(--borde-input);
+}
+.btn-fantasma:hover {
+    background: var(--fondo-th);
+    color: var(--texto-2);
+}
+.btn-contorno {
+    background: #FFFFFF;
+    color: var(--verde);
+    border: 1.5px solid var(--verde);
+}
+.btn-contorno:hover {
+    background: var(--fondo-th);
+    color: var(--verde);
+}
+.btn-peligro {
+    background: var(--rojo);
+    color: #FFFFFF;
+}
+.btn-peligro:hover {
+    background: #8F1C13;
+}
+.btn-inicio {
+    background: var(--azul);
+    color: #FFFFFF;
+    border: 1.5px solid var(--azul);
+}
+.btn-inicio:hover {
+    background: #FFFFFF;
+    color: var(--azul);
+}
+
+/*-------------------Botón desactivado (ej. "Política interna" cuando aún no hay PDF)-------------------*/
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.btn-chico {
+    min-height: 38px;
+    padding: 0 14px;
+    font-size: 13px;
+    border-radius: 9px;
+}
+
+/*-------------------Botón cuadrado solo con ícono (cerrar)-------------------*/
+.btn-cuadrado {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    background: #FFFFFF;
+    color: var(--texto-2);
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-cuadrado:hover {
+    background: var(--fondo-th);
+    color: var(--texto-2);
+}
+
+/*-------------------Botones de editar / eliminar en las tablas del admin-------------------*/
+.btn-icono {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #FFFFFF;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-editar {
+    border: 1px solid var(--verde-borde-3);
+    color: var(--verde);
+}
+.btn-editar:hover {
+    background: var(--verde-claro);
+    color: var(--verde);
+}
+.btn-borrar {
+    border: 1px solid var(--rojo-borde);
+    color: var(--rojo);
+}
+.btn-borrar:hover {
+    background: var(--rojo-claro);
+}
+
+
+/* -----------------------------------------------------------------------
+------------------------Piezas que usan varias páginas--------------------
+--------------------------------------------------------------------------*/
+
+/*-------Cuadro con las letras "ISTU" (encabezado, menú del admin, preloader)-------*/
+.marca-logo {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: var(--azul);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+/*-------------------Texto pequeño centrado al pie (inicio y login)-------------------*/
+.pie-texto {
+    margin: 0;
+    text-align: center;
+    font-size: 13px;
+    color: var(--gris);
+}

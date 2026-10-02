@@ -1,0 +1,169 @@
+/* ==========================================================================
+   -------------------------------LOGIN--------------------------------------
+   ========================================================================== */
+
+.login-pagina {
+    display: flex;
+    flex-direction: column;
+}
+.login-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+}
+.login-caja {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.login-tarjeta {
+    position: relative;
+    overflow: hidden;
+    background: #FFFFFF;
+    border: 1px solid var(--borde);
+    border-radius: 22px;
+    padding: 36px 32px 32px;
+    box-shadow: 0 10px 30px rgba(11, 31, 58, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.login-tarjeta::before,
+.login-tarjeta::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+.login-tarjeta::before {
+    top: -48px;
+    left: -48px;
+    width: 130px;
+    height: 130px;
+    background: var(--gris-claro);
+}
+.login-tarjeta::after {
+    bottom: -54px;
+    right: -54px;
+    width: 140px;
+    height: 140px;
+    background: var(--verde-claro);
+}
+.login-tarjeta>* {
+    position: relative;
+    z-index: 1;
+}
+.login-cabecera {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+}
+.login-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: var(--verde);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+}
+.login-cabecera h1 {
+    margin: 0;
+    font-size: 24px;
+    line-height: 1.2;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+.login-cabecera h1 span {
+    color: var(--verde);
+}
+.linea-acento {
+    width: 56px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--verde);
+}
+.login-cabecera p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--gris);
+}
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+/*----Campo con ícono a la izquierda (usuario, contraseña)-----*/
+.campo-icono {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.campo-icono>svg {
+    position: absolute;
+    left: 14px;
+    color: var(--verde);
+    pointer-events: none;
+}
+.campo-icono input {
+    width: 100%;
+    height: 48px;
+    padding: 0 48px 0 44px;
+    border: 1.5px solid var(--borde-input);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--texto);
+    background: #FFFFFF;
+}
+.ver-clave {
+    position: absolute;
+    right: 4px;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--gris);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-login {
+    width: 100%;
+    height: 50px;
+    margin-top: 4px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 800;
+}
+.login-volver {
+    align-self: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+.login-caja .pie-texto {
+    font-size: 12px;
+}
+
+
+/*------------Celular------------*/
+@media (max-width: 640px) {
+    .login-tarjeta {
+        padding: 28px 20px 24px;
+    }
+}

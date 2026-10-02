@@ -1,0 +1,340 @@
+/* ==========================================================================
+   ----------------------------------MODALES---------------------------------
+   ========================================================================== */
+
+dialog {
+    border: 0;
+    padding: 0;
+    color: var(--texto);
+}
+dialog::backdrop {
+    background: rgba(11, 31, 58, 0.55);
+}
+.modal {
+    width: calc(100% - 48px);
+    max-width: 640px;
+    max-height: calc(100vh - 48px);
+    border-radius: 18px;
+    background: #FFFFFF;
+    box-shadow: var(--sombra-modal);
+    overflow: hidden;
+}
+/* Solo cuando está abierto se acomoda en columna (cerrado debe quedar oculto) */
+.modal[open] {
+    display: flex;
+    flex-direction: column;
+}
+.modal-cabecera {
+    padding: 22px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid var(--borde-suave);
+}
+.icono-caja {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: var(--verde-claro);
+    color: var(--verde);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-titulos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.modal-titulos h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+}
+.modal-titulos span {
+    font-size: 13px;
+    color: var(--gris);
+}
+.modal-cuerpo {
+    padding: 16px 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.modal-pie {
+    padding: 14px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-end;
+    border-top: 1px solid var(--borde-suave);
+    background: var(--fondo-pie);
+}
+
+/*--------------------ACORDEON CLUSULAS------------------------*/
+.acordeon {
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    background: #FFFFFF;
+    overflow: hidden;
+}
+.acordeon[open] {
+    border-color: var(--verde-borde-2);
+    background: var(--verde-suave);
+}
+.acordeon summary {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    cursor: pointer;
+    list-style: none;
+}
+.acordeon summary::-webkit-details-marker {
+    display: none;
+}
+.acordeon-numero {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    background: var(--verde-claro);
+    color: var(--verde);
+}
+.acordeon[open] .acordeon-numero {
+    background: var(--verde);
+    color: #FFFFFF;
+}
+.acordeon-titulos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.acordeon-titulos small {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--verde);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.acordeon-titulos strong {
+    font-size: 15px;
+}
+.acordeon-flecha {
+    color: var(--verde);
+    transition: transform 0.2s;
+}
+.acordeon[open] .acordeon-flecha {
+    transform: rotate(180deg);
+}
+.acordeon-texto {
+    padding: 0 16px 16px 60px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--texto-2);
+}
+
+/************************************************************/
+/**********************DETALLE CONVENIO**********************/
+/************************************************************/
+.detalle-cabecera {
+    position: relative;
+    overflow: hidden;
+    background: #0C5A43;
+    color: #FFFFFF;
+    padding: 22px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/*-------------circulos decorativos en la cabecera-------------*/
+.detalle-cabecera::before,
+.detalle-cabecera::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+.detalle-cabecera::before {
+    top: -50px;
+    right: 70px;
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.07);
+}
+.detalle-cabecera::after {
+    bottom: -70px;
+    right: -40px;
+    width: 170px;
+    height: 170px;
+    background: rgba(255, 255, 255, 0.10);
+}
+.detalle-cabecera>* {
+    position: relative;
+    z-index: 1;
+}
+.detalle-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.detalle-etiquetas {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.detalle-icono {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: #FFFFFF;
+    color: var(--verde);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ref-clara {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.16);
+}
+
+/*----en la cabecera verde, el estado va sobre fondo blanco----*/
+.detalle-cabecera .estado {
+    background: #FFFFFF;
+    font-weight: 800;
+}
+.btn-x {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.16);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.btn-x:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+.detalle-sobretitulo {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #CDEBDD;
+}
+.detalle-titulo {
+    margin: 4px 0 0;
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 800;
+}
+.detalle-datos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    background: var(--verde-claro);
+    border-bottom: 1px solid var(--verde-borde);
+}
+.detalle-dato {
+    padding: 14px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.detalle-dato+.detalle-dato {
+    border-left: 1px solid var(--verde-borde);
+}
+.detalle-dato small {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+.detalle-dato strong {
+    font-size: 15px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+/*------DETALLE CUERPO-----------*/
+.detalle-cuerpo {
+    padding: 8px 24px;
+    overflow-y: auto;
+}
+.detalle-seccion {
+    display: flex;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--borde-fila);
+}
+.detalle-seccion:last-child {
+    border-bottom: 0;
+}
+
+.detalle-circulo {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*------ICONS DETALLE CONVENIO-----------*/
+.circulo-verde {
+    background: var(--verde);
+    color: #FFFFFF;
+}
+.circulo-azul {
+    background: var(--azul);
+    color: #FFFFFF;
+}
+.detalle-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+.detalle-texto>strong {
+    font-size: 14px;
+    font-weight: 800;
+}
+.detalle-texto>div {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--texto-2);
+    overflow-wrap: anywhere;
+}
+
+
+/*****************RESPONSIVE MOBILE***********************/
+@media (max-width: 640px) {
+    .detalle-datos {
+        grid-template-columns: 1fr;
+    }
+
+    .detalle-dato+.detalle-dato {
+        border-left: 0;
+        border-top: 1px solid var(--verde-borde);
+    }
+}

@@ -1,242 +1,154 @@
-<?php include '../conexion.php'; ?>
-<!DOCTYPE html>
-<html lang="es">
+<?php
+/*
+ * CONSULTA PÚBLICA DE CONVENIOS
+ * Tabla con buscador y filtros + ventana de detalle de cada convenio.
+ * El buscador, los filtros y la ventana los maneja js/convenios.js.
+ */
+$titulo = 'Consulta de convenios';
+require __DIR__ . '/../inc/publico_inicio.php';
 
-<head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Convenios - ISTU</title>
+$convenios = $conexion->query(
+    "SELECT referencia, institucion, vigencia, descripcion, suscripcion, plazo, vencimiento,
+            comentario, exoneracion, exoneracion_desc, promocion, promocion_desc
+     FROM convenios ORDER BY referencia"
+)->fetch_all(MYSQLI_ASSOC);   //----fetch_all = todas las filas de una vez, en un arreglo
+?>
 
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="../css/convenios.css" rel="stylesheet" />
-    <link rel="icon" type="image/png" href="../images/logo.png" />
+<div class="pagina-titulos">
+    <nav class="ruta" aria-label="Ruta">Consultas / <span>Convenios</span></nav>
+    <h1 class="titulo">Consulta de <span>convenios</span></h1>
+    <p class="subtitulo">Busque por institución o referencia. Use «Ver» para abrir el detalle completo del convenio.</p>
+</div>
 
-    <script id="tailwind-config">
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        "primary-azul": "#000e4d",
-                        "primary-verde": "#002e21",
-                        "accent-azul": "#007380",
-                        "accent-verde-intenso": "#047857"
-                    },
-                    fontFamily: {
-                        "body": ["Inter", "sans-serif"]
-                    }
-                }
-            }
-        }
-    </script>
-</head>
-
-<body class="font-body antialiased text-slate-800">
-    <!---Preloader-->
-    <div id="preloader" class="fixed inset-0 z-[9999] flex items-center justify-center bg-white transition-opacity duration-1000">
-        <div class="flex flex-col items-center">
-            <div class="h-16 w-16 animate-spin rounded-full border-4 border-slate-200 border-t-primary-azul"></div>
-            <p class="mt-4 text-sm font-black uppercase tracking-widest text-accent-azul animate-pulse">
-                Cargando...
-            </p>
-        </div>
-    </div>
-
-    <main class="relative z-10 pt-16 pb-24 px-4 md:px-8 max-w-7xl mx-auto">
-
-        <div class="mb-4 flex items-center justify-between gap-4 w-full">
-            <div class="text-left">
-                <h1 class="text-3xl md:text-4xl text-primary-azul font-black tracking-tight">
-                    Consulta de <span class="text-accent-verde-intenso">Convenios</span>
-                </h1>
+<section class="panel">
+    <div class="panel-busqueda">
+        <label for="buscadorCustom">Buscar convenio</label>
+        <!-----buscador con filtro------->
+        <div class="busqueda-fila">
+            <div class="campo-busqueda">
+                <?= icono('buscar', 20, 2.2) ?>
+                <input id="buscadorCustom" type="search" placeholder="Nombre de la institución o referencia…" autocomplete="off">
             </div>
-            <a href="../index.php" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-slate-600 bg-primary-verde text-white border border-slate-200 shadow-sm transition-all duration-300 hover:text-primary-verde hover:border-primary-verde/30 hover:bg-slate-50 hover:-translate-x-1 group">
-                <span class="material-symbols-outlined text-xl transition-transform duration-300 group-hover:-translate-x-0.5">arrow_back</span>
-                Inicio
-            </a>
-        </div>
-
-        <p class="font-body-lg text-body-md md:text-body-lg text-on-surface-variant w-full opacity-50 pt-1 mb-6">
-            Para visualizar la información completa, haga clic en el ícono de visualización ubicado en la columna Detalle.
-        </p>
-
-        <!--buscador-->
-        <div class="flex flex-col md:flex-row flex-wrap gap-3 mb-4 w-full">
-            <div class="relative group flex-1 min-w-[280px]">
-                <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                    <span class="material-symbols-outlined text-slate-400 text-xl">search</span>
-                </div>
-                <input id="buscadorCustom" class="w-full glass-card rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 placeholder:text-slate-400 outline-none border border-slate-200 focus:ring-4 focus:ring-accent-azul/20 transition-all duration-300 focus:border-primary-verde shadow-sm font-bold" placeholder="Buscar institución o convenio..." type="text" autocomplete="off" />
-            </div>
-
-            <!--filtros-->
-            <div class="glass-card p-1 rounded-xl flex flex-wrap items-center gap-1 border border-slate-200 shadow-sm bg-white">
-                <button data-tipo="todos" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold transition-all duration-200 bg-primary-azul text-white shadow-sm hover:text-yellow-700 hover:bg-yellow-50 transition-all duration-200"">
-                    Todos
-                </button>
-                <button data-tipo="vigencia" data-val="SI" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 transition-all duration-200">
-                    Vigentes
-                </button>
-                <button data-tipo="vigencia" data-val="NO" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-rose-700 hover:bg-rose-50 transition-all duration-200">
-                    No Vigentes
-                </button>
-                <button data-tipo="exprom" data-col="6" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-orange-700 hover:bg-orange-50 transition-all duration-200">
-                    Exoneración
-                </button>
-                <button data-tipo="exprom" data-col="7" class="btn-filtro-global px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-purple-700 hover:bg-purple-50 transition-all duration-200">
-                    Promoción
-                </button>
-            </div>
-        </div>
-
-        <div class="glass-card rounded-2xl overflow-hidden shadow-lg w-full bg-white">
-            <div class="w-full overflow-x-auto custom-scrollbar">
-                <table id="tablaConvenios" class="w-full min-w-[850px] text-left border-collapse">
-                    <thead>
-                        <tr class="bg-accent-verde-intenso/5 text-primary-verde text-[13.5px] uppercase tracking-wider font-extrabold border-b border-slate-200">
-                            <th class="px-3 py-3.5 w-[7%] border-r border-slate-200/50 text-center">Ref.</th>
-                            <th class="px-4 py-3.5 w-[34%] border-r border-slate-200/50 text-left">Institución</th>
-                            <th class="px-2 py-3.5 w-[9%] border-r border-slate-200/50 text-center">Vigencia</th>
-                            <th class="px-3 py-3.5 w-[12%] border-r border-slate-200/50 text-center">Suscripción</th>
-                            <th class="px-3 py-3.5 w-[12%] border-r border-slate-200/50 text-center">Vencimiento</th>
-                            <th class="px-3 py-3.5 w-[17%] border-r border-slate-200/50 text-center">Plazo</th>
-                            <th class="hidden">Exoneracion</th>
-                            <th class="hidden">Promocion</th>
-                            <th class="px-4 py-3.5 w-[9%] text-center">Detalle</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white/70 text-[13px] divide-y divide-slate-100">
-                        <?php
-                        $sql = "SELECT referencia, institucion, vigencia, descripcion, suscripcion, plazo, vencimiento, comentario, exoneracion, exoneracion_desc, promocion, promocion_desc FROM convenios";
-                        $resultado = $conexion->query($sql);
-
-                        if ($resultado && $resultado->num_rows > 0) {
-                            while ($fila = $resultado->fetch_assoc()) {
-                                echo '<tr class="hover:bg-accent-azul/5 transition-colors duration-300 group text-[13.5px]">';
-
-                                //--referencia
-                                echo '<td class="px-3 py-3 text-primary-azul text-center leading-tight border-r border-b border-slate-200/50 font-extrabold bg-slate-50/40">' . htmlspecialchars($fila['referencia']) . '</td>';
-
-                                //--institucion
-                                echo '<td class="px-4 py-3 text-left leading-tight border-r border-b border-slate-200/50 font-extrabold group-hover:text-primary-azul transition-colors">' . htmlspecialchars($fila['institucion']) . '</td>';
-
-                                //--vigencia 
-                                $vigencia = trim(strtoupper($fila['vigencia']));
-                                $clase_badge = ($vigencia === 'SI') ? 'bg-emerald-50 text-emerald-700 border-emerald-200/60' : 'bg-rose-50 text-rose-700 border-rose-200/60';
-                                echo '<td class="px-2 py-3 text-center border-r border-b border-slate-200/50">';
-                                echo '<span class="inline-block px-2 py-0.5 text-[12px] font-extrabold rounded-md border ' . $clase_badge . '">' . $vigencia . '</span>';
-                                echo '</td>';
-
-                                //--suscripcion
-                                $fecha_suscripcion = (!empty($fila['suscripcion']) && $fila['suscripcion'] !== '0000-00-00') ? (new DateTime($fila['suscripcion']))->format('d-m-Y') : 'INDEFINIDO';
-                                echo '<td class="px-3 py-3 text-center border-r border-b border-slate-200/50 font-extrabold">' . $fecha_suscripcion . '</td>';
-
-                                //--vencimiento 
-                                $fecha_vencimiento = (!empty($fila['vencimiento']) && $fila['vencimiento'] !== '0000-00-00') ? (new DateTime($fila['vencimiento']))->format('d-m-Y') : 'INDEFINIDO';
-                                echo '<td class="px-3 py-3 text-center border-r border-b border-slate-200/50 font-extrabold">' . $fecha_vencimiento . '</td>';
-
-                                //--plazo
-                                $plazo = !empty($fila['plazo']) ? htmlspecialchars($fila['plazo']) : 'INDEFINIDO';
-                                echo '<td class="px-3 py-3 text-center border-r border-b border-slate-200/50 font-extrabold">' . $plazo . '</td>';
-
-                                //--exoneracion
-                                echo '<td class="hidden">' . htmlspecialchars(trim(strtoupper($fila['exoneracion'] ?? ''))) . '</td>';
-
-                                //--promocion
-                                echo '<td class="hidden">' . htmlspecialchars(trim(strtoupper($fila['promocion'] ?? ''))) . '</td>';
-
-
-                                //--acción (data-attributes para el modal)
-                                echo '<td class="px-4 py-3 text-center border-b border-slate-200/50">';
-                                echo '  <button type="button" 
-                                            class="btn-detalle inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-accent-verde-intenso hover:bg-primary-verde transition-all duration-300 shadow-sm focus:outline-none"
-                                            data-ref="' . htmlspecialchars($fila['referencia']) . '"
-                                            data-desc="' . htmlspecialchars($fila['descripcion']) . '"
-                                            data-ex="' . htmlspecialchars($fila['exoneracion_desc']) . '"
-                                            data-prom="' . htmlspecialchars($fila['promocion_desc']) . '"
-                                            data-com="' . htmlspecialchars($fila['comentario']) . '">';
-                                echo '      <span class="material-symbols-outlined !text-base">visibility</span>';
-                                echo '  </button>';
-                                echo '</td>';
-
-                                echo '</tr>';
-                            }
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </main>
-
-    <!-- Aesthetic Accents -->
-    <div class="fixed top-0 left-0 w-full h-1.5 bg-accent-verde-intenso z-50"></div>
-    <div class="fixed bottom-0 left-0 w-full h-1.5 bg-primary-azul z-50"></div>
-
-    <!-- Modal de Detalle -->
-    <div id="modalDetalle" class="fixed inset-0 z-[10000] hidden flex items-center justify-center px-4 overflow-hidden">
-        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300" id="cerrarModalFondo"></div>
-
-        <div class="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all scale-95 duration-300 max-h-[80vh] flex flex-col z-10">
-
-            <div class="bg-gradient-to-r from-[#0c003f] to-[#047857] px-6 py-4 text-white flex items-center justify-between shadow-md shrink-0">
-                <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-emerald-300 text-3xl">contract</span>
-                    <div>
-                        <span id="m-ref" class="font-black text-white px-1.5 py-1 rounded text-lg tracking-tight leading-tight uppercase pb-1">---</span>
-                    </div>
-                </div>
-                <button id="btnCerrarX" class="text-white bg-white/20 hover:bg-white/30 p-1.5 rounded-full transition-all focus:outline-none">
-                    <span class="material-symbols-outlined !text-xl block">close</span>
-                </button>
-            </div>
-
-            <div class="p-6 overflow-y-auto space-y-6 text-slate-700 modal-scroll">
-                <div id="padre-desc" class="space-y-2">
-                    <h3 class="text-sm font-bold text-primary-azul flex items-center gap-2">
-                        <span class="material-symbols-outlined text-lg text-primary-azul">description</span>
-                        DESCRIPCIÓN DEL CONVENIO
-                    </h3>
-                    <div id="m-desc" class="bg-white border border-slate-300 shadow-sm p-4 rounded-2xl leading-relaxed text-slate-900 text-sm max-h-80 overflow-y-auto">
-                    </div>
-                </div>
-
-                <div id="padre-ex" class="space-y-2">
-                    <h3 class="text-sm font-bold text-primary-azul flex items-center gap-2">
-                        <span class="material-symbols-outlined text-lg text-primary-azul">money_off</span>
-                        EXONERACIÓN
-                    </h3>
-                    <div id="m-ex" class="bg-white border border-slate-300 shadow-sm p-4 rounded-2xl leading-relaxed text-slate-900 text-sm max-h-40 overflow-y-auto">
-                    </div>
-                </div>
-
-                <div id="padre-prom" class="space-y-2">
-                    <h3 class="text-sm font-bold text-primary-azul flex items-center gap-2">
-                        <span class="material-symbols-outlined text-lg text-primary-azul">campaign</span>
-                        PROMOCIÓN
-                    </h3>
-                    <div id="m-prom" class="bg-white border border-slate-300 shadow-sm p-4 rounded-2xl leading-relaxed text-slate-900 text-sm">
-                    </div>
-                </div>
-
-                <div id="padre-com" class="space-y-2">
-                    <h3 class="text-sm font-bold text-primary-azul flex items-center gap-2">
-                        <span class="material-symbols-outlined text-lg text-primary-azul">chat_bubble</span>
-                        COMENTARIOS Y ACLARACIONES ADICIONALES
-                    </h3>
-                    <div id="m-com" class="bg-white border border-slate-300 shadow-sm p-4 rounded-2xl leading-relaxed text-slate-900 text-sm">
-                    </div>
-                </div>
+            <!--data-tipo indica qué filtra cada botón (ver js/convenios.js)-->
+            <div class="tabs tabs-alto" role="group" aria-label="Filtrar convenios">
+                <button type="button" class="tab activa" data-tipo="todos" aria-pressed="true">Todos</button>
+                <button type="button" class="tab" data-tipo="vigencia" data-val="SI" aria-pressed="false">Vigentes</button>
+                <button type="button" class="tab" data-tipo="vigencia" data-val="NO" aria-pressed="false">No vigentes</button>
+                <button type="button" class="tab" data-tipo="exprom" data-col="6" aria-pressed="false">Exoneración</button>
+                <button type="button" class="tab" data-tipo="exprom" data-col="7" aria-pressed="false">Promoción</button>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="../js/preloader.js"></script>
-    <script src="../js/convenios.js"></script>
-</body>
+    <table id="tablaConvenios" class="tabla">
+        <thead>
+            <tr>
+                <th scope="col">Ref.</th>
+                <th scope="col">Institución</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Suscripción</th>
+                <th scope="col">Vencimiento</th>
+                <th scope="col">Plazo</th>
+                <th scope="col">Exoneración</th><!--columna oculta: solo para el filtro-->
+                <th scope="col">Promoción</th><!--columna oculta: solo para el filtro-->
+                <th scope="col" class="derecha">Detalle</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($convenios as $c): ?>
+                <?php
+                $vigencia    = si_no($c['vigencia']);
+                $exoneracion = si_no($c['exoneracion']);
+                $promocion   = si_no($c['promocion']);
+                $vencimiento = fecha_mostrar($c['vencimiento']);
 
-</html>
+                //----todos los datos que necesita la ventana de detalle, en un solo paquete.
+                //----json_encode los convierte a texto JSON; jQuery lo lee con .data('convenio').
+                //----Exoneración y promoción solo se envían si la columna dice SI.
+                $detalle = [
+                    'ref'   => $c['referencia'],
+                    'inst'  => $c['institucion'],
+                    'vig'   => $vigencia,
+                    'sus'   => fecha_mostrar($c['suscripcion']),
+                    'ven'   => $vencimiento,
+                    'plazo' => $c['plazo'] ?: 'Indefinido',
+                    'desc'  => $c['descripcion'],
+                    'ex'    => $exoneracion === 'SI' ? $c['exoneracion_desc'] : '',
+                    'prom'  => $promocion === 'SI' ? $c['promocion_desc'] : '',
+                    'com'   => $c['comentario'],
+                ];
+                ?>
+                <tr>
+                    <td data-label="Ref."><span class="ref"><?= e($c['referencia']) ?></span></td>
+                    <td data-label="Institución" class="fuerte"><?= e($c['institucion']) ?></td>
+                    <!--data-search="SI/NO" es lo que usa el filtro Vigentes / No vigentes-->
+                    <td data-label="Estado" data-search="<?= $vigencia ?>"><?= badge_vigencia($vigencia) ?></td>
+                    <!--data-order = la fecha real, para que se ordene bien-->
+                    <td data-label="Suscripción" class="numeros" data-order="<?= e($c['suscripcion']) ?>"><?= fecha_mostrar($c['suscripcion']) ?></td>
+                    <td data-label="Vencimiento" class="numeros<?= $vencimiento === 'Indefinido' ? ' tenue' : '' ?>" data-order="<?= e($c['vencimiento']) ?>"><?= $vencimiento ?></td>
+                    <td data-label="Plazo" class="tenue"><?= e($detalle['plazo']) ?></td>
+                    <td><?= $exoneracion ?></td>
+                    <td><?= $promocion ?></td>
+                    <td data-label="Detalle" class="derecha">
+                        <button type="button" class="btn-ver btn-detalle" aria-label="Ver detalle de <?= e($c['referencia']) ?>"
+                            data-convenio="<?= e(json_encode($detalle)) ?>">
+                            <?= icono('ojo', 16) ?> Ver
+                        </button>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</section>
+
+<!------VENTANA DETALLE CONVENIO-------->
+<dialog id="modalDetalle" class="modal" aria-labelledby="m-inst">
+    <div class="detalle-cabecera">
+        <div class="detalle-fila">
+            <div class="detalle-etiquetas">
+                <span class="detalle-icono"><?= icono('documento', 20) ?></span>
+                <span id="m-ref" class="ref-clara"></span>
+                <span id="m-estado" class="estado"></span>
+            </div>
+            <button type="button" class="btn-x btn-cerrar-modal" aria-label="Cerrar"><?= icono('cerrar', 18, 2.2) ?></button>
+        </div>
+        <div>
+            <span class="detalle-sobretitulo">Convenio institucional</span>
+            <h2 id="m-inst" class="detalle-titulo"></h2>
+        </div>
+    </div>
+
+    <div class="detalle-datos">
+        <div class="detalle-dato"><small>Suscripción</small><strong id="m-sus"></strong></div>
+        <div class="detalle-dato"><small>Vencimiento</small><strong id="m-ven"></strong></div>
+        <div class="detalle-dato"><small>Plazo</small><strong id="m-plazo"></strong></div>
+    </div>
+
+    <!--------Secciones: se ocultan si vienen vacías. El color de cada círculo lo pone js/convenios.js, alternando azul y verde entre las que se ven----->
+    <div class="detalle-cuerpo">
+        <div id="padre-desc" class="detalle-seccion">
+            <span class="detalle-circulo"><?= icono('documento') ?></span>
+            <div class="detalle-texto"><strong>Descripción del convenio</strong><div id="m-desc"></div></div>
+        </div>
+        <div id="padre-ex" class="detalle-seccion">
+            <span class="detalle-circulo"><?= icono('ticket') ?></span>
+            <div class="detalle-texto"><strong>Exoneración</strong><div id="m-ex"></div></div>
+        </div>
+        <div id="padre-prom" class="detalle-seccion">
+            <span class="detalle-circulo"><?= icono('etiqueta') ?></span>
+            <div class="detalle-texto"><strong>Promoción</strong><div id="m-prom"></div></div>
+        </div>
+        <div id="padre-com" class="detalle-seccion">
+            <span class="detalle-circulo"><?= icono('mensaje') ?></span>
+            <div class="detalle-texto"><strong>Comentarios y aclaraciones</strong><div id="m-com"></div></div>
+        </div>
+    </div>
+
+    <div class="modal-pie">
+        <button type="button" class="btn btn-oscuro btn-cerrar-modal">Cerrar</button>
+    </div>
+</dialog>
+
+<?php
+$script = 'convenios.js';
+require __DIR__ . '/../inc/publico_fin.php';

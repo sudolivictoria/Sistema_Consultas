@@ -1,0 +1,286 @@
+/* ==========================================================================
+   --------TABLAS: tablas de datos y su paginación (DataTables)--------------
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   -------------------------------Tablas-------------------------------------
+   -------------------------------------------------------------------------- */
+.tabla-scroll {
+    overflow-x: auto;
+}
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+.tabla thead tr {
+    background: var(--fondo-th);
+}
+.tabla th {
+    padding: 12px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gris);
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--borde-suave);
+}
+/*DataTables agrega la clase "sorting" a las columnas que se pueden ordenar*/
+.tabla th.sorting,
+.tabla th.sorting_asc,
+.tabla th.sorting_desc {
+    cursor: pointer;
+}
+.tabla td {
+    padding: 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--borde-fila);
+}
+.tabla-admin td {
+    padding: 12px 16px;
+}
+.tabla .derecha {
+    text-align: right;
+}
+.tabla .fuerte {
+    font-weight: 600;
+    line-height: 1.4;
+}
+.tabla .numeros {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+.tabla .tenue {
+    color: var(--gris);
+}
+.tabla .arriba {
+    vertical-align: top;
+}
+.mono {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+/*Referencia del convenio en una "píldora" gris*/
+.ref {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--gris-claro);
+    padding: 4px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+/*Estado Vigente / No Vigente con su puntito de color*/
+.estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.estado::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+.estado-vigente {
+    background: var(--vigente-fondo);
+    color: var(--verde-texto);
+}
+.estado-vencido {
+    background: var(--rojo-claro);
+    color: var(--rojo);
+}
+.pastilla {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--gris-claro);
+    color: var(--texto-2);
+    font-size: 13px;
+    font-weight: 600;
+}
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.chip {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--verde-claro);
+    color: var(--verde-oscuro);
+    font-size: 13px;
+    font-weight: 600;
+}
+.con-icono {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--texto-2);
+    font-weight: 600;
+}
+.con-icono svg {
+    color: var(--verde);
+}
+.btn-ver {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 12px;
+    border: 1px solid var(--borde-input);
+    border-radius: 8px;
+    background: var(--verde-claro);
+    color: var(--verde-oscuro);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.btn-ver:hover {
+    background: var(--vigente-fondo);
+}
+.acciones {
+    text-align: right;
+    white-space: nowrap;
+}
+.acciones form {
+    display: inline;
+}
+.acciones .btn-icono+form,
+.acciones .btn-icono+.btn-icono {
+    margin-left: 6px;
+}
+/*Pie de la tabla: "Mostrando 1–5 de 68" + botones de página*/
+.tabla-pie {
+    padding: 14px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--borde-suave);
+    background: var(--fondo-pie);
+}
+.tabla-pie .dataTables_info {
+    font-size: 13px;
+    color: var(--gris);
+}
+.tabla-pie .dataTables_info strong {
+    color: var(--texto);
+}
+.tabla-pie .dataTables_paginate {
+    display: flex;
+    gap: 8px;
+}
+.tabla-pie .paginate_button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--verde-borde-3);
+    border-radius: 10px;
+    background: #FFFFFF;
+    color: var(--verde);
+    cursor: pointer;
+}
+.tabla-pie .paginate_button:hover {
+    background: var(--fondo-th);
+    color: var(--verde);
+}
+.tabla-pie .paginate_button.disabled {
+    opacity: 0.4;
+    cursor: default;
+    background: #FFFFFF;
+}
+.tabla td.dataTables_empty {
+    padding: 0;
+}
+.tabla-vacia {
+    padding: 48px 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+}
+.tabla-vacia strong {
+    font-size: 15px;
+}
+.tabla-vacia span {
+    font-size: 14px;
+    color: var(--gris);
+}
+
+
+/******************************************************************************************************
+ * *****************************************TABLAS EN CELULAR RESPONSIVE*******************************
+ ******************************************************************************************************
+ */
+@media (max-width: 700px) {
+    .tabla thead {
+        display: none;
+    }
+    .tabla,
+    .tabla tbody,
+    .tabla tr {
+        display: block;
+        width: 100%;
+    }
+    .tabla tr {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--borde-suave);
+    }
+    .tabla td,
+    .tabla-admin td {
+        display: grid;
+        grid-template-columns: 110px minmax(0, 1fr);
+        gap: 12px;
+        align-items: center;
+        padding: 6px 0;
+        border: 0;
+        text-align: left;
+    }
+    .tabla td::before {
+        content: attr(data-label);
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--gris);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+    /*----------Celdas con botones: etiqueta y botones en fila-----------*/
+    .tabla td.acciones,
+    .tabla td.derecha {
+        display: flex;
+        gap: 6px;
+    }
+    .tabla td.acciones::before,
+    .tabla td.derecha::before {
+        width: 110px;
+        margin-right: 6px;
+        flex-shrink: 0;
+    }
+    /*--------Mensaje "Sin resultados": ocupa todo el ancho y sin etiqueta----------------*/
+    .tabla td.dataTables_empty {
+        display: block;
+    }
+    .tabla td.dataTables_empty::before {
+        content: none;
+    }
+    .tabla .ref,
+    .tabla .estado {
+        justify-self: start;
+    }
+}

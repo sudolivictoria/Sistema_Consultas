@@ -1,134 +1,65 @@
-<?php include '../conexion.php'; ?>
-<!DOCTYPE html>
-<html lang="es">
+<?php
+/*
+ * CONSULTA PÚBLICA DE EXONERADOS (Apulo)
+ * Tabla con buscador por nombre o DUI. El buscador lo maneja js/exonerados_apulo.js.
+ */
+$titulo = 'Consulta de exonerados';
+require __DIR__ . '/../inc/publico_inicio.php';
 
-<head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Exonerados - Apulo</title>
+//----obtener todos los exonerados de la base de datos
+$exonerados = $conexion->query(
+    "SELECT dui, nombre, comunidad FROM exonerados_apulo ORDER BY nombre COLLATE utf8mb4_unicode_ci"
+)->fetch_all(MYSQLI_ASSOC);
+?>
 
-    <!----Librerias y estilos------>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="../css/exonerados_apulo.css" rel="stylesheet" />
-    <link rel="icon" type="image/png" href="../images/logo.png" />
+<div class="pagina-titulos">
+    <nav class="ruta" aria-label="Ruta">Consultas / Apulo / <span>Exonerados</span></nav>
+    <div class="titulo-linea">
+        <h1 class="titulo">Consulta de <span>exonerados</span></h1>
+        <span class="insignia">Apulo</span>
+    </div>
+    <p class="subtitulo">Verifique si una persona está exonerada escribiendo su nombre o su número de DUI completo.</p>
+</div>
 
-    <script id="tailwind-config">
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        "primary-azul": "#000e4d",
-                        "primary-verde": "#002e21",
-                        "accent-azul": "#007380",
-                        "accent-verde": "#a7f3d0",
-                        "accent-verde-intenso": "#047857"
-                    },
-                    fontFamily: {
-                        "body": ["Inter", "sans-serif"]
-                    }
-                }
-            }
-        }
-    </script>
-</head>
-
-<body class="font-body antialiased">
-
-    <!---Preloader-->
-    <div id="preloader"
-        class="fixed inset-0 z-[9999] flex items-center justify-center bg-white transition-opacity duration-1000">
-        <div class="flex flex-col items-center">
-            <div class="h-16 w-16 animate-spin rounded-full border-4 border-slate-200 border-t-primary-azul"></div>
-
-            <p class="mt-4 text-sm font-black uppercase tracking-widest text-accent-azul animate-pulse">
-                Cargando...
-            </p>
+<section class="panel">
+    <div class="panel-busqueda">
+        <label for="buscadorCustom">¿La persona está exonerada?</label>
+        <div class="busqueda-fila">
+            <div class="campo-busqueda">
+                <?= icono('buscar', 20, 2.2) ?>
+                <input id="buscadorCustom" type="search" placeholder="Nombre o número de DUI…" autocomplete="off">
+            </div>
         </div>
+        <span class="nota-verde">El DUI puede escribirse con o sin guion.</span>
     </div>
 
-    <main class="relative z-10 pt-16 pb-24 px-4 md:px-12 max-w-6xl mx-auto">
-        <div class="mb-6 flex items-center justify-between gap-4 w-full">
-            <div class="text-left">
-                <span class="inline-block bg-accent-azul/10 text-primary-azul px-5 py-1.5 rounded-full text-sm font-black tracking-widest uppercase mb-4 shadow-sm border border-primary-azul/10">
-                    ISTU • APULO
-                </span>
-                <h1 class="text-2xl md:text-4xl text-[#05013B] font-black tracking-tight leading-tight">Consulta de <span class="text-accent-verde-intenso">Exonerados</span></h1>
-            </div>
+    <!--------------------------------TABLE---------------------------------->
+    <table id="tablaExonerados" class="tabla">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 180px">DUI</th>
+                <th scope="col">Nombre completo</th>
+                <th scope="col">Comunidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--exonerados es un arreglo-->
+            <?php foreach ($exonerados as $x): ?>
+                <tr>
+                    <!--DATASEARCH el dui se encuentra con o sin guion-->
+                    <td data-label="DUI" class="mono" data-search="<?= e($x['dui'] . ' ' . str_replace('-', '', $x['dui'] ?? '')) ?>"><?= e($x['dui']) ?></td>
+                    <td data-label="Nombre" class="fuerte"><?= e($x['nombre']) ?></td>
+                    <td data-label="Comunidad">
+                        <?php if ($x['comunidad']): ?>
+                            <span class="pastilla"><?= e($x['comunidad']) ?></span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</section>
 
-            <a href="../index.php" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-slate-600 bg-primary-verde text-white border border-slate-200 shadow-sm transition-all duration-300 hover:text-primary-verde hover:border-primary-verde/30 hover:bg-slate-50 hover:-translate-x-1 group">
-                <span class="material-symbols-outlined text-xl transition-transform duration-300 group-hover:-translate-x-0.5">arrow_back</span>
-                Inicio
-            </a>
-
-        </div>
-
-        <!--barra de busqueda-->
-        <div class="relative group mb-8">
-            <div class="absolute inset-y-0 left-6 flex items-center pointer-events-none">
-                <span class="material-symbols-outlined text-primary-azul/30 group-focus-within:text-primary-verde transition-colors text-3xl">search</span>
-            </div>
-
-            <!---------Buscador Personalizado--------->
-            <input id="buscadorCustom"
-                class="w-full glass-card rounded-2xl py-4 pl-14 pr-6 text-base text-slate-900 placeholder:text-slate-400 outline-none border border-slate-200 focus:ring-4 focus:ring-accent-azul/20 transition-all duration-300 focus:border-primary-verde shadow-sm font-bold"
-                placeholder="Escribe un nombre o número de DUI..." type="text" autocomplete="off" />
-        </div>
-
-        <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
-            <div class="w-full overflow-x-auto custom-scrollbar">
-                <table id="tablaExonerados" class="w-full min-w-[850px] text-left border-collapse">
-                    <thead class="bg-accent-verde-intenso/5">
-                        <tr class="text-primary-verde text-[16px] uppercase tracking-[0.25em] font-black">
-                            <th class="w-[20%] px-10 py-6 border border-slate-200/50">DUI</th>
-                            <th class="w-[50%] px-10 py-6 border border-slate-200/50">Nombre Completo</th>
-                            <th class="w-[30%] px-10 py-6 border border-slate-200/50">Comunidad</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-white/40">
-                        <?php
-                        $sql = "SELECT dui, nombre, comunidad FROM exonerados_apulo ORDER BY nombre COLLATE utf8mb4_unicode_ci ASC";
-                        $resultado = $conexion->query($sql);
-
-                        if ($resultado && $resultado->num_rows > 0) {
-                            while ($fila = $resultado->fetch_assoc()) {
-                                echo '<tr class="hover:bg-accent-azul/5 transition-colors duration-200">';
-
-                                //-------------------DUI-------------------
-                                echo '<td class="px-8 py-7 border border-slate-200/50">';
-                                echo '<span class="font-extrabold text-md tracking-tight block">' . htmlspecialchars($fila['dui']) . '</span>';
-                                echo '</td>';
-
-                                //-------------------NOMBRE-------------------
-                                echo '<td class="px-8 py-7 border border-slate-200/50">';
-                                echo '<span class="font-extrabold text-md tracking-tight block" title="' . htmlspecialchars($fila['nombre']) . '">' . htmlspecialchars($fila['nombre']) . '</span>';
-                                echo '</td>';
-
-                                //-------------------COMUNIDAD-------------------
-                                echo '<td class="px-8 py-7 border border-slate-200/50">';
-                                echo '<span class="font-extrabold text-md tracking-tight block" title="' . htmlspecialchars($fila['comunidad']) . '">' . (!empty($fila['comunidad']) ? htmlspecialchars($fila['comunidad']) : '') . '</span>';
-                                echo '</td>';
-
-                                echo '</tr>';
-                            }
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </main>
-
-    <!-- Aesthetic Accents -->
-    <div class="fixed top-0 left-0 w-full h-1.5 bg-accent-verde-intenso z-50"></div>
-    <div class="fixed bottom-0 left-0 w-full h-1.5 bg-primary-azul z-50"></div>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="../js/preloader.js"></script>
-    <script src="../js/exonerados_apulo.js"></script>
-</body>
-
-</html>
+<?php
+$script = 'exonerados_apulo.js';
+require __DIR__ . '/../inc/publico_fin.php';

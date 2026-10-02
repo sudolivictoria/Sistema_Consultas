@@ -1,9 +1,13 @@
+/*
+ * PRELOADER: la pantalla de "Cargando…" de todas las páginas.
+ * "load" se dispara cuando la página terminó de cargar TODO 
+ */
 window.addEventListener("load", function () {
   const preloader = document.getElementById("preloader");
-  preloader.classList.add("opacity-0");
-  document.body.classList.remove("overflow-hidden");
-  document.body.style.overflow = "auto";
-  setTimeout(() => {
-    preloader.style.display = "none";
-  }, 1000);
+  if (!preloader) return;
+
+  preloader.classList.add("oculto"); 
+  setTimeout(function () {
+    preloader.remove();
+  }, 400);
 });

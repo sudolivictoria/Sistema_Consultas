@@ -1,0 +1,213 @@
+/* ==========================================================================
+   --------------------------------INICIO------------------------------------
+   ========================================================================== */
+.inicio-main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 72px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+}
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+}
+.hero-insignia {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #FFFFFF;
+    border: 1px solid var(--verde-borde);
+    color: var(--verde-oscuro);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+.hero-insignia::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--verde);
+}
+.hero h1 {
+    margin: 0;
+    font-size: 52px;
+    line-height: 1.08;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+}
+.hero h1 span {
+    color: var(--verde);
+}
+.hero-linea {
+    width: 96px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--verde);
+}
+.hero p {
+    margin: 0;
+    font-size: 17px;
+    color: var(--gris);
+}
+.tarjetas-inicio {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: 24px;
+}
+.tarjeta-inicio {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+    padding: 40px 28px 28px;
+    background: #FFFFFF;
+    border: 1px solid var(--borde);
+    border-radius: 22px;
+    text-decoration: none;
+    color: var(--texto);
+    box-shadow: 0 2px 6px rgba(11, 31, 58, 0.05);
+    transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+}
+.tarjeta-inicio:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(15, 107, 79, 0.14);
+    border-color: var(--verde-borde-2);
+    color: var(--texto);
+}
+/*-----Círculos decorativos en dos esquinas de cada tarjeta-----*/
+.tarjeta-inicio::before,
+.tarjeta-inicio::after {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+/*------ANIMACION CIRCULOS DEL BORDE DE LAS CARDS-----*/
+.tarjeta-inicio:hover::before,
+.tarjeta-inicio:hover::after {
+    transform: scale(1.2);
+}
+
+.tarjeta-inicio::before {
+    top: -42px;
+    left: -42px;
+    background: var(--gris-claro);
+}
+
+.tarjeta-inicio::after {
+    bottom: -42px;
+    right: -42px;
+    background: var(--verde-claro);
+}
+
+.tarjeta-inicio>* {
+    position: relative;
+    z-index: 1;
+}
+.tarjeta-icono {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: var(--verde-claro);
+    color: var(--verde);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 6px var(--verde-suave);
+    transition: transform 0.3s ease;
+}
+
+/*------ANIMACION ÍCONO DE LAS CARDS-----*/
+.tarjeta-inicio:hover .tarjeta-icono {
+    transform: scale(1.1);
+}
+.tarjeta-nombre {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+}
+.tarjeta-desc {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--gris);
+    max-width: 260px;
+}
+.tarjeta-cta {
+    margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 0 18px;
+    border-radius: 999px;
+    background: var(--verde);
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
+}
+.tarjeta-inicio:hover .tarjeta-cta {
+    background: var(--verde-oscuro);
+}
+.tarjeta-inicio .tarjeta-nuevo {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #FFF0D4;
+    color: #7A4B00;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/*---------ENLACE ADMIN---------*/
+.enlace-admin {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gris);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.15s, background 0.15s;
+}
+.enlace-admin:hover {
+    opacity: 1;
+    background: #FFFFFF;
+    color: var(--verde);
+}
+
+
+/***************MOBILE RESPONSIVE***************/
+@media (max-width: 640px) {
+    .hero h1 {
+        font-size: 36px;
+    }
+    .inicio-main {
+        padding: 48px 16px;
+    }
+}
