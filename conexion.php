@@ -1,8 +1,8 @@
 <?php
 //------configuración de la base de datos
 $host = "localhost";
-$usuario = "root";
-$password = "";
+$usuario = "balboa";
+$password = "ISTU.balboa.2026";
 $base_datos = "exonerados";
 
 //----conexion a la base de datos
