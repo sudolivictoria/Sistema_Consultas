@@ -1,7 +1,9 @@
 <?php
 /*
+ *----------------------------------------------------------------------------
  * PANEL LATERAL (drawer) - parte de abajo: botones Cancelar y Guardar.
  * Si la página define $textoBoton, se usa ese texto en lugar de "Guardar".
+ * ----------------------------------------------------------------------------
  */
 ?>
             </div>

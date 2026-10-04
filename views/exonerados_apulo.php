@@ -1,6 +1,8 @@
 <?php
 /*
- * CONSULTA PÚBLICA DE EXONERADOS (Apulo)
+ *----------------------------------------------------------------------------
+ *                      CONSULTA PÚBLICA DE EXONERADOS (Apulo)
+ * ---------------------------------------------------------------------------
  * Tabla con buscador por nombre o DUI. El buscador lo maneja js/exonerados_apulo.js.
  */
 $titulo = 'Consulta de exonerados';
@@ -37,7 +39,7 @@ $exonerados = $conexion->query(
     <table id="tablaExonerados" class="tabla">
         <thead>
             <tr>
-                <th scope="col" style="width: 180px">DUI</th>
+                <th scope="col" class="col-dui">DUI</th>
                 <th scope="col">Nombre completo</th>
                 <th scope="col">Comunidad</th>
             </tr>

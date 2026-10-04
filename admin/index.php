@@ -45,20 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $error = 'Usuario o contraseña incorrectos.';
 }
-?>
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Iniciar sesión - Panel ISTU</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <?= estilos(SITE_URL . '/', 'base', 'formularios', 'login', 'preloader') ?>
-    <link rel="icon" type="image/png" href="<?= SITE_URL ?>/images/logo.png" />
-    <script src="<?= SITE_URL ?>/<?= version('js/preloader.js') ?>"></script>
-</head>
+$titulo = 'Iniciar sesión - Panel ISTU';
+$raiz   = SITE_URL . '/';
+$hojas  = ['base', 'formularios', 'login', 'preloader'];
+require __DIR__ . '/../inc/head.php';
+?>
 
 <body class="fondo-cuadricula login-pagina">
     <?php require __DIR__ . '/../inc/preloader.php'; ?>
@@ -116,16 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </main>
 
-    <script>
-        //----------Mostrar / ocultar la contraseña------------------
-        const botonVer = document.getElementById('verClave');
-        const campoClave = document.getElementById('clave');
-        botonVer.addEventListener('click', function() {
-            const oculta = campoClave.type === 'password';
-            campoClave.type = oculta ? 'text' : 'password';
-            botonVer.setAttribute('aria-label', oculta ? 'Ocultar contraseña' : 'Mostrar contraseña');
-        });
-    </script>
+    <script src="<?= $raiz . version('js/login.js') ?>"></script>
 </body>
 
 </html>

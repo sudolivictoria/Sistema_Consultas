@@ -1,7 +1,7 @@
 <?php
 /*
  * ============================================================================
- * PARTE DE ARRIBA DE LAS CONSULTAS PÚBLICAS (views/*.php)
+ *        PARTE DE ARRIBA DE LAS CONSULTAS PÚBLICAS (views/*.php)
  * ============================================================================
  * Conecta a la base, carga las funciones y dibuja el encabezado.
  */
@@ -9,21 +9,11 @@ require_once __DIR__ . '/../conexion.php';
 require_once __DIR__ . '/funciones.php';      
 require_once __DIR__ . '/iconos.php';         
 
-$titulo ??= 'Consultas';  
+$titulo = ($titulo ?? 'Consultas') . ' - ISTU';
+$raiz   = '../';
+$hojas  = ['base', 'paginas', 'tablas', 'modales', 'preloader'];
+require __DIR__ . '/head.php';
 ?>
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title><?= e($titulo) ?> - ISTU</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-    <?= estilos('../', 'base', 'paginas', 'tablas', 'modales', 'preloader') ?>
-    <link rel="icon" type="image/png" href="../images/logo.png" />
-    <script src="../<?= version('js/preloader.js') ?>"></script>
-</head>
 
 <body class="fondo-cuadricula">
     <?php require __DIR__ . '/preloader.php'; ?>

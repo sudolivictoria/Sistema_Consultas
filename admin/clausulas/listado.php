@@ -1,7 +1,7 @@
 <?php
 /*
 ---------------------------------------------------------
- * CLÁUSULAS CONTRACTUALES - LISTADO (pieza reutilizable)
+ *         CLÁUSULAS CONTRACTUALES - LISTADO 
  * -------------------------------------------------------
  */
 
@@ -36,12 +36,13 @@ $resultado = $conexion->query("SELECT id, numero, titulo FROM clausulas ORDER BY
     <table class="tabla tabla-admin">
         <thead>
             <tr>
-                <th scope="col" style="width: 80px">N.º</th>
+                <th scope="col" class="col-numero">N.º</th>
                 <th scope="col">Título</th>
                 <th scope="col" class="derecha">Acciones</th>
             </tr>
         </thead>
         <tbody>
+            <!--cada fila de la tabla es una cláusula, con botones para editar o eliminar-->
             <?php while ($f = $resultado->fetch_assoc()): ?>
                 <tr>
                     <td data-label="N.º"><span class="ref"><?= e($f['numero']) ?></span></td>

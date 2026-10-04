@@ -1,6 +1,6 @@
 $(function () {
   //---------config tabla arrendatarios---------
-  var table = crearTabla("#tablaArrendatarios", {
+  const tabla = crearTabla("#tablaArrendatarios", {
     order: [[0, "asc"]],
     columnDefs: [{ targets: 2, orderable: false }],
     language: {
@@ -12,7 +12,7 @@ $(function () {
 
   //------buscador
   $("#buscadorCustom").on("input", function () {
-    table.search(this.value).draw();
+    tabla.search(this.value).draw();
   });
 
   //-------ventana de las clausulas del contrato 

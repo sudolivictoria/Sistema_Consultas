@@ -105,9 +105,10 @@ $(function () {
   }
 
   //----------muestra u oculta una sección del detalle según si hay texto
+  //----------.text() y NO .html(): si el texto trae etiquetas (<script>...), se muestran como texto y no se ejecutan
   function mostrarSeccion(idSeccion, idTexto, texto) {
     const hayTexto = texto && String(texto).trim() !== "";
-    if (hayTexto) $(idTexto).html(texto);
+    if (hayTexto) $(idTexto).text(texto);
     $(idSeccion).toggle(Boolean(hayTexto));
   }
 

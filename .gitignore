@@ -1,3 +1,6 @@
 # Credenciales de la base de datos (cada equipo tiene la suya).
 # Usar conexion.example.php como plantilla.
 conexion.php
+
+# Archivos que se suben desde el panel (no son código)
+uploads/

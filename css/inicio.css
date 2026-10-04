@@ -59,6 +59,15 @@
     font-size: 17px;
     color: var(--gris);
 }
+
+/*-----PÁGINA 404: el número grande arriba del título (ver 404.php)-----*/
+.error-codigo {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 96px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--verde);
+}
 .tarjetas-inicio {
     width: 100%;
     display: grid;

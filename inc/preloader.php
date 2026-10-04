@@ -1,6 +1,8 @@
 <?php
 /*
- * PRELOADER: pantalla de "Cargando…" 
+ *----------------------------------------------------------------------------
+ *                  PRELOADER: pantalla de "Cargando…" 
+ * ---------------------------------------------------------------------------
  */
 ?>
 <div id="preloader" class="preloader" role="status" aria-live="polite">

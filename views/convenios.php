@@ -1,6 +1,8 @@
 <?php
 /*
- * CONSULTA PÚBLICA DE CONVENIOS
+ *----------------------------------------------------------------------------
+ *                      CONSULTA PÚBLICA DE CONVENIOS
+ * ---------------------------------------------------------------------------
  * Tabla con buscador y filtros + ventana de detalle de cada convenio.
  * El buscador, los filtros y la ventana los maneja js/convenios.js.
  */

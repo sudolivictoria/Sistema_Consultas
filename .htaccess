@@ -1,0 +1,16 @@
+# ============================================================================
+# PÁGINAS DE ERROR PERSONALIZADAS
+# ============================================================================
+# mod_rewrite revisa cada dirección que piden y, si cumple una regla, muestra
+# otro archivo (sin cambiar la dirección que se ve en el navegador).
+# Las rutas son relativas a esta carpeta: funciona igual si el proyecto está
+RewriteEngine On
+
+# Las piezas internas (inc/ y admin/inc/) se responden como si no existieran.
+# Mejor un 404 que un 403: así nadie confirma que esas carpetas existen.
+RewriteRule ^(admin/)?inc(/|$) 404.php [L]
+
+# Si lo que piden no es un archivo (-f) ni una carpeta (-d) que exista -> 404.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ 404.php [L]

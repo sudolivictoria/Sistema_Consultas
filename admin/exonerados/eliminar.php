@@ -1,25 +1,10 @@
 <?php
 /*
-   -----------------------------
- * EXONERADOS - ELIMINAR
- * -----------------------------
+   ------------------------------------------------------------------
+ *                     EXONERADOS - ELIMINAR
+ * ------------------------------------------------------------------
+ * Todo el trabajo lo hace eliminar_y_volver() (ver admin/inc/bootstrap.php).
  */
 require_once __DIR__ . '/../inc/auth.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    redirigir('exonerados/index.php');
-}
-csrf_verificar();
-
-$id = (int) ($_POST['id'] ?? 0);
-
-$stmt = $conexion->prepare("DELETE FROM exonerados_apulo WHERE id = ?");
-$stmt->bind_param('i', $id);
-$stmt->execute();
-
-if ($stmt->affected_rows) {
-    flash('El registro se eliminó correctamente.', 'eliminado');
-} else {
-    flash('El registro ya no existía.', 'error');
-}
-redirigir('exonerados/index.php');
+eliminar_y_volver($conexion, 'exonerados_apulo', 'exonerados/index.php', 'El registro se eliminó correctamente.', 'El registro ya no existía.');

@@ -1,6 +1,8 @@
 <?php
 /*
- * CONSULTA PÚBLICA DE ARRENDATARIOS
+ *----------------------------------------------------------------------------
+ *                    CONSULTA PÚBLICA DE ARRENDATARIOS
+ * ---------------------------------------------------------------------------
  * Tabla con buscador + normativa (PDF de política interna y ventana de cláusulas).
  * El buscador y la ventana los maneja js/arrendatarios.js.
  */
@@ -62,8 +64,8 @@ $ordinales = [1 => 'primera', 'segunda', 'tercera', 'cuarta', 'quinta', 'sexta',
     <table id="tablaArrendatarios" class="tabla">
         <thead>
             <tr>
-                <th scope="col" style="width: 28%">Arrendatario</th>
-                <th scope="col" style="width: 26%">Local comercial</th>
+                <th scope="col" class="col-arrendatario">Arrendatario</th>
+                <th scope="col" class="col-local">Local comercial</th>
                 <th scope="col">Venta autorizada</th>
             </tr>
         </thead>

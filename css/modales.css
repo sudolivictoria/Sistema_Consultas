@@ -88,7 +88,7 @@ dialog::backdrop {
 }
 
 /*--------------------ACORDEON CLUSULAS------------------------*/
-/* flex-shrink: 0 = la cláusula NUNCA se encoge para caber en la ventana.*/
+/*flex-shrink: 0 = la cláusula NUNCA se encoge para caber en la ventana.*/
 .acordeon {
     flex-shrink: 0;
     border: 1px solid var(--borde);
@@ -378,6 +378,7 @@ dialog::backdrop {
     line-height: 1.6;
     color: var(--texto-2);
     overflow-wrap: anywhere;
+    white-space: pre-line;   /*respeta los saltos de línea que se escribieron en el formulario*/
 }
 
 

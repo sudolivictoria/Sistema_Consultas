@@ -1,6 +1,8 @@
 <?php
 /*
+ *-------------------------------------------
  * Lista de errores de validación de un formulario.
+ * ------------------------------------------
  */
 if (!empty($errores)): ?>
     <div class="errores" role="alert">

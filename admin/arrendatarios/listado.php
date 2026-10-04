@@ -1,22 +1,22 @@
 <?php
 /*
- * ARRENDATARIOS - LISTADO (pieza reutilizable)
- * Mismo patrón que convenios/listado.php, más la sección "Normativa" con
- * accesos a las cláusulas contractuales y al PDF de política interna.
+ *-------------------------------------------
+ * ARRENDATARIOS - LISTADO 
  * Lo usan index.php, form.php y politica.php.
+ * ------------------------------------------
  */
 
-// Esta pieza solo se incluye desde otras páginas. Si alguien la abre directo
-// en el navegador (sin sesión ni diseño), lo mandamos al listado completo.
+//---require auth.php para que solo usuarios logueados puedan acceder a este archivo
 if (basename($_SERVER['SCRIPT_FILENAME']) === basename(__FILE__)) {
     header('Location: index.php');
     exit;
 }
+//---buscamos todos los arrendatarios en la base de datos
 $resultado = $conexion->query("SELECT id, nombre_arrendatario, local_comercial, venta_autorizada FROM arrendatarios ORDER BY nombre_arrendatario");
 
-// Datos para las tarjetas de normativa
+//----contamos cuántas cláusulas hay en la base de datos y si existe el PDF de política interna
 $totalClausulas = $conexion->query("SELECT COUNT(*) FROM clausulas")->fetch_row()[0];
-$hayPdf = file_exists(POLITICA_PDF_RUTA);   // file_exists: ¿el archivo está en el disco?
+$hayPdf = file_exists(POLITICA_PDF_RUTA);   //---POLITICA_PDF_RUTA está en inc/config.php. Es la ruta absoluta al PDF de política interna.
 ?>
 
 <div class="pagina-cabecera">
@@ -28,7 +28,7 @@ $hayPdf = file_exists(POLITICA_PDF_RUTA);   // file_exists: ¿el archivo está e
     <a href="form.php" class="btn btn-oscuro"><?= icono('mas', 18, 2.4) ?> Nuevo arrendatario</a>
 </div>
 
-<!-- NORMATIVA: lo que se muestra a todos en la consulta pública -->
+<!--NORMATIVA: lo que se muestra a todos en la consulta pública-->
 <section class="normativa">
     <div class="normativa-encabezado">
         <h2>Normativa</h2>
@@ -85,8 +85,7 @@ $hayPdf = file_exists(POLITICA_PDF_RUTA);   // file_exists: ¿el archivo está e
                     <td data-label="Venta">
                         <div class="chips">
                             <?php
-                            // La venta autorizada se guarda como "Agua, Gaseosas, Dulces".
-                            // La partimos por las comas y mostramos cada producto como etiqueta.
+                            //---la partimos por las comas y mostramos cada producto como etiqueta.
                             foreach (lista_desde_comas($f['venta_autorizada']) as $producto):
                             ?>
                                 <span class="chip"><?= e($producto) ?></span>

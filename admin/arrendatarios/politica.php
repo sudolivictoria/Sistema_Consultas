@@ -59,7 +59,7 @@ require __DIR__ . '/../inc/drawer_inicio.php';
 ?>
 
 <?php if (file_exists(POLITICA_PDF_RUTA)): ?>
-    <p class="ayuda" style="font-size: 14px; margin: 0">
+    <p class="ayuda ayuda-grande">
         Ya hay un PDF publicado: <a href="<?= POLITICA_PDF_URL ?>" target="_blank" rel="noopener">ver el actual</a>.
         El que suba ahora lo reemplazará.
     </p>

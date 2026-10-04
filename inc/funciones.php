@@ -3,9 +3,19 @@
  * ============================================================================
  * FUNCIONES COMPARTIDAS (sitio público + panel /admin)
  * ============================================================================
- * Las funciones que solo usa el admin (sesión, CSRF, mensajes) están en inc/admin_funciones.php
+ * Las funciones que solo usa el admin (sesión, CSRF, mensajes, base de datos) están en admin/inc/bootstrap.php
  * Las funciones que usa el sitio público (inicio, exonerados, convenios, arrendatarios) están en este archivo
  */
+
+//----------------------URL BASE DEL SITIO----------------------
+//--Compara la carpeta del proyecto con la raíz del servidor web (DOCUMENT_ROOT):
+//--  proyecto en C:/.../WORK/Sistema_Consultas y raíz en C:/.../WORK -> SITE_URL = '/Sistema_Consultas'
+//--  si el proyecto ES la raíz (servidor, virtual host, php -S)        -> SITE_URL = ''
+//--define() crea una CONSTANTE: un valor fijo que se puede usar en cualquier archivo y función.
+$raizWeb   = str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT']));
+$raizSitio = str_replace('\\', '/', dirname(__DIR__));
+define('SITE_URL', stripos($raizSitio, $raizWeb) === 0 ? substr($raizSitio, strlen($raizWeb)) : '');
+unset($raizWeb, $raizSitio);
 
 //----------------------RUTA DEL PDF DE POLÍTICA INTERNA----------------------
 //--se gestiona desde admin y se muestra en el sitio público. Se guarda en uploads/politica-interna.pdf
@@ -93,6 +103,24 @@ function estilos($raiz, ...$archivos)
     $html = '';
     foreach ($archivos as $archivo) {
         $html .= '<link href="' . $raiz . version("css/$archivo.css") . '" rel="stylesheet">' . "\n";
+    }
+    return $html;
+}
+
+/*
+ * scripts_tablas(): los scripts que necesita toda página con tablas
+ * -----------------------------------------------------------------
+ * jQuery y DataTables están guardados en js/vendor/ (no se piden a internet):
+ * cargan al instante y funcionan aunque falle la conexión.
+ * Al final va el script propio de la página (ej. 'convenios.js').
+ */
+function scripts_tablas($raiz, $scriptPagina)
+{
+    $archivos = ['vendor/jquery-3.7.1.min.js', 'vendor/jquery.dataTables-1.13.6.min.js', 'tabla.js', $scriptPagina];
+
+    $html = '';
+    foreach ($archivos as $archivo) {
+        $html .= '<script src="' . $raiz . version("js/$archivo") . '"></script>' . "\n";
     }
     return $html;
 }

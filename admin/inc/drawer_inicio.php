@@ -1,7 +1,7 @@
 <?php
 /*
  * ============================================================================
- * PANEL LATERAL (drawer) - parte de arriba
+ *            PANEL LATERAL (drawer) - parte de arriba
  * ============================================================================
  * El formulario de crear/editar se muestra como un panel que se desliza desde la derecha.
  * Para subir archivos, antes se define $subeArchivos = true (agrega enctype).

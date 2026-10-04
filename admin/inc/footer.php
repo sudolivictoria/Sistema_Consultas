@@ -1,9 +1,13 @@
 <?php
 /*
+ *----------------------------------------------------------------------------
  * FOOTER: cierra lo que abrió header.php y agrega 
  * La notificación (toast) con el mensaje flash, si hay uno
  * La ventana "¿Eliminar este registro?" (la abre js/admin.js)
+ * ----------------------------------------------------------------------------
  */
+
+//--------------------------NOTIFICACIONES--------------------------------------
 
 //-------------Título de la notificación según el tipo de mensaje flash-------------
 $titulosToast = ['ok' => 'Cambios guardados', 'eliminado' => 'Registro eliminado', 'error' => 'Atención'];
@@ -38,10 +42,7 @@ $titulosToast = ['ok' => 'Cambios guardados', 'eliminado' => 'Registro eliminado
     </dialog>
 
     <!--jQuery, DataTables, configuración común de tablas y el JS del admin-->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="<?= SITE_URL ?>/<?= version('js/tabla.js') ?>"></script>
-    <script src="<?= SITE_URL ?>/<?= version('js/admin.js') ?>"></script>
+    <?= scripts_tablas(SITE_URL . '/', 'admin.js') ?>
 </body>
 
 </html>

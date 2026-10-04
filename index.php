@@ -1,20 +1,12 @@
 <?php
 require __DIR__ . '/inc/iconos.php';
 require __DIR__ . '/inc/funciones.php';
-?>
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Consultas ISTU</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <?= estilos('', 'base', 'inicio', 'preloader') ?>
-    <link rel="icon" type="image/png" href="images/logo.png" />
-    <script src="<?= version('js/preloader.js') ?>"></script>
-</head>
+$titulo = 'Consultas ISTU';
+$raiz   = '';
+$hojas  = ['base', 'inicio', 'preloader'];
+require __DIR__ . '/inc/head.php';
+?>
 
 <body class="fondo-cuadricula">
     <?php require __DIR__ . '/inc/preloader.php'; ?>

@@ -11,12 +11,12 @@ $usuario = "root";
 $password = "";
 $base_datos = "exonerados";
 
-//----conexion a la base de datos
-$conexion = new mysqli($host, $usuario, $password, $base_datos);
-
-//---verificar la conexion
-if ($conexion->connect_error) {
-    die("Error de conexión: " . $conexion->connect_error);
+//----conexion a la base de datos (ver la explicación del try/catch en conexion.php)
+try {
+    $conexion = new mysqli($host, $usuario, $password, $base_datos);
+    $conexion->set_charset("utf8mb4");
+} catch (mysqli_sql_exception $ex) {
+    error_log('Error de conexión a MySQL: ' . $ex->getMessage());
+    http_response_code(500);
+    exit('El sistema no está disponible en este momento. Intente más tarde.');
 }
-
-$conexion->set_charset("utf8");

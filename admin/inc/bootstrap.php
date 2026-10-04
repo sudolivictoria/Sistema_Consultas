@@ -11,10 +11,15 @@
  */
 
 //----session_start() le dice a PHP: "voy a usar $_SESSION".
-//---$_SESSION es un arreglo que se guarda en el SERVIDOR y sobrevive entre paginas
-session_start();
+//---$_SESSION es un arreglo que se guarda en el SERVIDOR y sobrevive entre paginas.
+//---El navegador solo guarda una cookie con el id de la sesión; estas opciones la protegen:
+session_start([
+    'cookie_httponly' => true,    //----JavaScript no puede leer la cookie (si alguien inyecta un script, no la roba)
+    'cookie_samesite' => 'Lax',   //----otro sitio web no puede enviar formularios usando la sesión de alguien
+    'use_strict_mode' => true,    //----PHP rechaza ids de sesión que él no creó
+]);
 
-// __DIR__ evita errores de rutas
+//__DIR__ evita errores de rutas
 require_once __DIR__ . '/../../conexion.php';       
 require_once __DIR__ . '/../../inc/funciones.php'; 
 require_once __DIR__ . '/../../inc/iconos.php';     
@@ -22,14 +27,10 @@ require_once __DIR__ . '/../../inc/iconos.php';
 
 /*
  * ---------------------------------------------------------------------------
- * ----------------------URLs base del sitio----------------------------------
+ * ----------------------URLs base del panel----------------------------------
  * ---------------------------------------------------------------------------
+ * SITE_URL (la URL base de todo el sitio) está en inc/funciones.php
  */
-$raizWeb   = str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT']));
-$raizSitio = str_replace('\\', '/', dirname(__DIR__, 2));  
-
-//------define() crea una CONSTANTE: un valor fijo que se puede usar en cualquier archivo y función sin pasarlo como parámetro.
-define('SITE_URL', stripos($raizSitio, $raizWeb) === 0 ? substr($raizSitio, strlen($raizWeb)) : '');
 define('ADMIN_URL', SITE_URL . '/admin');
 
 //------URL del PDF de política interna (la ruta en disco, POLITICA_PDF_RUTA, está en inc/funciones.php).
@@ -48,6 +49,79 @@ function redirigir($ruta)
 {
     header('Location: ' . ADMIN_URL . '/' . ltrim($ruta, '/'));
     exit;
+}
+
+
+/*
+ * ---------------------------------------------------------------------------
+ * ---------------------FUNCIONES DE BASE DE DATOS----------------------------
+ * ---------------------------------------------------------------------------
+ * Todos los módulos (convenios, exonerados, arrendatarios, cláusulas) hacen lo
+ * mismo: buscar un registro por id, guardarlo (INSERT o UPDATE) y eliminarlo.
+ * En vez de repetir ese código en cada archivo, está una sola vez aquí.
+ * OJO: $tabla y los nombres de columnas los escribe el programador en el código,
+ * nunca vienen del formulario. Los VALORES siempre van con "?" (consulta preparada).
+ */
+
+//----devuelve la fila con ese id como arreglo, o null si no existe
+function buscar_registro($conexion, $tabla, $columnas, $id)
+{
+    $stmt = $conexion->prepare("SELECT $columnas FROM $tabla WHERE id = ?");
+    $stmt->execute([$id]);
+    return $stmt->get_result()->fetch_assoc();
+}
+
+/*
+ * guardar_registro(): crea o actualiza un registro
+ *   $datos = ['referencia' => 'ISTU01', 'institucion' => '...']   (columna => valor)
+ *   $id    = 0 -> INSERT (nuevo)  |  $id = 5 -> UPDATE del registro 5
+ */
+function guardar_registro($conexion, $tabla, array $datos, $id)
+{
+    //----arma "referencia = ?, institucion = ?, ..." a partir de las claves del arreglo
+    $campos  = implode(', ', array_map(fn($columna) => "$columna = ?", array_keys($datos)));
+    $valores = array_values($datos);
+
+    //----"INSERT ... SET campo = ?" es una forma de MySQL que permite usar la misma
+    //----lista de campos para INSERT y para UPDATE
+    if ($id) {
+        $valores[] = $id;   //----el último ? es el del WHERE id = ?
+        $sql = "UPDATE $tabla SET $campos WHERE id = ?";
+    } else {
+        $sql = "INSERT INTO $tabla SET $campos";
+    }
+
+    //----execute($valores) reemplaza cada ? en orden
+    $conexion->prepare($sql)->execute($valores);
+}
+
+//----elimina el registro con ese id. Devuelve true si se borró algo.
+function eliminar_registro($conexion, $tabla, $id)
+{
+    $stmt = $conexion->prepare("DELETE FROM $tabla WHERE id = ?");
+    $stmt->execute([$id]);
+    return $stmt->affected_rows > 0;
+}
+
+/*
+ * eliminar_y_volver(): todo lo que hace un eliminar.php
+ * -----------------------------------------------------
+ * Solo acepta POST con token CSRF, borra el registro, deja el mensaje y regresa al listado. Así cada eliminar.php queda en una sola línea.
+ */
+function eliminar_y_volver($conexion, $tabla, $listado, $mensajeOk, $mensajeNoExiste)
+{
+    //----si abren eliminar.php directamente en el navegador, vuelve al listado
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        redirigir($listado);
+    }
+    csrf_verificar();   //----confirma que el formulario salió de nuestro listado
+
+    if (eliminar_registro($conexion, $tabla, (int) ($_POST['id'] ?? 0))) {
+        flash($mensajeOk, 'eliminado');
+    } else {
+        flash($mensajeNoExiste, 'error');
+    }
+    redirigir($listado);
 }
 
 
@@ -81,8 +155,9 @@ function csrf_verificar()
 
 
 /*
+ *-------------------------------------------
  * Mensajes "flash"
- * ----------------
+ * ------------------------------------------
  * Después de guardar redirigimos al listado
  */
 

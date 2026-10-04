@@ -12,10 +12,7 @@ $exo = ['dui' => '', 'nombre' => '', 'comunidad' => ''];
 
 if ($id) {
     //----solo las 3 columnas que necesitamos
-    $stmt = $conexion->prepare("SELECT dui, nombre, comunidad FROM exonerados_apulo WHERE id = ?");
-    $stmt->bind_param('i', $id);
-    $stmt->execute();
-    $fila = $stmt->get_result()->fetch_assoc();
+    $fila = buscar_registro($conexion, 'exonerados_apulo', 'dui, nombre, comunidad', $id);
     if (!$fila) {
         flash('El registro no existe.', 'error');
         redirigir('exonerados/index.php');
@@ -42,18 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$errores) {
-        $valores = [$exo['dui'], $exo['nombre'], $exo['comunidad']];
-        $campos  = "dui = ?, nombre = ?, comunidad = ?";
         try {
-            if ($id) {
-                $valores[] = $id;
-                $conexion->prepare("UPDATE exonerados_apulo SET $campos WHERE id = ?")->execute($valores);
-            } else {
-                $conexion->prepare("INSERT INTO exonerados_apulo SET $campos")->execute($valores);
-            }
+            guardar_registro($conexion, 'exonerados_apulo', $exo, $id);
             flash($id ? 'El registro se actualizó correctamente.' : 'El registro se creó correctamente.');
             redirigir('exonerados/index.php');
         } catch (mysqli_sql_exception $ex) {
+            //----1062 = "valor duplicado" en una columna UNIQUE (el DUI). Cualquier otro error se deja pasar.
             if ($ex->getCode() !== 1062) throw $ex;
             $errores[] = 'Ya existe un registro con ese DUI.';
         }

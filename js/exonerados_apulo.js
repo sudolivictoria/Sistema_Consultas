@@ -1,6 +1,6 @@
 $(function () {
   //-------tabla de exonerados---
-  var table = crearTabla("#tablaExonerados", {
+  const tabla = crearTabla("#tablaExonerados", {
     order: [[1, "asc"]],
     columnDefs: [
       { targets: [0, 2], orderable: false },
@@ -14,6 +14,6 @@ $(function () {
 
   //---buscador personalizado: filtra mientras se escribe---
   $("#buscadorCustom").on("input", function () {
-    table.search(this.value).draw();
+    tabla.search(this.value).draw();
   });
 });

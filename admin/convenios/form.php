@@ -6,59 +6,66 @@
  * Un solo archivo sirve para crear y para editar:
  *   form.php        -> $id = 0  -> formulario vacío  -> al guardar hace INSERT
  *   form.php?id=5   -> $id = 5  -> carga el convenio -> al guardar hace UPDATE
- *
- * Y el formulario se envía a sí mismo (POST a esta misma página), así que el
- * archivo tiene este orden:
+ * 
  *   1. Preparar datos (vacíos o cargados de la base)
  *   2. Si llegó un POST: leer, validar y guardar
  *   3. Mostrar el listado de fondo y, encima, el panel con el formulario
  */
 require_once __DIR__ . '/../inc/auth.php';
 
-// (int) convierte a número entero. Si alguien pone ?id=abc queda en 0.
-// Es una protección extra: el id siempre será un número.
+//---protección extra: el id siempre será un número.
 $id = (int) ($_GET['id'] ?? 0);
 $errores = [];
 
+/*
+ * siguiente_referencia(): sugiere la referencia para un convenio nuevo
+ * ---------------------------------------------------------------------
+ * Las referencias son ISTU01, ISTU02... Se busca el número MÁS ALTO (no el último registrado) 
+ */
+function siguiente_referencia($conexion)
+{
+    $mayor = $conexion->query(
+        "SELECT MAX(CAST(SUBSTRING(referencia, 5) AS UNSIGNED)) FROM convenios WHERE referencia REGEXP '^ISTU[0-9]+$'"
+    )->fetch_row()[0];
+
+    //----si todavía no hay ninguna, $mayor es null y (int) null = 0 -> ISTU01
+    return sprintf('ISTU%02d', (int) $mayor + 1);
+}
+
 // ---------------------------------------------------------------------------
-// PASO 1: valores iniciales
+//                          valores iniciales
 // ---------------------------------------------------------------------------
-// Para un convenio nuevo, todos los campos empiezan vacíos.
-// Tener el arreglo completo evita errores de "índice no definido" en el HTML.
+//------Para un convenio nuevo, todos los campos empiezan vacíos (menos la referencia, que se sugiere).
+//------Tener el arreglo completo evita errores de "índice no definido" en el HTML.
 $conv = [
-    'referencia' => '', 'institucion' => '', 'vigencia' => 'SI', 'descripcion' => '',
+    'referencia' => $id ? '' : siguiente_referencia($conexion), 'institucion' => '', 'vigencia' => 'SI', 'descripcion' => '',
     'suscripcion' => '', 'plazo' => '', 'vencimiento' => '', 'comentario' => '',
     'exoneracion_desc' => '', 'promocion_desc' => '',
 ];
 
-// Si viene un id, cargamos ese convenio de la base para editarlo
+//----si viene un id, cargamos ese convenio de la base para editarlo
 if ($id) {
-    $stmt = $conexion->prepare("SELECT * FROM convenios WHERE id = ?");
-    $stmt->bind_param('i', $id);   // 'i' = integer (número entero)
-    $stmt->execute();
-    $fila = $stmt->get_result()->fetch_assoc();
+    $fila = buscar_registro($conexion, 'convenios', '*', $id);
 
-    // Si no existe (ej. lo borraron en otra pestaña), volvemos al listado
+    //----si no existe (ej. lo borraron en otra pestaña), volvemos al listado
     if (!$fila) {
         flash('El convenio no existe.', 'error');
         redirigir('convenios/index.php');
     }
     $conv = $fila;
 
-    // Datos viejos: si el campo dice NO pero quedó texto guardado de antes,
-    // no lo mostramos. Si lo mostráramos, al guardar se volvería SI sin querer.
+    //---datos viejos: si el campo dice NO pero quedó texto guardado de antes, no lo mostramos. Si lo mostráramos, al guardar se volvería SI sin querer.
     if (si_no($conv['exoneracion']) === 'NO') $conv['exoneracion_desc'] = '';
     if (si_no($conv['promocion']) === 'NO')   $conv['promocion_desc'] = '';
 }
 
 // ---------------------------------------------------------------------------
-// PASO 2: procesar el formulario enviado
+//                          procesar el formulario enviado
 // ---------------------------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_verificar();
 
-    // Leemos cada campo de $_POST y lo limpiamos.
-    // Los opcionales pasan por vacio_a_null: si están vacíos se guardan como NULL.
+    //---leemos cada campo de $_POST y lo limpiamos.
     $conv = [
         'referencia'       => trim($_POST['referencia'] ?? ''),
         'institucion'      => trim($_POST['institucion'] ?? ''),
@@ -72,8 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'promocion_desc'   => vacio_a_null($_POST['promocion_desc'] ?? ''),
     ];
 
-    // Casilla "Vencimiento indefinido": si viene marcada, no hay fecha de vencimiento.
-    // (Una casilla sin marcar no se envía, por eso se pregunta con isset.)
+    //---Casilla "Vencimiento indefinido": si viene marcada, no hay fecha de vencimiento.
+    //----(Una casilla sin marcar no se envía, por eso se pregunta con isset.)
     if (isset($_POST['indefinido'])) {
         $conv['vencimiento'] = null;
     }
@@ -84,66 +91,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      * El formulario ya no tiene un select SI/NO. Solo hay un cuadro de texto:
      *   - si escribieron algo  -> la columna exoneracion se guarda como 'SI'
      *   - si quedó vacío       -> se guarda como 'NO' (y el texto como NULL)
-     *
-     * Así es imposible que quede "SI sin descripción" o "NO con descripción",
-     * y las columnas SI/NO siguen existiendo para los filtros de la vista
-     * pública (botones "Exoneración" y "Promoción").
      */
     $conv['exoneracion'] = $conv['exoneracion_desc'] !== null ? 'SI' : 'NO';
     $conv['promocion']   = $conv['promocion_desc'] !== null ? 'SI' : 'NO';
 
-    // VALIDACIÓN: el navegador ya revisa "required" y "maxlength", pero eso se
-    // puede saltar fácilmente. La validación que vale es la del servidor.
+    //-----VALIDACIÓN: el navegador ya revisa "required" y "maxlength", pero eso se
     if ($conv['referencia'] === '') $errores[] = 'La referencia es obligatoria.';
     if (mb_strlen($conv['referencia']) > 20) $errores[] = 'La referencia admite máximo 20 caracteres.';
     if ($conv['institucion'] === '') $errores[] = 'La institución es obligatoria.';
     if (!fecha_valida($conv['suscripcion'])) $errores[] = 'La fecha de suscripción no es válida.';
     if (!fecha_valida($conv['vencimiento'])) $errores[] = 'La fecha de vencimiento no es válida.';
 
-    // Solo guardamos si no hubo ningún error
+    //-----Solo guardamos si no hubo ningún error.
+    //-----Las claves de $conv son los nombres de las columnas: guardar_registro() arma el SQL con ellas.
     if (!$errores) {
-        // Los valores en el MISMO orden que los ? del SQL de abajo
-        $valores = [
-            $conv['referencia'], $conv['institucion'], $conv['vigencia'], $conv['descripcion'],
-            $conv['suscripcion'], $conv['plazo'], $conv['vencimiento'], $conv['comentario'],
-            $conv['exoneracion'], $conv['exoneracion_desc'], $conv['promocion'], $conv['promocion_desc'],
-        ];
-
-        // "INSERT ... SET campo = ?" es una forma de MySQL que permite usar la
-        // misma lista de campos para INSERT y para UPDATE. Así no la escribimos dos veces.
-        $campos = "referencia = ?, institucion = ?, vigencia = ?, descripcion = ?, suscripcion = ?, plazo = ?,
-                   vencimiento = ?, comentario = ?, exoneracion = ?, exoneracion_desc = ?, promocion = ?, promocion_desc = ?";
-
-        // execute($valores) recibe el arreglo y reemplaza cada ? en orden.
-        // (Es otra forma de bind_param, disponible desde PHP 8.1.)
-        if ($id) {
-            $valores[] = $id;   // el último ? es el del WHERE id = ?
-            $conexion->prepare("UPDATE convenios SET $campos WHERE id = ?")->execute($valores);
-        } else {
-            $conexion->prepare("INSERT INTO convenios SET $campos")->execute($valores);
-        }
+        guardar_registro($conexion, 'convenios', $conv, $id);
 
         /*
          * Patrón POST -> Redirigir -> GET
          * Después de guardar redirigimos al listado en vez de mostrar la página
-         * aquí mismo. Si no lo hiciéramos, al presionar F5 el navegador
-         * reenviaría el formulario y se crearía el convenio dos veces.
          */
         flash($id ? 'El convenio se actualizó correctamente.' : 'El convenio se creó correctamente.');
         redirigir('convenios/index.php');
     }
-    // Si hubo errores NO redirigimos: seguimos abajo y se muestra el formulario
-    // con lo que la persona escribió (está en $conv) y la lista de errores.
 }
 
 // ---------------------------------------------------------------------------
-// PASO 3: mostrar el listado de fondo y el formulario en el panel lateral
+//      mostrar el listado de fondo y el formulario en el panel lateral
 // ---------------------------------------------------------------------------
 $titulo     = $id ? 'Editar convenio' : 'Nuevo convenio';
 $seccion    = 'convenios';
 $tituloForm = $titulo;
 
-// Sin fecha de vencimiento = la casilla "indefinido" aparece marcada
+//---sin fecha de vencimiento = la casilla "indefinido" aparece marcada
 $sinVencimiento = empty($conv['vencimiento']) || $conv['vencimiento'] === '0000-00-00';
 
 require __DIR__ . '/../inc/header.php';
@@ -151,7 +131,7 @@ require __DIR__ . '/listado.php';
 require __DIR__ . '/../inc/drawer_inicio.php';
 ?>
 
-<!-- Cada name="..." es la clave con la que llega en $_POST -->
+<!--Cada name="..." es la clave con la que llega en $_POST-->
 <div class="dos-columnas">
     <div class="grupo">
         <label for="referencia">Referencia</label>
@@ -159,21 +139,21 @@ require __DIR__ . '/../inc/drawer_inicio.php';
     </div>
     <div class="grupo">
         <label for="vigencia">Estado</label>
-        <!-- Se guarda SI / NO, pero en pantalla se lee "Vigente" / "No vigente" -->
+        <!--Se guarda SI / NO, pero en pantalla se lee "Vigente" / "No vigente"-->
         <?= select_si_no('vigencia', $conv['vigencia'], 'Vigente', 'No vigente') ?>
     </div>
 </div>
 
 <div class="grupo">
     <label for="institucion">Institución</label>
-    <!-- Un textarea no tiene value="": el contenido va entre las etiquetas -->
-    <textarea id="institucion" name="institucion" rows="2" maxlength="255" required placeholder="Nombre completo de la(s) institución(es)" class="entrada"><?= e($conv['institucion']) ?></textarea>
+    <!--Un textarea no tiene value="": el contenido va entre las etiquetas-->
+    <textarea id="institucion" name="institucion" rows="2" maxlength="255" required placeholder="Nombre completo de la institución" class="entrada"><?= e($conv['institucion']) ?></textarea>
 </div>
 
 <div class="dos-columnas">
     <div class="grupo">
         <label for="suscripcion">Suscripción</label>
-        <!-- type="date" muestra un calendario y envía la fecha como AAAA-MM-DD -->
+        <!--type="date" muestra un calendario y envía la fecha como AAAA-MM-DD-->
         <input id="suscripcion" name="suscripcion" type="date" class="entrada" value="<?= e($conv['suscripcion'] === '0000-00-00' ? '' : $conv['suscripcion']) ?>">
     </div>
     <div class="grupo">
@@ -182,7 +162,7 @@ require __DIR__ . '/../inc/drawer_inicio.php';
     </div>
 </div>
 
-<!-- Al marcarla, admin.js desactiva la fecha de vencimiento -->
+<!--Al marcarla, admin.js desactiva la fecha de vencimiento-->
 <label class="casilla">
     <input type="checkbox" id="indefinido" name="indefinido" value="1" <?= $sinVencimiento ? 'checked' : '' ?>>
     Vencimiento indefinido

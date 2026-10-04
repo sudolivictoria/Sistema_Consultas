@@ -5,31 +5,21 @@
  * ============================================================================
  * En lugar de copiar el <head> y el menú en cada página
  */
-$titulo  ??= 'Panel';
 $seccion ??= '';
 
 $menu = [
+    'arrendatarios' => ['Arrendatarios', 'arrendatarios/index.php', 'tienda'],
     'convenios'     => ['Convenios', 'convenios/index.php', 'documento'],
     'exonerados'    => ['Exonerados Apulo', 'exonerados/index.php', 'persona-check'],
-    'arrendatarios' => ['Arrendatarios', 'arrendatarios/index.php', 'tienda'],
 ];
 
 $nombreUsuario = $_SESSION['usuario_nombre'] ?? '';
-?>
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title><?= e($titulo) ?> - Panel ISTU</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-    <!--Estilos que usa el panel (cada archivo de css/ es un tema)-->
-    <?= estilos(SITE_URL . '/', 'base', 'paginas', 'tablas', 'modales', 'formularios', 'admin', 'preloader') ?>
-    <link rel="icon" type="image/png" href="<?= SITE_URL ?>/images/logo.png" />
-    <script src="<?= SITE_URL ?>/<?= version('js/preloader.js') ?>"></script>
-</head>
+$titulo = ($titulo ?? 'Panel') . ' - Panel ISTU';
+$raiz   = SITE_URL . '/';
+$hojas  = ['base', 'paginas', 'tablas', 'modales', 'formularios', 'admin', 'preloader'];
+require __DIR__ . '/../../inc/head.php';
+?>
 
 <body class="fondo-cuadricula">
     <?php require __DIR__ . '/../../inc/preloader.php'; ?>

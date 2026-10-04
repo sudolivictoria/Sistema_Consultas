@@ -14,10 +14,7 @@ $siguiente = $conexion->query("SELECT COALESCE(MAX(numero), 0) + 1 FROM clausula
 $cla = ['numero' => $siguiente, 'titulo' => '', 'texto' => ''];
 
 if ($id) {
-    $stmt = $conexion->prepare("SELECT numero, titulo, texto FROM clausulas WHERE id = ?");
-    $stmt->bind_param('i', $id);
-    $stmt->execute();
-    $fila = $stmt->get_result()->fetch_assoc();
+    $fila = buscar_registro($conexion, 'clausulas', 'numero, titulo, texto', $id);
     if (!$fila) {
         flash('La cláusula no existe.', 'error');
         redirigir('clausulas/index.php');
@@ -41,16 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($cla['texto'] === '') $errores[] = 'El texto de la cláusula es obligatorio.';
 
     if (!$errores) {
-        $valores = [$cla['numero'], $cla['titulo'], $cla['texto']];
-        $campos  = "numero = ?, titulo = ?, texto = ?";
-
-        if ($id) {
-            $valores[] = $id;
-            $conexion->prepare("UPDATE clausulas SET $campos WHERE id = ?")->execute($valores);
-        } else {
-            $conexion->prepare("INSERT INTO clausulas SET $campos")->execute($valores);
-        }
-
+        guardar_registro($conexion, 'clausulas', $cla, $id);
         flash($id ? 'La cláusula se actualizó correctamente.' : 'La cláusula se creó correctamente.');
         redirigir('clausulas/index.php');
     }
