@@ -1,8 +1,14 @@
 <?php
+/*
+ * PLANTILLA DE CONEXIÓN
+ * Copiar este archivo como conexion.php y poner los datos reales.
+ * conexion.php NO se sube al repositorio (está en .gitignore).
+ */
+
 //------configuración de la base de datos
 $host = "localhost";
-$usuario = "balboa";
-$password = "ISTU.balboa.2026";
+$usuario = "root";
+$password = "";
 $base_datos = "exonerados";
 
 //----conexion a la base de datos
