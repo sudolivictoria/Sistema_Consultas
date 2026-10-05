@@ -86,9 +86,10 @@ $convenios = $conexion->query(
                     <!--data-search="SI/NO" es lo que usa el filtro Vigentes / No vigentes-->
                     <td data-label="Estado" data-search="<?= $vigencia ?>"><?= badge_vigencia($vigencia) ?></td>
                     <!--data-order = la fecha real, para que se ordene bien-->
-                    <td data-label="Suscripción" class="numeros" data-order="<?= e($c['suscripcion']) ?>"><?= fecha_mostrar($c['suscripcion']) ?></td>
-                    <td data-label="Vencimiento" class="numeros<?= $vencimiento === 'Indefinido' ? ' tenue' : '' ?>" data-order="<?= e($c['vencimiento']) ?>"><?= $vencimiento ?></td>
-                    <td data-label="Plazo" class="tenue sin-cortar"><?= e($detalle['plazo']) ?></td>
+                    <!--fecha_o_indefinido() / texto_o_indefinido(): si no hay dato, "Indefinido" en gris e itálica-->
+                    <td data-label="Suscripción" class="numeros" data-order="<?= e($c['suscripcion']) ?>"><?= fecha_o_indefinido($c['suscripcion']) ?></td>
+                    <td data-label="Vencimiento" class="numeros" data-order="<?= e($c['vencimiento']) ?>"><?= fecha_o_indefinido($c['vencimiento']) ?></td>
+                    <td data-label="Plazo" class="tenue sin-cortar"><?= texto_o_indefinido($c['plazo']) ?></td>
                     <td><?= $exoneracion ?></td>
                     <td><?= $promocion ?></td>
                     <td data-label="Detalle" class="derecha">

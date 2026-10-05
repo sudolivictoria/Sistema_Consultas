@@ -64,6 +64,14 @@ function texto_o_indefinido($texto)
     return trim($texto ?? '') !== '' ? e($texto) : '<span class="indefinido">Indefinido</span>';
 }
 
+//----fecha_o_indefinido() = para las TABLAS: la fecha como 18-08-2024 o "Indefinido" en gris e itálica.
+//----(fecha_mostrar() devuelve texto plano: se usa donde no va HTML, como la ventana de detalle)
+function fecha_o_indefinido($fecha)
+{
+    $texto = fecha_mostrar($fecha, '');
+    return $texto !== '' ? $texto : texto_o_indefinido(null);
+}
+
 //----función que convierte una cadena separada por comas en un arreglo.
 function lista_desde_comas($texto)
 {

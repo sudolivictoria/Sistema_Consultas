@@ -54,9 +54,9 @@ $resultado = $conexion->query("SELECT id, referencia, institucion, vigencia, sus
                     <td class="fuerte" data-label="Institución"><?= e($f['institucion']) ?></td>
                     <td data-label="Estado"><?= badge_vigencia($f['vigencia']) ?></td>
                     <!--data-order: DataTables ordena por la fecha real-->
-                    <td class="numeros" data-label="Suscripción" data-order="<?= e($f['suscripcion']) ?>"><?= fecha_mostrar($f['suscripcion']) ?></td>
-                    <td class="numeros" data-label="Vencimiento" data-order="<?= e($f['vencimiento']) ?>"><?= fecha_mostrar($f['vencimiento']) ?></td>
-                    <td data-label="Plazo" class="sin-cortar"><?= e($f['plazo'] ?: 'Indefinido') ?></td>
+                    <td class="numeros" data-label="Suscripción" data-order="<?= e($f['suscripcion']) ?>"><?= fecha_o_indefinido($f['suscripcion']) ?></td>
+                    <td class="numeros" data-label="Vencimiento" data-order="<?= e($f['vencimiento']) ?>"><?= fecha_o_indefinido($f['vencimiento']) ?></td>
+                    <td data-label="Plazo" class="sin-cortar"><?= texto_o_indefinido($f['plazo']) ?></td>
                     <td class="acciones" data-label="Acciones">
                         <!--Editar: un simple enlace con el id en la URL-->
                         <a href="form.php?id=<?= $f['id'] ?>" class="btn-icono btn-editar" aria-label="Editar <?= e($f['referencia']) ?>"><?= icono('editar', 16) ?></a>
