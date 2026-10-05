@@ -57,6 +57,13 @@ function badge_vigencia($vigencia)
         : '<span class="estado estado-vencido">No vigente</span>';
 }
 
+//----texto_o_indefinido() = muestra el texto (escapado) o, si viene vacío o NULL, "Indefinido" en gris.
+//----Se usa donde la información puede llegar incompleta (ej. arrendatarios).
+function texto_o_indefinido($texto)
+{
+    return trim($texto ?? '') !== '' ? e($texto) : '<span class="indefinido">Indefinido</span>';
+}
+
 //----función que convierte una cadena separada por comas en un arreglo.
 function lista_desde_comas($texto)
 {

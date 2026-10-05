@@ -49,11 +49,14 @@ $exonerados = $conexion->query(
             <?php foreach ($exonerados as $x): ?>
                 <tr>
                     <!--DATASEARCH el dui se encuentra con o sin guion-->
-                    <td data-label="DUI" class="mono" data-search="<?= e($x['dui'] . ' ' . str_replace('-', '', $x['dui'] ?? '')) ?>"><?= e($x['dui']) ?></td>
+                    <!--texto_o_indefinido(): si el dato viene vacío o NULL, muestra "Indefinido"-->
+                    <td data-label="DUI" class="mono" data-search="<?= e($x['dui'] . ' ' . str_replace('-', '', $x['dui'] ?? '')) ?>"><?= texto_o_indefinido($x['dui']) ?></td>
                     <td data-label="Nombre" class="fuerte"><?= e($x['nombre']) ?></td>
                     <td data-label="Comunidad">
                         <?php if ($x['comunidad']): ?>
                             <span class="pastilla"><?= e($x['comunidad']) ?></span>
+                        <?php else: ?>
+                            <?= texto_o_indefinido(null) ?>
                         <?php endif; ?>
                     </td>
                 </tr>

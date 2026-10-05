@@ -42,21 +42,26 @@ $resultado = $conexion->query("SELECT id, dui, nombre, comunidad FROM exonerados
         </thead>
         <tbody>
             <?php while ($f = $resultado->fetch_assoc()): ?>
+                <?php
+                $nombre = $f['nombre'];   //---se usa en "¿Eliminar a ...?" y en las etiquetas de los botones
+                ?>
                 <tr>
-                    <!--data-search: se encuentra con guion o sin guion-->
-                    <td class="mono" data-label="DUI" data-search="<?= e($f['dui'] . ' ' . str_replace('-', '', $f['dui'] ?? '')) ?>"><?= e($f['dui']) ?></td>
+                    <!--data-search: se encuentra con guion o sin guion. texto_o_indefinido(): vacío o NULL = "Indefinido"-->
+                    <td class="mono" data-label="DUI" data-search="<?= e($f['dui'] . ' ' . str_replace('-', '', $f['dui'] ?? '')) ?>"><?= texto_o_indefinido($f['dui']) ?></td>
                     <td class="fuerte" data-label="Nombre"><?= e($f['nombre']) ?></td>
                     <td data-label="Comunidad">
                         <?php if (!empty($f['comunidad'])): ?>
                             <span class="pastilla"><?= e($f['comunidad']) ?></span>
+                        <?php else: ?>
+                            <?= texto_o_indefinido(null) ?>
                         <?php endif; ?>
                     </td>
                     <td class="acciones" data-label="Acciones">
-                        <a href="form.php?id=<?= $f['id'] ?>" class="btn-icono btn-editar" aria-label="Editar a <?= e($f['nombre']) ?>"><?= icono('editar', 16) ?></a>
-                        <form method="post" action="eliminar.php" class="form-eliminar" data-titulo="¿Eliminar este exonerado?" data-nombre="<?= e($f['nombre']) ?>">
+                        <a href="form.php?id=<?= $f['id'] ?>" class="btn-icono btn-editar" aria-label="Editar a <?= e($nombre) ?>"><?= icono('editar', 16) ?></a>
+                        <form method="post" action="eliminar.php" class="form-eliminar" data-titulo="¿Eliminar este exonerado?" data-nombre="<?= e($nombre) ?>">
                             <?= csrf_campo() ?>
                             <input type="hidden" name="id" value="<?= $f['id'] ?>">
-                            <button type="submit" class="btn-icono btn-borrar" aria-label="Eliminar a <?= e($f['nombre']) ?>"><?= icono('eliminar', 16) ?></button>
+                            <button type="submit" class="btn-icono btn-borrar" aria-label="Eliminar a <?= e($nombre) ?>"><?= icono('eliminar', 16) ?></button>
                         </form>
                     </td>
                 </tr>

@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'comunidad' => vacio_a_null($_POST['comunidad'] ?? ''),
     ];
 
+    //----el nombre es obligatorio; el DUI y la comunidad pueden quedar vacíos ("Indefinido")
     if ($exo['nombre'] === '') $errores[] = 'El nombre es obligatorio.';
 
 
@@ -65,7 +66,7 @@ require __DIR__ . '/../inc/drawer_inicio.php';
 ?>
 
 <div class="grupo">
-    <label for="dui">DUI</label>
+    <label for="dui">DUI <span class="opcional">(opcional)</span></label>
     <input id="dui" name="dui" type="text" maxlength="10" placeholder="00000000-0" class="entrada" value="<?= e($exo['dui']) ?>">
     <span class="ayuda">8 dígitos, guion y dígito verificador.</span>
 </div>
@@ -76,7 +77,7 @@ require __DIR__ . '/../inc/drawer_inicio.php';
 </div>
 
 <div class="grupo">
-    <label for="comunidad">Comunidad</label>
+    <label for="comunidad">Comunidad <span class="opcional">(opcional)</span></label>
     <input id="comunidad" name="comunidad" type="text" maxlength="255" list="lista-comunidades" placeholder="Seleccione o escriba una comunidad" class="entrada" value="<?= e($exo['comunidad']) ?>">
     <datalist id="lista-comunidades">
         <?php foreach ($comunidades as [$comunidad]): ?>

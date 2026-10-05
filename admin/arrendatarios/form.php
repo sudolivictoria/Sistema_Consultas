@@ -37,15 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_verificar();
     //---recibimos los datos del formulario y los limpiamos (trim quita espacios al inicio y al final).
     //---Las claves son los nombres de las columnas de la tabla: guardar_registro() arma el SQL con ellas.
+    //---el nombre es obligatorio. El local y la venta son OPCIONALES
     $arr = [
         'nombre_arrendatario' => trim($_POST['nombre_arrendatario'] ?? ''),
-        'local_comercial'     => trim($_POST['local_comercial'] ?? ''),
-        'venta_autorizada'    => implode(', ', lista_desde_comas($_POST['venta_autorizada'] ?? '')),
+        'local_comercial'     => vacio_a_null($_POST['local_comercial'] ?? ''),
+        'venta_autorizada'    => vacio_a_null(implode(', ', lista_desde_comas($_POST['venta_autorizada'] ?? ''))),
     ];
-    //---validaciones: cada error se agrega a $errores y se muestra arriba del formulario
     if ($arr['nombre_arrendatario'] === '') $errores[] = 'El nombre del arrendatario es obligatorio.';
-    if ($arr['local_comercial'] === '') $errores[] = 'El local comercial es obligatorio.';
-    if ($arr['venta_autorizada'] === '') $errores[] = 'Agregue al menos un producto o servicio autorizado.';
     //---si no hay errores, guardamos en la base de datos
     if (!$errores) {
         //---guardar_registro() está en admin/inc/bootstrap.php. Recibe la conexión, la tabla,
@@ -70,18 +68,19 @@ require __DIR__ . '/listado.php';
 require __DIR__ . '/../inc/drawer_inicio.php';
 ?>
 <!--CAMPOS DEL FORMULARIO (crear o editar un arrendatario)-->
+<!--El nombre es obligatorio; el local y la venta son opcionales (vacíos se muestran como "Indefinido")-->
 <div class="grupo">
     <label for="nombre_arrendatario">Nombre del arrendatario</label>
     <input id="nombre_arrendatario" name="nombre_arrendatario" type="text" maxlength="150" required class="entrada" value="<?= e($arr['nombre_arrendatario']) ?>">
 </div>
 
 <div class="grupo">
-    <label for="local_comercial">Local comercial</label>
-    <input id="local_comercial" name="local_comercial" type="text" maxlength="150" required placeholder="Nombre del local" class="entrada" value="<?= e($arr['local_comercial']) ?>">
+    <label for="local_comercial">Local comercial <span class="opcional">(opcional)</span></label>
+    <input id="local_comercial" name="local_comercial" type="text" maxlength="150" placeholder="Nombre del local" class="entrada" value="<?= e($arr['local_comercial']) ?>">
 </div>
 
 <div class="grupo">
-    <label for="ventaEntrada">Venta autorizada</label>
+    <label for="ventaEntrada">Venta autorizada <span class="opcional">(opcional)</span></label>
     <!--data-campo="venta_autorizada" le dice a admin.js en qué input hidden debe guardar la lista separada por comas.-->
     <div class="etiquetas" data-campo="venta_autorizada">
         <!--La venta autorizada se guarda como "Agua, Dulces": se separa por las comas y cada producto se muestra como etiqueta-->

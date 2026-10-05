@@ -12,7 +12,10 @@ if (basename($_SERVER['SCRIPT_FILENAME']) === basename(__FILE__)) {
     exit;
 }
 //---buscamos todos los arrendatarios en la base de datos
-$resultado = $conexion->query("SELECT id, nombre_arrendatario, local_comercial, venta_autorizada FROM arrendatarios ORDER BY nombre_arrendatario");
+$resultado = $conexion->query(
+    "SELECT id, nombre_arrendatario, local_comercial, venta_autorizada FROM arrendatarios
+     ORDER BY nombre_arrendatario"
+);
 
 //----contamos cuántas cláusulas hay en la base de datos y si existe el PDF de política interna
 $totalClausulas = $conexion->query("SELECT COUNT(*) FROM clausulas")->fetch_row()[0];
@@ -79,25 +82,32 @@ $hayPdf = file_exists(POLITICA_PDF_RUTA);   //---POLITICA_PDF_RUTA está en inc/
         </thead>
         <tbody>
             <?php while ($f = $resultado->fetch_assoc()): ?>
+                <?php
+                $productos = lista_desde_comas($f['venta_autorizada']);
+                $nombre = $f['nombre_arrendatario'];   //---se usa en "¿Eliminar a ...?" y en las etiquetas de los botones
+                ?>
                 <tr>
+                    <!--texto_o_indefinido(): si el dato viene vacío o NULL, muestra "Indefinido"-->
                     <td class="fuerte" data-label="Arrendatario"><?= e($f['nombre_arrendatario']) ?></td>
-                    <td data-label="Local"><?= e($f['local_comercial']) ?></td>
+                    <td data-label="Local"><?= texto_o_indefinido($f['local_comercial']) ?></td>
                     <td data-label="Venta">
-                        <div class="chips">
-                            <?php
-                            //---la partimos por las comas y mostramos cada producto como etiqueta.
-                            foreach (lista_desde_comas($f['venta_autorizada']) as $producto):
-                            ?>
-                                <span class="chip"><?= e($producto) ?></span>
-                            <?php endforeach; ?>
-                        </div>
+                        <?php if ($productos): ?>
+                            <!--la venta se parte por las comas y cada producto se muestra como etiqueta-->
+                            <div class="chips">
+                                <?php foreach ($productos as $producto): ?>
+                                    <span class="chip"><?= e($producto) ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php else: ?>
+                            <?= texto_o_indefinido(null) ?>
+                        <?php endif; ?>
                     </td>
                     <td class="acciones" data-label="Acciones">
-                        <a href="form.php?id=<?= $f['id'] ?>" class="btn-icono btn-editar" aria-label="Editar a <?= e($f['nombre_arrendatario']) ?>"><?= icono('editar', 16) ?></a>
-                        <form method="post" action="eliminar.php" class="form-eliminar" data-titulo="¿Eliminar este arrendatario?" data-nombre="<?= e($f['nombre_arrendatario']) ?>">
+                        <a href="form.php?id=<?= $f['id'] ?>" class="btn-icono btn-editar" aria-label="Editar a <?= e($nombre) ?>"><?= icono('editar', 16) ?></a>
+                        <form method="post" action="eliminar.php" class="form-eliminar" data-titulo="¿Eliminar este arrendatario?" data-nombre="<?= e($nombre) ?>">
                             <?= csrf_campo() ?>
                             <input type="hidden" name="id" value="<?= $f['id'] ?>">
-                            <button type="submit" class="btn-icono btn-borrar" aria-label="Eliminar a <?= e($f['nombre_arrendatario']) ?>"><?= icono('eliminar', 16) ?></button>
+                            <button type="submit" class="btn-icono btn-borrar" aria-label="Eliminar a <?= e($nombre) ?>"><?= icono('eliminar', 16) ?></button>
                         </form>
                     </td>
                 </tr>

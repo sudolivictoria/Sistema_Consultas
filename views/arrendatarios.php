@@ -10,7 +10,8 @@ $titulo = 'Consulta de arrendatarios';
 require __DIR__ . '/../inc/publico_inicio.php';
 
 $arrendatarios = $conexion->query(
-    "SELECT nombre_arrendatario, local_comercial, venta_autorizada FROM arrendatarios ORDER BY nombre_arrendatario"
+    "SELECT nombre_arrendatario, local_comercial, venta_autorizada FROM arrendatarios
+     ORDER BY nombre_arrendatario"
 )->fetch_all(MYSQLI_ASSOC);
 
 $clausulas = $conexion->query("SELECT numero, titulo, texto FROM clausulas ORDER BY numero")->fetch_all(MYSQLI_ASSOC);
@@ -72,17 +73,23 @@ $ordinales = [1 => 'primera', 'segunda', 'tercera', 'cuarta', 'quinta', 'sexta',
         <tbody>
             <?php foreach ($arrendatarios as $a): ?>
                 <tr>
+                    <?php $productos = lista_desde_comas($a['venta_autorizada']); ?>
+                    <!--texto_o_indefinido(): si el dato viene vacío o NULL, muestra "Indefinido"-->
                     <td data-label="Arrendatario" class="fuerte arriba"><?= e($a['nombre_arrendatario']) ?></td>
                     <td data-label="Local" class="arriba">
-                        <span class="con-icono"><?= icono('local', 16) ?><?= e($a['local_comercial']) ?></span>
+                        <span class="con-icono"><?= icono('local', 16) ?><?= texto_o_indefinido($a['local_comercial']) ?></span>
                     </td>
                     <td data-label="Venta" class="arriba">
-                        <!--ETIQUETA X PRODUCTO-->
-                        <div class="chips">
-                            <?php foreach (lista_desde_comas($a['venta_autorizada']) as $producto): ?>
-                                <span class="chip"><?= e($producto) ?></span>
-                            <?php endforeach; ?>
-                        </div>
+                        <!--ETIQUETA X PRODUCTO (o "Indefinido" si no hay ninguno)-->
+                        <?php if ($productos): ?>
+                            <div class="chips">
+                                <?php foreach ($productos as $producto): ?>
+                                    <span class="chip"><?= e($producto) ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php else: ?>
+                            <?= texto_o_indefinido(null) ?>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
