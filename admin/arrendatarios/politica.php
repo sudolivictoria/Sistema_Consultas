@@ -34,16 +34,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$errores) {
-        //----si la carpeta uploads no existe, la crea
         $carpeta = dirname(POLITICA_PDF_RUTA);
-        if (!is_dir($carpeta)) {
-            mkdir($carpeta, 0755, true);
-        }
-        if (move_uploaded_file($archivo['tmp_name'], POLITICA_PDF_RUTA)) {
+
+        //----se revisa paso a paso para decir EXACTAMENTE qué falló:
+        if (!is_dir($carpeta) && !@mkdir($carpeta, 0755, true)) {
+            $errores[] = 'No se pudo crear la carpeta uploads/. Créela a mano en la raíz del proyecto.';
+        } elseif (!is_writable($carpeta)) {
+            $errores[] = 'PHP no tiene permiso para escribir en la carpeta uploads/. Dele permiso de escritura.';
+        } elseif (@move_uploaded_file($archivo['tmp_name'], POLITICA_PDF_RUTA)) {
             flash('La política interna se actualizó correctamente.');
             redirigir('arrendatarios/index.php');
+        } else {
+            //----error_get_last() = el último aviso de PHP (el motivo real del fallo)
+            error_log('Política interna: no se pudo mover el PDF a ' . POLITICA_PDF_RUTA . ' - ' . (error_get_last()['message'] ?? 'sin detalle'));
+            $errores[] = 'No se pudo guardar el archivo en el servidor. El detalle quedó en el registro de errores de PHP.';
         }
-        $errores[] = 'No se pudo guardar el archivo en el servidor.';
     }
 }
 
