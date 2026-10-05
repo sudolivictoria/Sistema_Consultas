@@ -284,10 +284,13 @@
         letter-spacing: 0.04em;
     }
     /*----------Celdas con botones: etiqueta y botones en fila-----------*/
+    /*----text-align: left le gana a .derecha (que en computadora alinea el botón a la derecha);*/
     .tabla td.acciones,
     .tabla td.derecha {
         display: flex;
+        align-items: center;
         gap: 6px;
+        text-align: left;
     }
     .tabla td.acciones::before,
     .tabla td.derecha::before {

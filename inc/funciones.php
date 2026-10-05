@@ -17,6 +17,16 @@ $raizSitio = str_replace('\\', '/', dirname(__DIR__));
 define('SITE_URL', stripos($raizSitio, $raizWeb) === 0 ? substr($raizSitio, strlen($raizWeb)) : '');
 unset($raizWeb, $raizSitio);
 
+//----------------------RED DE SEGURIDAD PARA ERRORES INESPERADOS----------------------
+//--Si algo falla sin que el código lo haya previsto (ej. la base rechaza un dato)
+//--  1) el detalle se guarda en el registro de errores de PHP (para revisarlo después)
+//--  2) la persona ve un mensaje amable
+set_exception_handler(function ($ex) {
+    error_log('Error no controlado: ' . $ex->getMessage() . ' en ' . $ex->getFile() . ':' . $ex->getLine());
+    http_response_code(500);
+    echo '<p style="font-family: sans-serif; padding: 24px">Ocurrió un error inesperado. Intente de nuevo; si el problema continúa, avise a soporte técnico.</p>';
+});
+
 //----------------------RUTA DEL PDF DE POLÍTICA INTERNA----------------------
 //--se gestiona desde admin y se muestra en el sitio público. Se guarda en uploads/politica-interna.pdf
 define('POLITICA_PDF_RUTA', __DIR__ . '/../uploads/politica-interna.pdf');
