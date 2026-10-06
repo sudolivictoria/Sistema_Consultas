@@ -9,7 +9,11 @@ require_once __DIR__ . '/../inc/auth.php';
 $errores = [];
 $maxBytes = 10 * 1024 * 1024;   // 10 MB
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//----Si el archivo supera post_max_size (php.ini), PHP descarta TODO el envío: $_POST y $_FILES llegan vacíos.
+//----Sin esta revisión, csrf_verificar() diría "Solicitud inválida" en vez de explicar que el archivo es muy grande.
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_POST) && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+    $errores[] = 'El archivo es demasiado grande para el servidor (límite de php.ini: ' . ini_get('post_max_size') . ').';
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_verificar();
 
     $archivo = $_FILES['pdf'] ?? null;

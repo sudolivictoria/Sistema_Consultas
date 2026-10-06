@@ -105,14 +105,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //-----Solo guardamos si no hubo ningún error.
     //-----Las claves de $conv son los nombres de las columnas: guardar_registro() arma el SQL con ellas.
     if (!$errores) {
-        guardar_registro($conexion, 'convenios', $conv, $id);
+        try {
+            guardar_registro($conexion, 'convenios', $conv, $id);
 
-        /*
-         * Patrón POST -> Redirigir -> GET
-         * Después de guardar redirigimos al listado en vez de mostrar la página
-         */
-        flash($id ? 'El convenio se actualizó correctamente.' : 'El convenio se creó correctamente.');
-        redirigir('convenios/index.php');
+            /*
+             * Patrón POST -> Redirigir -> GET
+             * Después de guardar redirigimos al listado en vez de mostrar la página
+             */
+            flash($id ? 'El convenio se actualizó correctamente.' : 'El convenio se creó correctamente.');
+            redirigir('convenios/index.php');
+        } catch (mysqli_sql_exception $ex) {
+            //----1062 = valor duplicado en una columna UNIQUE (la referencia). Cualquier otro error se deja pasar.
+            if ($ex->getCode() !== 1062) throw $ex;
+            $errores[] = 'Ya existe un convenio con la referencia ' . $conv['referencia'] . '.';
+        }
     }
 }
 

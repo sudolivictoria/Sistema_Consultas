@@ -37,6 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //---------valida el dui
     if ($exo['dui'] !== null && !preg_match('/^\d{8}-?\d$/', $exo['dui'])) {
         $errores[] = 'El DUI debe tener el formato 00000000-0.';
+    } elseif ($exo['dui'] !== null) {
+        //----siempre se guarda CON guion (123456789 -> 12345678-9). Si no, "12345678-9" y "123456789"
+        //----serían textos distintos y la base aceptaría el mismo DUI dos veces.
+        $digitos    = str_replace('-', '', $exo['dui']);
+        $exo['dui'] = substr($digitos, 0, 8) . '-' . substr($digitos, 8);
     }
 
     if (!$errores) {

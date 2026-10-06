@@ -6,7 +6,7 @@
  * ------------------------------------------
  */
 
-//---require auth.php para que solo usuarios logueados puedan acceder a este archivo
+//---si alguien abre listado.php directamente (sin pasar por index.php y auth.php), lo mandamos al index
 if (basename($_SERVER['SCRIPT_FILENAME']) === basename(__FILE__)) {
     header('Location: index.php');
     exit;
@@ -19,7 +19,7 @@ $resultado = $conexion->query(
 
 //----contamos cuántas cláusulas hay en la base de datos y si existe el PDF de política interna
 $totalClausulas = $conexion->query("SELECT COUNT(*) FROM clausulas")->fetch_row()[0];
-$hayPdf = file_exists(POLITICA_PDF_RUTA);   //---POLITICA_PDF_RUTA está en inc/config.php. Es la ruta absoluta al PDF de política interna.
+$hayPdf = file_exists(POLITICA_PDF_RUTA);   //---POLITICA_PDF_RUTA está en inc/funciones.php. Es la ruta absoluta al PDF de política interna.
 ?>
 
 <div class="pagina-cabecera">

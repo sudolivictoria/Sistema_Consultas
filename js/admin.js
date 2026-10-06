@@ -106,7 +106,8 @@ $(function () {
       const lista = caja
         .find(".etiqueta-item")
         .map(function () {
-          return $(this).data("valor");
+          //----attr() y no data(): data() convierte "true", "null" o "1e3" en otros tipos; attr() siempre da el texto tal cual
+          return $(this).attr("data-valor");
         })
         .get();
       oculto.val(lista.join(", "));
