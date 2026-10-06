@@ -72,6 +72,13 @@
 .tabla .col-dui {
     width: 180px;
 }
+/*Arrendatarios (público): el 40% restante queda para "Venta autorizada"*/
+.tabla .col-arrendatario {
+    width: 35%;
+}
+.tabla .col-local {
+    width: 25%;
+}
 
 .tabla .sin-cortar {
     white-space: nowrap;
