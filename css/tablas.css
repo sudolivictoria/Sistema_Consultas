@@ -136,6 +136,7 @@
     color: var(--texto-2);
     font-size: 13px;
     font-weight: 600;
+    white-space: nowrap;   /*la comunidad no se parte en 2 líneas dentro de la pastilla ("#2" suelto)*/
 }
 /*Etiquetas de venta autorizada: pequeñas y juntas para que la lista ocupe menos líneas*/
 .chips {
@@ -262,7 +263,21 @@
  * *****************************************TABLAS EN CELULAR RESPONSIVE*******************************
  ******************************************************************************************************
  */
+/*-----TABLET (701px a 1000px): menos relleno a los lados de cada celda, para que la tabla de
+  convenios (9 columnas) quepa sin tener que deslizarla hacia los lados. Va ANTES del bloque
+  de celular para que, en celular, ganen las reglas de las tarjetas.-----*/
+@media (max-width: 1000px) {
+    .tabla th,
+    .tabla td {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
 @media (max-width: 700px) {
+    .tabla .pastilla {
+        white-space: normal;   /*en celular sí puede partirse: el espacio es angosto*/
+    }
     .tabla thead {
         display: none;
     }

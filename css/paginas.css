@@ -82,6 +82,7 @@
     font-size: 15px;
     color: var(--gris);
     max-width: 640px;
+    text-wrap: pretty;   /*evita que la última línea quede con una sola palabra suelta ("completo.")*/
 }
 .insignia {
     padding: 4px 10px;
