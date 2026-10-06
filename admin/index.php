@@ -9,8 +9,13 @@
  */
 require_once __DIR__ . '/inc/bootstrap.php';
 
+//----a dónde ir después del login: la última sección visitada (cookie que guarda header.php) o convenios.
+//----in_array: solo se aceptan secciones conocidas; nunca se usa directo lo que trae la cookie.
+$ultima  = $_COOKIE['ultima_seccion'] ?? '';
+$destino = in_array($ultima, ['arrendatarios', 'convenios', 'exonerados'], true) ? $ultima : 'convenios';
+
 if (!empty($_SESSION['usuario_id'])) {
-    redirigir('convenios/index.php');
+    redirigir("$destino/index.php");
 }
 $error   = '';
 $usuario = '';
@@ -41,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //----Desde aquí, auth.php sabe que esta persona inició sesión
         $_SESSION['usuario_id']     = $fila['id'];
         $_SESSION['usuario_nombre'] = $fila['nombre'];
-        redirigir('convenios/index.php');
+        redirigir("$destino/index.php");
     }
     $error = 'Usuario o contraseña incorrectos.';
 }

@@ -13,6 +13,12 @@ $menu = [
     'exonerados'    => ['Exonerados Apulo', 'exonerados/index.php', 'persona-check'],
 ];
 
+//----recuerda la última sección visitada (cookie de 1 año): al volver a entrar a /admin, index.php lleva directo a ella.
+//----Cookie y no $_SESSION porque la sesión se borra al cerrar sesión. Va antes de cualquier HTML: setcookie() envía un encabezado.
+if (isset($menu[$seccion])) {
+    setcookie('ultima_seccion', $seccion, ['expires' => time() + 31536000, 'path' => ADMIN_URL, 'httponly' => true, 'samesite' => 'Lax']);
+}
+
 $nombreUsuario = $_SESSION['usuario_nombre'] ?? '';
 
 $titulo = ($titulo ?? 'Panel') . ' - Panel ISTU';

@@ -72,12 +72,6 @@
 .tabla .col-dui {
     width: 180px;
 }
-.tabla .col-arrendatario {
-    width: 28%;
-}
-.tabla .col-local {
-    width: 26%;
-}
 
 .tabla .sin-cortar {
     white-space: nowrap;

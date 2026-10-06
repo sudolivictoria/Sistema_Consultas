@@ -65,8 +65,9 @@ $ordinales = [1 => 'primera', 'segunda', 'tercera', 'cuarta', 'quinta', 'sexta',
     <table id="tablaArrendatarios" class="tabla">
         <thead>
             <tr>
-                <th scope="col" class="col-arrendatario">Arrendatario</th>
-                <th scope="col" class="col-local">Local comercial</th>
+                <!--sin anchos fijos: el navegador reparte el espacio según el contenido de cada columna-->
+                <th scope="col">Arrendatario</th>
+                <th scope="col">Local comercial</th>
                 <th scope="col">Venta autorizada</th>
             </tr>
         </thead>
