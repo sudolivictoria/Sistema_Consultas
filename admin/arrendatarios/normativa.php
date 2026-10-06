@@ -1,7 +1,7 @@
 <?php
 /*
  * ============================================================================
- * ARRENDATARIOS - SUBIR / REEMPLAZAR EL PDF DE POLÍTICA INTERNA
+ *       ARRENDATARIOS - SUBIR / REEMPLAZAR EL PDF DE NORMATIVA INTERNA
  * ============================================================================
  */
 require_once __DIR__ . '/../inc/auth.php';
@@ -38,27 +38,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_POST) && (int) ($_SERVER['C
     }
 
     if (!$errores) {
-        $carpeta = dirname(POLITICA_PDF_RUTA);
+        $carpeta = dirname(NORMATIVA_PDF_RUTA);
 
         //----se revisa paso a paso para decir EXACTAMENTE qué falló:
         if (!is_dir($carpeta) && !@mkdir($carpeta, 0755, true)) {
             $errores[] = 'No se pudo crear la carpeta uploads/. Créela a mano en la raíz del proyecto.';
         } elseif (!is_writable($carpeta)) {
             $errores[] = 'PHP no tiene permiso para escribir en la carpeta uploads/. Dele permiso de escritura.';
-        } elseif (@move_uploaded_file($archivo['tmp_name'], POLITICA_PDF_RUTA)) {
-            flash('La política interna se actualizó correctamente.');
+        } elseif (@move_uploaded_file($archivo['tmp_name'], NORMATIVA_PDF_RUTA)) {
+            flash('La normativa interna se actualizó correctamente.');
             redirigir('arrendatarios/index.php');
         } else {
             //----error_get_last() = el último aviso de PHP (el motivo real del fallo)
-            error_log('Política interna: no se pudo mover el PDF a ' . POLITICA_PDF_RUTA . ' - ' . (error_get_last()['message'] ?? 'sin detalle'));
+            error_log('Normativa interna: no se pudo mover el PDF a ' . NORMATIVA_PDF_RUTA . ' - ' . (error_get_last()['message'] ?? 'sin detalle'));
             $errores[] = 'No se pudo guardar el archivo en el servidor. El detalle quedó en el registro de errores de PHP.';
         }
     }
 }
 
-$titulo       = 'Política interna';
+$titulo       = 'Normativa interna';
 $seccion      = 'arrendatarios';
-$tituloForm   = file_exists(POLITICA_PDF_RUTA) ? 'Reemplazar política interna' : 'Subir política interna';
+$tituloForm   = file_exists(NORMATIVA_PDF_RUTA) ? 'Reemplazar normativa interna' : 'Subir normativa interna';
 $subeArchivos = true;         
 $textoBoton   = 'Subir PDF';   
 
@@ -67,9 +67,9 @@ require __DIR__ . '/listado.php';
 require __DIR__ . '/../inc/drawer_inicio.php';
 ?>
 
-<?php if (file_exists(POLITICA_PDF_RUTA)): ?>
+<?php if (file_exists(NORMATIVA_PDF_RUTA)): ?>
     <p class="ayuda ayuda-grande">
-        Ya hay un PDF publicado: <a href="<?= POLITICA_PDF_URL ?>" target="_blank" rel="noopener">ver el actual</a>.
+        Ya hay un PDF publicado: <a href="<?= NORMATIVA_PDF_URL ?>" target="_blank" rel="noopener">ver el actual</a>.
         El que suba ahora lo reemplazará.
     </p>
 <?php endif; ?>

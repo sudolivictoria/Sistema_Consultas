@@ -2,7 +2,7 @@
 /*
  *-------------------------------------------
  * ARRENDATARIOS - LISTADO 
- * Lo usan index.php, form.php y politica.php.
+ * Lo usan index.php, form.php y normativa.php.
  * ------------------------------------------
  */
 
@@ -17,9 +17,9 @@ $resultado = $conexion->query(
      ORDER BY nombre_arrendatario"
 );
 
-//----contamos cuántas cláusulas hay en la base de datos y si existe el PDF de política interna
+//----contamos cuántas cláusulas hay en la base de datos y si existe el PDF de normativa interna
 $totalClausulas = $conexion->query("SELECT COUNT(*) FROM clausulas")->fetch_row()[0];
-$hayPdf = file_exists(POLITICA_PDF_RUTA);   //---POLITICA_PDF_RUTA está en inc/funciones.php. Es la ruta absoluta al PDF de política interna.
+$hayPdf = file_exists(NORMATIVA_PDF_RUTA);   //---NORMATIVA_PDF_RUTA está en inc/funciones.php. Es la ruta absoluta al PDF de normativa interna.
 ?>
 
 <div class="pagina-cabecera">
@@ -49,14 +49,14 @@ $hayPdf = file_exists(POLITICA_PDF_RUTA);   //---POLITICA_PDF_RUTA está en inc/
         <div class="normativa-item">
             <span class="normativa-icono"><?= icono('pdf', 20) ?></span>
             <div class="normativa-texto">
-                <strong>Política interna</strong>
+                <strong>Normativa interna</strong>
                 <?php if ($hayPdf): ?>
-                    <span><a href="<?= POLITICA_PDF_URL ?>" target="_blank" rel="noopener">politica-interna.pdf</a></span>
+                    <span><a href="<?= NORMATIVA_PDF_URL ?>" target="_blank" rel="noopener">normativa-interna.pdf</a></span>
                 <?php else: ?>
                     <span>Aún no se ha subido</span>
                 <?php endif; ?>
             </div>
-            <a href="politica.php" class="btn btn-chico btn-suave"><?= $hayPdf ? 'Reemplazar PDF' : 'Subir PDF' ?></a>
+            <a href="normativa.php" class="btn btn-chico btn-suave"><?= $hayPdf ? 'Reemplazar PDF' : 'Subir PDF' ?></a>
         </div>
     </div>
 </section>

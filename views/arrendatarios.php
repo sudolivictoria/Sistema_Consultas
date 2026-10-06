@@ -3,7 +3,7 @@
  *----------------------------------------------------------------------------
  *                    CONSULTA PÚBLICA DE ARRENDATARIOS
  * ---------------------------------------------------------------------------
- * Tabla con buscador + normativa (PDF de política interna y ventana de cláusulas).
+ * Tabla con buscador + normativa (PDF de normativa interna y ventana de cláusulas).
  * El buscador y la ventana los maneja js/arrendatarios.js.
  */
 $titulo = 'Consulta de arrendatarios';
@@ -16,8 +16,8 @@ $arrendatarios = $conexion->query(
 
 $clausulas = $conexion->query("SELECT numero, titulo, texto FROM clausulas ORDER BY numero")->fetch_all(MYSQLI_ASSOC);
 
-//---revisa si el archivo de politica interna existe
-$hayPdf = file_exists(POLITICA_PDF_RUTA);
+//---revisa si el archivo de normativa interna existe
+$hayPdf = file_exists(NORMATIVA_PDF_RUTA);
 
 //---nombres ordinales para las clausulas
 $ordinales = [1 => 'primera', 'segunda', 'tercera', 'cuarta', 'quinta', 'sexta', 'séptima', 'octava', 'novena', 'décima'];
@@ -42,17 +42,17 @@ $ordinales = [1 => 'primera', 'segunda', 'tercera', 'cuarta', 'quinta', 'sexta',
             </div>
         </div>
 
-        <!--------------------POLITICA INTERNA------------>
+        <!--------------------NORMATIVA INTERNA------------>
         <div class="normativa-fila">
             <span>Normativa:</span>
             <?php if ($hayPdf): ?>
-                <a href="../<?= version('uploads/politica-interna.pdf') ?>" target="_blank" rel="noopener" class="btn btn-contorno btn-normativa">
-                    <?= icono('pdf', 17) ?> Política interna <span class="mini-insignia">PDF</span> <?= icono('externo', 14, 2.2) ?>
+                <a href="../<?= version('uploads/normativa-interna.pdf') ?>" target="_blank" rel="noopener" class="btn btn-contorno btn-normativa">
+                    <?= icono('pdf', 17) ?> Normativa interna <span class="mini-insignia">PDF</span> <?= icono('externo', 14, 2.2) ?>
                 </a>
             <?php else: ?>
                 <!--sin pdf el boton de la normativa esta desactivado-->
                 <button type="button" class="btn btn-contorno btn-normativa" disabled title="Aún no se ha publicado">
-                    <?= icono('pdf', 17) ?> Política interna <span class="mini-insignia">PDF</span>
+                    <?= icono('pdf', 17) ?> Normativa interna <span class="mini-insignia">PDF</span>
                 </button>
             <?php endif; ?>
             <button type="button" id="btnClausulas" class="btn btn-primario btn-normativa">
@@ -137,8 +137,8 @@ $ordinales = [1 => 'primera', 'segunda', 'tercera', 'cuarta', 'quinta', 'sexta',
     <!--Pie de la ventana: si hay PDF, se muestra el botón; si no, solo el botón de cerrar-->
     <div class="modal-pie">
         <?php if ($hayPdf): ?>
-            <a href="../<?= version('uploads/politica-interna.pdf') ?>" target="_blank" rel="noopener" class="btn btn-contorno">
-                <?= icono('pdf', 17) ?> Política interna (PDF) <?= icono('externo', 14, 2.2) ?>
+            <a href="../<?= version('uploads/normativa-interna.pdf') ?>" target="_blank" rel="noopener" class="btn btn-contorno">
+                <?= icono('pdf', 17) ?> Normativa interna (PDF) <?= icono('externo', 14, 2.2) ?>
             </a>
         <?php endif; ?>
         <button type="button" class="btn btn-oscuro btn-cerrar-modal">Entendido</button>

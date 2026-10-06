@@ -27,9 +27,9 @@ set_exception_handler(function ($ex) {
     echo '<p style="font-family: sans-serif; padding: 24px">Ocurrió un error inesperado. Intente de nuevo; si el problema continúa, avise a soporte técnico.</p>';
 });
 
-//----------------------RUTA DEL PDF DE POLÍTICA INTERNA----------------------
-//--se gestiona desde admin y se muestra en el sitio público. Se guarda en uploads/politica-interna.pdf
-define('POLITICA_PDF_RUTA', __DIR__ . '/../uploads/politica-interna.pdf');
+//----------------------RUTA DEL PDF DE NORMATIVA INTERNA----------------------
+//--se gestiona desde admin y se muestra en el sitio público. Se guarda en uploads/normativa-interna.pdf
+define('NORMATIVA_PDF_RUTA', __DIR__ . '/../uploads/normativa-interna.pdf');
 
 //----e() = "escapar" Convierte < > " ' & en texto inofensivo y "?? ''" convierte NULL en texto vacío para que no dé error.
 function e($texto)

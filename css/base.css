@@ -220,7 +220,7 @@ html {
     color: var(--azul);
 }
 
-/*-------------------Botón desactivado (ej. "Política interna" cuando aún no hay PDF)-------------------*/
+/*-------------------Botón desactivado (ej. "Normativa interna" cuando aún no hay PDF)-------------------*/
 .btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;

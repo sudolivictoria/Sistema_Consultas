@@ -33,9 +33,9 @@ require_once __DIR__ . '/../../inc/iconos.php';
  */
 define('ADMIN_URL', SITE_URL . '/admin');
 
-//------URL del PDF de política interna (la ruta en disco, POLITICA_PDF_RUTA, está en inc/funciones.php).
+//------URL del PDF de normativa interna (la ruta en disco, NORMATIVA_PDF_RUTA, está en inc/funciones.php).
 //------Lleva version() para que, al reemplazar el PDF, el navegador no muestre el anterior.
-define('POLITICA_PDF_URL', SITE_URL . '/' . version('uploads/politica-interna.pdf'));
+define('NORMATIVA_PDF_URL', SITE_URL . '/' . version('uploads/normativa-interna.pdf'));
 
 
 /*
