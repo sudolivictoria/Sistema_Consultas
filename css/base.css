@@ -87,49 +87,22 @@ svg {
     flex-shrink: 0;
 }
 
-/*-------------------Barra de desplazamiento con los colores del sitio--------------*/
-html {
-    scrollbar-color: var(--azul) #F1F5F9;
+/*-------------------Barra de desplazamiento: delgada y discreta en TODO el sitio-------------------*/
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--borde-input) transparent;   /*color de la barra, color del fondo*/
 }
+/*---Navegadores más viejos (Safari, Chrome antes de la versión 121) usan estas reglas---*/
 ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: #F1F5F9;
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb {
-    background: var(--azul);
-    border-radius: 10px;
-    border: 2px solid #F1F5F9;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: var(--verde);
-}
-
-/*-------------------Dentro de paneles y ventanas, una barra delgada y discreta (no la azul gruesa)-------------------*/
-.drawer-campos,
-.modal-cuerpo,
-.detalle-cuerpo {
-    scrollbar-width: thin;
-    scrollbar-color: var(--borde-input) transparent;
-}
-.drawer-campos::-webkit-scrollbar,
-.modal-cuerpo::-webkit-scrollbar,
-.detalle-cuerpo::-webkit-scrollbar {
-    width: 6px;
-}
-.drawer-campos::-webkit-scrollbar-track,
-.modal-cuerpo::-webkit-scrollbar-track,
-.detalle-cuerpo::-webkit-scrollbar-track {
     background: transparent;
 }
-.drawer-campos::-webkit-scrollbar-thumb,
-.modal-cuerpo::-webkit-scrollbar-thumb,
-.detalle-cuerpo::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background: var(--borde-input);
-    border: 0;
+    border-radius: 10px;
 }
 
 /*-------------------Texto solo para lectores de pantalla (invisible en pantalla)-------------------*/
