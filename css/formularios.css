@@ -136,6 +136,44 @@ input[type="file"].entrada {
     height: 18px;
     accent-color: var(--verde);
 }
+/*----Campo con ícono a la izquierda (login y clave del parque)-----*/
+.campo-icono {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.campo-icono>svg {
+    position: absolute;
+    left: 14px;
+    color: var(--verde);
+    pointer-events: none;
+}
+.campo-icono input {
+    width: 100%;
+    height: 48px;
+    padding: 0 48px 0 44px;
+    border: 1.5px solid var(--borde-input);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--texto);
+    background: #FFFFFF;
+}
+/*----Botón del ojo (mostrar / ocultar la contraseña), dentro del campo a la derecha----*/
+.ver-clave {
+    position: absolute;
+    right: 4px;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--gris);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .errores {
     padding: 12px 14px;
     border: 1px solid var(--rojo-borde);
@@ -147,6 +185,61 @@ input[type="file"].entrada {
 .errores ul {
     margin: 4px 0 0;
     padding-left: 18px;
+}
+
+/******************SELECT CON BUSCADOR (lo arma admin.js)******************/
+.combo-oculto {
+    display: none;
+}
+.combo {
+    position: relative;
+}
+/*----El campo de texto lleva la misma flecha que los <select>----*/
+.combo-entrada {
+    padding-right: 42px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%230F6B4F' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+}
+/*----La lista de opciones, debajo del campo----*/
+.combo-lista {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 5;
+    max-height: 240px;
+    margin: 0;
+    padding: 4px;
+    overflow-y: auto;
+    list-style: none;
+    background: #FFFFFF;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    box-shadow: 0 12px 28px rgba(11, 31, 58, 0.14);
+}
+.combo-lista li {
+    padding: 9px 12px;
+    border-radius: 7px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.combo-lista li:hover,
+.combo-lista li.activa {
+    background: var(--verde-claro);
+}
+/*----La opción que está elegida, en verde y negrita----*/
+.combo-lista li[aria-selected="true"] {
+    color: var(--verde);
+    font-weight: 700;
+}
+.combo-lista .combo-vacio {
+    color: var(--gris);
+    font-style: italic;
+    cursor: default;
+}
+.combo-lista .combo-vacio:hover {
+    background: transparent;
 }
 
 /******************TAGS******************/

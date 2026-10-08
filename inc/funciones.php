@@ -3,7 +3,7 @@
  * ============================================================================
  * FUNCIONES COMPARTIDAS (sitio público + panel /admin)
  * ============================================================================
- * Las funciones que solo usa el admin (sesión, CSRF, mensajes, base de datos) están en admin/inc/bootstrap.php
+ * Las funciones que solo usa el admin (mensajes, base de datos) están en admin/inc/bootstrap.php
  * Las funciones que usa el sitio público (inicio, exonerados, convenios, arrendatarios) están en este archivo
  */
 
@@ -30,6 +30,58 @@ set_exception_handler(function ($ex) {
 //----------------------RUTA DEL PDF DE NORMATIVA INTERNA----------------------
 //--se gestiona desde admin y se muestra en el sitio público. Se guarda en uploads/normativa-interna.pdf
 define('NORMATIVA_PDF_RUTA', __DIR__ . '/../uploads/normativa-interna.pdf');
+
+/*
+ * ---------------------------------------------------------------------------
+ * ----------------------SESIÓN Y PROTECCIÓN CSRF-----------------------------
+ * ---------------------------------------------------------------------------
+ * Las usan el panel /admin y la consulta pública de arrendatarios (clave del parque).
+ */
+
+//----Cuánto dura una sesión: 8 horas (una jornada de supervisión), en segundos.
+const DURACION_SESION = 8 * 60 * 60;
+
+//----session_start() le dice a PHP: "voy a usar $_SESSION".
+//---$_SESSION es un arreglo que se guarda en el SERVIDOR y sobrevive entre paginas.
+//---El navegador solo guarda una cookie con el id de la sesión; estas opciones la protegen.
+//---Se llama ANTES de mostrar cualquier HTML: la cookie viaja en un encabezado.
+function iniciar_sesion()
+{
+    if (session_status() === PHP_SESSION_ACTIVE) return;   //----ya estaba iniciada
+    session_start([
+        'cookie_httponly' => true,    //----JavaScript no puede leer la cookie (si alguien inyecta un script, no la roba)
+        'cookie_samesite' => 'Lax',   //----otro sitio web no puede enviar formularios usando la sesión de alguien
+        'use_strict_mode' => true,    //----PHP rechaza ids de sesión que él no creó
+        //----PHP borra las sesiones sin actividad después de gc_maxlifetime segundos (por defecto 8 horas).
+        'gc_maxlifetime'  => DURACION_SESION,
+    ]);
+}
+
+//----Cada sesión tiene un código secreto aleatorio (token). Se genera una sola vez por sesión.
+function csrf_token()
+{
+    if (empty($_SESSION['csrf'])) {
+        $_SESSION['csrf'] = bin2hex(random_bytes(32));   //----random_bytes = aleatorio seguro
+    }
+    return $_SESSION['csrf'];
+}
+
+//----Devuelve el <input hidden> que se pega dentro de cada <form method="post">
+function csrf_campo()
+{
+    return '<input type="hidden" name="csrf" value="' . csrf_token() . '">';
+}
+
+//-----Verifica que el token enviado por POST sea igual al de la sesión. Si no, termina la ejecución.
+//-----$token === '': sin sesión no hay token, y dos textos vacíos serían "iguales": eso también se rechaza.
+function csrf_verificar()
+{
+    $token = $_SESSION['csrf'] ?? '';
+    if ($token === '' || !hash_equals($token, $_POST['csrf'] ?? '')) {
+        http_response_code(400);
+        die('Solicitud inválida. Recargue la página e intente de nuevo.');
+    }
+}
 
 //----e() = "escapar" Convierte < > " ' & en texto inofensivo y "?? ''" convierte NULL en texto vacío para que no dé error.
 function e($texto)

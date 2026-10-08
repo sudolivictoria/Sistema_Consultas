@@ -5,24 +5,19 @@
  * ============================================================================
  * Todas las páginas del admin incluyen este archivo primero (directo o a
  * través de auth.php). Aquí se hace lo que TODAS necesitan:
- *   1. Iniciar la sesión
- *   2. Conectarse a la base de datos
+ *   1. Conectarse a la base de datos
+ *   2. Iniciar la sesión
  *   3. Definir funciones de ayuda que se usan en todos lados
  */
 
-//----session_start() le dice a PHP: "voy a usar $_SESSION".
-//---$_SESSION es un arreglo que se guarda en el SERVIDOR y sobrevive entre paginas.
-//---El navegador solo guarda una cookie con el id de la sesión; estas opciones la protegen:
-session_start([
-    'cookie_httponly' => true,    //----JavaScript no puede leer la cookie (si alguien inyecta un script, no la roba)
-    'cookie_samesite' => 'Lax',   //----otro sitio web no puede enviar formularios usando la sesión de alguien
-    'use_strict_mode' => true,    //----PHP rechaza ids de sesión que él no creó
-]);
-
 //__DIR__ evita errores de rutas
-require_once __DIR__ . '/../../conexion.php';       
-require_once __DIR__ . '/../../inc/funciones.php'; 
-require_once __DIR__ . '/../../inc/iconos.php';     
+require_once __DIR__ . '/../../conexion.php';
+require_once __DIR__ . '/../../inc/funciones.php';
+require_once __DIR__ . '/../../inc/iconos.php';
+
+//----iniciar_sesion() (en inc/funciones.php) le dice a PHP: "voy a usar $_SESSION".
+//----Está allá porque la consulta pública de arrendatarios también usa sesión (clave del parque).
+iniciar_sesion();
 
 
 /*
@@ -126,32 +121,9 @@ function eliminar_y_volver($conexion, $tabla, $listado, $mensajeOk, $mensajeNoEx
 
 
 /*
- * Protección CSRF
- * Cada sesión tiene un código secreto aleatorio (token)
+ * La protección CSRF (csrf_campo, csrf_verificar) está en inc/funciones.php:
+ * también la usa el formulario de la clave del parque en la consulta pública.
  */
-function csrf_token()
-{
-    //-----se genera una sola vez por sesión. random_bytes = aleatorio seguro.
-    if (empty($_SESSION['csrf'])) {
-        $_SESSION['csrf'] = bin2hex(random_bytes(32));
-    }
-    return $_SESSION['csrf'];
-}
-
-//----Devuelve el <input hidden> que se pega dentro de cada <form method="post">
-function csrf_campo()
-{
-    return '<input type="hidden" name="csrf" value="' . csrf_token() . '">';
-}
-
-//-----Verifica que el token enviado por POST sea igual al de la sesión. Si no, termina la ejecución.
-function csrf_verificar()
-{
-    if (!hash_equals($_SESSION['csrf'] ?? '', $_POST['csrf'] ?? '')) {
-        http_response_code(400);
-        die('Solicitud inválida. Recargue la página e intente de nuevo.');
-    }
-}
 
 
 /*

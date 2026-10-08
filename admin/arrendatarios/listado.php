@@ -11,10 +11,13 @@ if (basename($_SERVER['SCRIPT_FILENAME']) === basename(__FILE__)) {
     header('Location: index.php');
     exit;
 }
-//---buscamos todos los arrendatarios en la base de datos
+//---buscamos todos los arrendatarios en la base de datos, con el nombre de su parque.
+//---LEFT JOIN: si alguno no tiene parque, igual aparece (con "Sin parque").
 $resultado = $conexion->query(
-    "SELECT id, nombre_arrendatario, local_comercial, venta_autorizada FROM arrendatarios
-     ORDER BY nombre_arrendatario"
+    "SELECT a.id, a.nombre_arrendatario, p.nombre AS parque, a.local_comercial, a.venta_autorizada
+     FROM arrendatarios a
+     LEFT JOIN parques p ON p.id = a.parque_id
+     ORDER BY a.nombre_arrendatario"
 );
 
 //----contamos cuántas cláusulas hay en la base de datos y si existe el PDF de normativa interna
@@ -35,7 +38,7 @@ $hayPdf = file_exists(NORMATIVA_PDF_RUTA);   //---NORMATIVA_PDF_RUTA está en in
 <section class="normativa">
     <div class="normativa-encabezado">
         <h2>Normativa</h2>
-        <span>Se muestra a todos los arrendatarios en la consulta pública.</span>
+        <span>Es la misma para todos los parques en la consulta pública.</span>
     </div>
     <div class="normativa-grid">
         <div class="normativa-item">
@@ -64,9 +67,9 @@ $hayPdf = file_exists(NORMATIVA_PDF_RUTA);   //---NORMATIVA_PDF_RUTA está en in
 <section class="panel">
     <div class="panel-herramientas">
         <div class="campo-busqueda campo-busqueda-chico">
-            <label for="buscarTabla" class="solo-lectores">Buscar arrendatario o local</label>
+            <label for="buscarTabla" class="solo-lectores">Buscar arrendatario, parque o local</label>
             <?= icono('buscar', 18, 2.2) ?>
-            <input id="buscarTabla" type="search" placeholder="Buscar arrendatario o local…" autocomplete="off">
+            <input id="buscarTabla" type="search" placeholder="Buscar arrendatario, parque o local…" autocomplete="off">
         </div>
         <span class="contador"><?= $resultado->num_rows ?> registros</span>
     </div>
@@ -75,6 +78,7 @@ $hayPdf = file_exists(NORMATIVA_PDF_RUTA);   //---NORMATIVA_PDF_RUTA está en in
         <thead>
             <tr>
                 <th scope="col">Arrendatario</th>
+                <th scope="col">Parque</th>
                 <th scope="col">Local comercial</th>
                 <th scope="col">Venta autorizada</th>
                 <th scope="col" class="derecha">Acciones</th>
@@ -89,6 +93,14 @@ $hayPdf = file_exists(NORMATIVA_PDF_RUTA);   //---NORMATIVA_PDF_RUTA está en in
                 <tr>
                     <!--texto_o_indefinido(): si el dato viene vacío o NULL, muestra "Indefinido"-->
                     <td class="fuerte" data-label="Arrendatario"><?= e($f['nombre_arrendatario']) ?></td>
+                    <td data-label="Parque">
+                        <?php if ($f['parque'] !== null): ?>
+                            <span class="pastilla"><?= e($f['parque']) ?></span>
+                        <?php else: ?>
+                            <!--sin parque nadie lo ve en la consulta pública: se avisa en rojo-->
+                            <span class="estado estado-vencido">Sin parque</span>
+                        <?php endif; ?>
+                    </td>
                     <td data-label="Local"><?= texto_o_indefinido($f['local_comercial']) ?></td>
                     <td data-label="Venta">
                         <?php if ($productos): ?>

@@ -12,13 +12,16 @@ $id = (int) ($_GET['id'] ?? 0);
 $errores = [];
 
 //----VALORES INICIALES
-$arr = ['nombre_arrendatario' => '', 'local_comercial' => '', 'venta_autorizada' => ''];
+$arr = ['nombre_arrendatario' => '', 'parque_id' => '', 'local_comercial' => '', 'venta_autorizada' => ''];
+
+//----los parques para el <select> (id => nombre)
+$parques = array_column($conexion->query("SELECT id, nombre FROM parques ORDER BY nombre")->fetch_all(MYSQLI_ASSOC), 'nombre', 'id');
 
 //---si viene un id (editar), buscamos el arrendatario en la base de datos
 if ($id) {
     //---buscar_registro() está en admin/inc/bootstrap.php. Recibe la conexión, la tabla, las columnas a traer y el id.
     //---Devuelve un arreglo con los datos, o null si no existe.
-    $fila = buscar_registro($conexion, 'arrendatarios', 'nombre_arrendatario, local_comercial, venta_autorizada', $id);
+    $fila = buscar_registro($conexion, 'arrendatarios', 'nombre_arrendatario, parque_id, local_comercial, venta_autorizada', $id);
     //---si no existe (ej. lo borraron en otra pestaña), volvemos al listado con un mensaje de error
     if (!$fila) {
         //---flash() guarda el mensaje en la sesión para mostrarlo en la siguiente página
@@ -37,13 +40,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_verificar();
     //---recibimos los datos del formulario y los limpiamos (trim quita espacios al inicio y al final).
     //---Las claves son los nombres de las columnas de la tabla: guardar_registro() arma el SQL con ellas.
-    //---el nombre es obligatorio. El local y la venta son OPCIONALES
+    //---el nombre y el parque son obligatorios. El local y la venta son OPCIONALES
     $arr = [
         'nombre_arrendatario' => trim($_POST['nombre_arrendatario'] ?? ''),
+        'parque_id'           => (int) ($_POST['parque_id'] ?? 0),
         'local_comercial'     => vacio_a_null($_POST['local_comercial'] ?? ''),
         'venta_autorizada'    => vacio_a_null(implode(', ', lista_desde_comas($_POST['venta_autorizada'] ?? ''))),
     ];
     if ($arr['nombre_arrendatario'] === '') $errores[] = 'El nombre del arrendatario es obligatorio.';
+    //---isset($parques[...]): el parque elegido tiene que existir (sin parque, nadie lo vería en la consulta)
+    if (!isset($parques[$arr['parque_id']])) $errores[] = 'Seleccione el parque del arrendatario.';
     //---si no hay errores, guardamos en la base de datos
     if (!$errores) {
         //---guardar_registro() está en admin/inc/bootstrap.php. Recibe la conexión, la tabla,
@@ -72,6 +78,19 @@ require __DIR__ . '/../inc/drawer_inicio.php';
 <div class="grupo">
     <label for="nombre_arrendatario">Nombre del arrendatario</label>
     <input id="nombre_arrendatario" name="nombre_arrendatario" type="text" maxlength="150" required class="entrada" value="<?= e($arr['nombre_arrendatario']) ?>">
+</div>
+
+<div class="grupo">
+    <label for="parque_id">Parque</label>
+    <!--data-buscador: admin.js lo convierte en un campo donde se escribe para filtrar los parques. El <select> sigue aquí (oculto): es lo que se envía a PHP.-->
+    <select id="parque_id" name="parque_id" required class="entrada" data-buscador>
+        <option value="">Seleccione el parque…</option>
+        <?php foreach ($parques as $parqueId => $parqueNombre): ?>
+            <!--(int): el id que viene de la base es texto ("5") y el del formulario es número (5)-->
+            <option value="<?= $parqueId ?>" <?= (int) $arr['parque_id'] === (int) $parqueId ? 'selected' : '' ?>><?= e($parqueNombre) ?></option>
+        <?php endforeach; ?>
+    </select>
+    <span class="ayuda">En la consulta pública solo lo verá quien tenga la clave de este parque.</span>
 </div>
 
 <div class="grupo">

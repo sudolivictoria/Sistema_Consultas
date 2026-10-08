@@ -206,6 +206,77 @@
     color: #FFFFFF;
 }
 
+/*-----------------------ACCESO POR PARQUE (arrendatarios)----------------------------------*/
+/*----Tarjeta que se ve antes de escribir la clave----*/
+.acceso-parque {
+    padding: 48px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+}
+.acceso-icono {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background: var(--verde-claro);
+    color: var(--verde);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.acceso-parque h2 {
+    margin: 4px 0 0;
+    font-size: 20px;
+    font-weight: 800;
+}
+.acceso-parque p {
+    margin: 0 0 8px;
+    max-width: 420px;
+    font-size: 14px;
+    color: var(--gris);
+    text-wrap: pretty;
+}
+/*----Barra "salir*/
+.parque-actual {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--verde-borde);
+}
+.parque-nombre {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.parque-icono {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--verde);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.parque-nombre small {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+.parque-nombre strong {
+    font-size: 16px;
+    font-weight: 800;
+}
+
 
 /*--------------MEDIA QUERIES--------------*/
 @media (max-width: 640px) {

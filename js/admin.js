@@ -148,6 +148,118 @@ $(function () {
   });
 
   // ---------------------------------------------------------------------------
+  // -----------------SELECT CON BUSCADOR (ej. el parque del arrendatario)------
+  // ---------------------------------------------------------------------------
+  //----Al <select data-buscador> se le pone encima un campo de texto: al escribir se filtran las opciones.
+  //----El <select> queda oculto pero sigue en el formulario: es lo que se envía a PHP.
+  //----normalizar(): minúsculas y sin tildes, así "agua fria" encuentra "Agua Fría"
+  const normalizar = (texto) => texto.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
+  $("select[data-buscador]").each(function (n) {
+    const select = $(this);
+    const idLista = "combo-lista-" + n;
+    const caja = $('<div class="combo">');
+    const entrada = $('<input type="text" class="entrada combo-entrada" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false">')
+      .attr({ "aria-controls": idLista, placeholder: select.find('option[value=""]').text() });
+    const lista = $('<ul class="combo-lista" role="listbox" hidden>').attr("id", idLista);
+
+    //----una <li> por cada opción del select (menos la vacía "Seleccione…")
+    select.find("option").each(function () {
+      if (this.value === "") return;
+      $('<li role="option">').text(this.text).attr("data-valor", this.value).appendTo(lista);
+    });
+    const vacio = $('<li class="combo-vacio">Sin resultados</li>').appendTo(lista);
+
+    //----el <label for="parque_id"> ahora apunta al campo de texto
+    entrada.attr("id", select.attr("id") + "_buscar");
+    $('label[for="' + select.attr("id") + '"]').attr("for", entrada.attr("id"));
+
+    //----sin "required" en el select oculto: el navegador no puede mostrar su aviso. PHP valida igual.
+    select.prop("required", false).addClass("combo-oculto").after(caja);
+    caja.append(entrada, lista);
+
+    //----texto de la opción elegida en el select ("" si no hay)
+    const textoElegido = () => (select.val() ? select.find("option:selected").text() : "");
+    entrada.val(textoElegido());
+
+    //----muestra solo las opciones que contienen lo escrito
+    function filtrar(texto) {
+      const buscado = normalizar(texto);
+      let hay = false;
+      lista.children("[data-valor]").each(function () {
+        const coincide = normalizar($(this).text()).includes(buscado);
+        $(this).toggle(coincide).removeClass("activa");
+        if (coincide) hay = true;
+      });
+      vacio.toggle(!hay);
+    }
+    function abrir() {
+      lista.prop("hidden", false);
+      entrada.attr("aria-expanded", "true");
+    }
+    function cerrar() {
+      lista.prop("hidden", true);
+      entrada.attr("aria-expanded", "false");
+    }
+    function elegir(li) {
+      select.val(li.attr("data-valor"));
+      entrada.val(li.text());
+      lista.children().attr("aria-selected", "false");
+      li.attr("aria-selected", "true");
+      cerrar();
+    }
+    //----flechas: mueve la opción marcada entre las visibles
+    function mover(paso) {
+      const visibles = lista.children("[data-valor]:visible");
+      let i = visibles.index(visibles.filter(".activa")) + paso;
+      i = Math.max(0, Math.min(visibles.length - 1, i));
+      visibles.removeClass("activa").eq(i).addClass("activa")[0]?.scrollIntoView({ block: "nearest" });
+    }
+
+    lista.children('[data-valor="' + select.val() + '"]').attr("aria-selected", "true");
+
+    //----al entrar al campo: se muestra la lista completa y se selecciona el texto (para escribir encima)
+    entrada.on("focus click", function () {
+      filtrar("");
+      abrir();
+      this.select();
+    });
+    entrada.on("input", function () {
+      filtrar(this.value);
+      abrir();
+    });
+    entrada.on("keydown", function (e) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        abrir();
+        mover(e.key === "ArrowDown" ? 1 : -1);
+      } else if (e.key === "Enter" && !lista.prop("hidden")) {
+        e.preventDefault(); //----Enter elige la opción, no envía el formulario
+        //----la marcada con las flechas, o la primera visible si solo se escribió
+        let li = lista.children(".activa:visible").first();
+        if (!li.length) li = lista.children("[data-valor]:visible").first();
+        if (li.length) elegir(li); //----si no hay ninguna ("Sin resultados"), no hace nada
+      } else if (e.key === "Escape" && !lista.prop("hidden")) {
+        e.stopPropagation(); //----Escape cierra la lista, no el panel lateral
+        entrada.val(textoElegido());
+        cerrar();
+      }
+    });
+
+    //----mousedown + preventDefault: el clic no le quita el foco al campo antes de elegir
+    lista.on("mousedown", "[data-valor]", function (e) {
+      e.preventDefault();
+      elegir($(this));
+    });
+
+    //----al salir del campo: si lo escrito no es una opción, vuelve a la que estaba elegida
+    entrada.on("blur", function () {
+      entrada.val(textoElegido());
+      cerrar();
+    });
+  });
+
+  // ---------------------------------------------------------------------------
   // --------------------------SUBIR ARCHIVO PDF---------------------------------
   // ---------------------------------------------------------------------------
   //----El <input type="file"> está oculto; el recuadro que se ve es su <label>.

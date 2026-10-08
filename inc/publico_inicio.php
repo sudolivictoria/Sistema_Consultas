@@ -11,7 +11,8 @@ require_once __DIR__ . '/iconos.php';
 
 $titulo = ($titulo ?? 'Consultas') . ' - ISTU';
 $raiz   = '../';
-$hojas  = ['base', 'paginas', 'tablas', 'modales', 'preloader'];
+//----$hojasExtra: estilos que solo necesita esa página (ej. arrendatarios agrega 'formularios' para el campo de la clave)
+$hojas  = array_merge(['base', 'paginas', 'tablas', 'modales', 'preloader'], $hojasExtra ?? []);
 require __DIR__ . '/head.php';
 ?>
 

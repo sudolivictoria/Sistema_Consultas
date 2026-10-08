@@ -9,6 +9,7 @@ $seccion ??= '';
 
 $menu = [
     'arrendatarios' => ['Arrendatarios', 'arrendatarios/index.php', 'tienda'],
+    'parques'       => ['Parques', 'parques/index.php', 'parque'],
     'convenios'     => ['Convenios', 'convenios/index.php', 'documento'],
     'exonerados'    => ['Exonerados Apulo', 'exonerados/index.php', 'persona-check'],
 ];

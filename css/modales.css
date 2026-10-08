@@ -76,6 +76,15 @@ dialog::backdrop {
 .modal-ancho {
     max-width: 760px;
 }
+/*Ventana angosta para la clave del parque (tipo login)*/
+.modal-clave {
+    max-width: 460px;
+}
+/*Si la ventana tiene un <form> que envuelve cabecera, cuerpo y pie, el form "no cuenta" para el
+  acomodo (display: contents): sus hijos se acomodan en columna como en las demás ventanas*/
+.modal>form {
+    display: contents;
+}
 .modal-pie {
     padding: 14px 24px;
     display: flex;

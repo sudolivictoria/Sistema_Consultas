@@ -12,7 +12,7 @@ require_once __DIR__ . '/inc/bootstrap.php';
 //----a dónde ir después del login: la última sección visitada (cookie que guarda header.php) o convenios.
 //----in_array: solo se aceptan secciones conocidas; nunca se usa directo lo que trae la cookie.
 $ultima  = $_COOKIE['ultima_seccion'] ?? '';
-$destino = in_array($ultima, ['arrendatarios', 'convenios', 'exonerados'], true) ? $ultima : 'convenios';
+$destino = in_array($ultima, ['arrendatarios', 'parques', 'convenios', 'exonerados'], true) ? $ultima : 'convenios';
 
 if (!empty($_SESSION['usuario_id'])) {
     redirigir("$destino/index.php");
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conexion->prepare("SELECT id, nombre, password FROM usuarios WHERE usuario = ?");
     $stmt->bind_param('s', $usuario);
     $stmt->execute();
-    $fila = $stmt->get_result()->fetch_assoc();   // un arreglo con la fila, o null si no existe
+    $fila = $stmt->get_result()->fetch_assoc();  
 
     /*
      * password_verify compara la clave escrita con el HASH guardado.
