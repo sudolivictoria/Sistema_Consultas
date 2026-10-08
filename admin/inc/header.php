@@ -9,9 +9,9 @@ $seccion ??= '';
 
 $menu = [
     'arrendatarios' => ['Arrendatarios', 'arrendatarios/index.php', 'tienda'],
-    'parques'       => ['Parques', 'parques/index.php', 'parque'],
     'convenios'     => ['Convenios', 'convenios/index.php', 'documento'],
     'exonerados'    => ['Exonerados Apulo', 'exonerados/index.php', 'persona-check'],
+    'parques'       => ['Parques', 'parques/index.php', 'parque'],
 ];
 
 //----recuerda la última sección visitada (cookie de 1 año): al volver a entrar a /admin, index.php lleva directo a ella.
